@@ -1,0 +1,128 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace CSX.Options
+{
+	/// <summary>
+	/// Represents a case of <see cref="Option{T}" /> which contains a value.
+	/// </summary>
+	/// <typeparam name="T">The type of the value.</typeparam>
+	public class Some<T> : Option<T>, IEquatable<Some<T>>
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Some{T}" /> class.
+		/// </summary>
+		/// <param name="value">The value that this option will contain.</param>
+		internal Some(T value)
+			=> this.Value = value;
+
+		/// <summary>
+		/// Gets the value that this option contains.
+		/// </summary>
+		public T Value { get; }
+
+		/// <summary>
+		/// Returns the value of this option.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns>The value of this option.</returns>
+		public override T GetOrDefault(T _) => this.Value;
+
+		/// <summary>
+		/// Applies a specified function to this value.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="func">The function to apply.</param>
+		/// <returns>
+		/// Some(func(value)).
+		/// </returns>
+		public override Option<V> Map<V>(Func<T, V> func)
+			=> Option.From(func(this.Value));
+
+		/// <summary>
+		/// Applies a specified function to this value.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="func">The function to apply.</param>
+		/// <returns>
+		/// func(value).
+		/// </returns>
+		public override Option<V> Bind<V>(Func<T, Option<V>> func)
+			=> func(this.Value);
+
+		/// <summary>
+		/// Executes a specified <paramref name="action" /> on this value.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns><c>this</c></returns>
+		public override Option<T> IfSome(Action<T> action)
+		{
+			action(this.Value);
+			return this;
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns><c>this</c></returns>
+		public override Option<T> IfNone(Action _)
+			=> this;
+
+		/// <summary>
+		/// Returns an enumerator which contains this value.
+		/// </summary>
+		/// <returns>An enumerator which contains this value.</returns>
+		public override IEnumerator<T> GetEnumerator()
+		{
+			yield return this.Value;
+		}
+
+		/// <summary>
+		/// Checks whether this value equals another value.
+		/// </summary>
+		/// <param name="other">The object to compare to.</param>
+		/// <returns>
+		/// <c>true</c> if this value equals other's value.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
+		public override bool Equals(object other)
+			=> other is Some<T> otherSome && this.Equals(otherSome);
+
+		/// <summary>
+		/// Checks whether this value equals another value.
+		/// </summary>
+		/// <param name="other">The object to compare to.</param>
+		/// <returns>
+		/// <c>true</c> if this value equals other's value.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
+		public override bool Equals(Option<T> other)
+			=> other is Some<T> otherSome && this.Equals(otherSome);
+
+		/// <summary>
+		/// Checks whether this value equals another value.
+		/// </summary>
+		/// <param name="other">The object to compare to.</param>
+		/// <returns>
+		/// <c>true</c> if this value equals other's value.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
+		public bool Equals(Some<T> other)
+			=> this.Value.Equals(other.Value);
+
+		/// <summary>
+		/// Gets this value's hash code.
+		/// </summary>
+		/// <returns>This value's hash code.</returns>
+		public override int GetHashCode()
+			=> this.Value.GetHashCode();
+
+		/// <summary>
+		/// Returns a string representation of this option in the format: "Some[value]".
+		/// </summary>
+		/// <returns>A string representation of this option.</returns>
+		public override string ToString()
+			=> $"Some[{this.Value}]";
+	}
+}
