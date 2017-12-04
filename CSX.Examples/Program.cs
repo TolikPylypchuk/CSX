@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace CSX.Examples
+﻿namespace CSX.Examples
 {
-	class Program
+	public class Program
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
 		}
 	}
 }
