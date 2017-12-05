@@ -13,11 +13,10 @@ namespace CSX.Options
 	/// <seealso cref="None{T}" />
 	public abstract class Option<T> : IEquatable<Option<T>>, IEnumerable, IEnumerable<T>
 	{
-		// TODO Make this constructor private-protected when C# 7.2 is out
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Option{T}" /> class.
 		/// </summary>
-		internal Option() { }
+		private protected Option() { }
 
 		/// <summary>
 		/// Gets the value if it's present, or an alternative otherwise.
