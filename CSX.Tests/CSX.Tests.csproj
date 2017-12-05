@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Enumerators\" />
+    <Folder Include="NewFolder\" />
     <Folder Include="Options\" />
   </ItemGroup>
 

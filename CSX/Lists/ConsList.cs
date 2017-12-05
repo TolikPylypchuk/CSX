@@ -1,0 +1,221 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CSX.Lists
+{
+	/// <summary>
+	/// Represents a list, constructed from cons cells.
+	/// </summary>
+	/// <typeparam name="T">The type of the values this list holds.</typeparam>
+	/// <seealso cref="ConsList" />
+	/// <seealso cref="ConsCell{T}" />
+	/// <seealso cref="Empty{T}" />
+	public abstract class ConsList<T> :
+		IEquatable<ConsList<T>>, IEnumerable, IEnumerable<T>
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConsList{T}" /> class.
+		/// </summary>
+		private protected ConsList() { }
+
+		/// <summary>
+		/// Returns a concatenation of this list with another list.
+		/// </summary>
+		/// <param name="other">The other list.</param>
+		/// <returns>A concatenation of this list with another list.</returns>
+		public abstract ConsList<T> Add(ConsList<T> other);
+
+		/// <summary>
+		/// Applies a specified function to every element of this list
+		/// and returns a list consisting of results.
+		/// </summary>
+		/// <typeparam name="V">The type of results.</typeparam>
+		/// <param name="func">The function to apply.</param>
+		/// <returns>A list consisting of results of the function application.</returns>
+		public abstract ConsList<V> Map<V>(Func<T, V> func);
+
+		/// <summary>
+		/// Applies a specified function to every element of this list
+		/// and returns a flattened list consisting of results.
+		/// </summary>
+		/// <typeparam name="V">The type of results.</typeparam>
+		/// <param name="func">The function to apply.</param>
+		/// <returns>
+		/// A flattened list consisting of results of the function application.
+		/// </returns>
+		public abstract ConsList<V> Bind<V>(Func<T, ConsList<V>> func);
+
+		/// <summary>
+		/// Applies a specified function to each element of this list.
+		/// </summary>
+		/// <param name="action">The function to apply.</param>
+		/// <returns><c>this</c></returns>
+		public abstract ConsList<T> ForEach(Action<T> action);
+
+		/// <summary>
+		/// Gets an enumerator that enumerates every element of this list.
+		/// </summary>
+		/// <returns>
+		/// An enumerator that enumerates every element of this list.
+		/// </returns>
+		public abstract IEnumerator<T> GetEnumerator();
+
+		/// <summary>
+		/// Checks whether every element of this list equals
+		/// another list's corresponding element.
+		/// </summary>
+		/// <param name="other">The list to compare to.</param>
+		/// <returns>
+		/// <c>true</c> if every element of this list equals equals
+		/// another list's corresponding element.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
+		public abstract override bool Equals(object other);
+
+		/// <summary>
+		/// Checks whether every element of this list equals
+		/// another list's corresponding element.
+		/// </summary>
+		/// <param name="other">The list to compare to.</param>
+		/// <returns>
+		/// <c>true</c> if every element of this list equals equals
+		/// another list's corresponding element.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
+		public abstract bool Equals(ConsList<T> other);
+
+		/// <summary>
+		/// Gets this object's hash code.
+		/// </summary>
+		/// <returns>This object's hash code.</returns>
+		public abstract override int GetHashCode();
+
+		/// <summary>
+		/// Returns a string representation of this list.
+		/// </summary>
+		/// <returns>A semicolon-delimited list of elements.</returns>
+		public abstract override string ToString();
+
+		/// <summary>
+		/// Gets an enumerator that enumerates every element of this list.
+		/// </summary>
+		/// <returns>
+		/// An enumerator that enumerates every element of this list.
+		/// </returns>
+		IEnumerator IEnumerable.GetEnumerator()
+			=> this.GetEnumerator();
+
+		/// <summary>
+		/// Concatenates a <paramref name="list" /> to an <paramref name="item" />
+		/// and returns the result.
+		/// </summary>
+		/// <param name="item">The first element of a new list.</param>
+		/// <param name="list">The other elements of a new list.</param>
+		/// <returns>
+		/// A result of concatenation of the <paramref name="list" />
+		/// to the <paramref name="item" />.
+		/// </returns>
+		public static ConsList<T> operator +(T item, ConsList<T> list)
+			=> item.AddTo(list);
+
+		/// <summary>
+		/// Concatenates an <paramref name="item" /> to a <paramref name="list" />
+		/// and returns the result.
+		/// </summary>
+		/// <param name="list">The first elements of a new list.</param>
+		/// <param name="item">The last element of a new list.</param>
+		/// <returns>
+		/// A result of concatenation of the <paramref name="item" />
+		/// to the <paramref name="list" />.
+		/// </returns>
+		public static ConsList<T> operator +(ConsList<T> list, T item)
+			=> list.Add(ConsList.From(item));
+
+		/// <summary>
+		/// Returns a concatenation of two lists.
+		/// </summary>
+		/// <param name="a">The first list.</param>
+		/// <param name="b">The second list.</param>
+		/// <returns>A concatenation of two lists.</returns>
+		public static ConsList<T> operator +(ConsList<T> a, ConsList<T> b)
+			=> a.Add(b);
+	}
+
+	/// <summary>
+	/// Constains helper and extension methods to work with cons lists.
+	/// </summary>
+	/// <seealso cref="ConsList{T}" />
+	public static class ConsList
+	{
+		/// <summary>
+		/// Constructs a list containing one <paramref name="item" />
+		/// or an empty list if <paramref name="item" /> is <c>null</c>.
+		/// </summary>
+		/// <typeparam name="T">The type of the item.</typeparam>
+		/// <param name="item">The item of the list.</param>
+		/// <returns>
+		/// A list containing one <paramref name="item" />
+		/// or an empty list if <paramref name="item" /> is <c>null</c>.
+		/// </returns>
+		public static ConsList<T> From<T>(T item)
+			=> item == null ? Empty<T>() : new ConsCell<T>(item, Empty<T>());
+
+		/// <summary>
+		/// Constructs a shallow copy of the specified <paramref name="collection" />.
+		/// </summary>
+		/// <typeparam name="T">The type of elements of the collection.</typeparam>
+		/// <param name="collection">The collection to copy.</param>
+		/// <returns>
+		/// A shallow copy of the specified <paramref name="collection" />.
+		/// </returns>
+		public static ConsList<T> Copy<T>(IEnumerable<T> collection)
+			=> collection.Aggregate(Empty<T>(), (acc, item) => acc + item);
+
+		/// <summary>
+		/// Constructs a list from specified <paramref name="items" />.
+		/// </summary>
+		/// <typeparam name="T">The type of the items.</typeparam>
+		/// <param name="items">The items of the list.</param>
+		/// <returns>A list from specified <paramref name="items" />.</returns>
+		public static ConsList<T> Construct<T>(params T[] items)
+			=> Copy(items);
+
+		/// <summary>
+		/// Constructs an empty list.
+		/// </summary>
+		/// <typeparam name="T">The type of elements in this list.</typeparam>
+		/// <returns>An empty list.</returns>
+		public static ConsList<T> Empty<T>()
+			=> new Empty<T>();
+
+		/// <summary>
+		/// Concatenates a <paramref name="list" /> to an <paramref name="item" />
+		/// and returns the result.
+		/// </summary>
+		/// <param name="item">The first element of a new list.</param>
+		/// <param name="list">The other elements of a new list.</param>
+		/// <returns>
+		/// A result of concatenation of the <paramref name="list" />
+		/// to the <paramref name="item" />.
+		/// </returns>
+		public static ConsList<T> AddTo<T>(this T item, ConsList<T> list)
+			=> item == null ? list : new ConsCell<T>(item, list);
+
+		/// <summary>
+		/// Creates a cartesian product of two lists, which consists
+		/// of results of function application to elements of the
+		/// second list.
+		/// </summary>
+		/// <typeparam name="T">The input type of the functions.</typeparam>
+		/// <typeparam name="V">The output type of the functions.</typeparam>
+		/// <param name="funcList">The list of functions to apply.</param>
+		/// <returns>
+		/// A function which returns the cartesian product.
+		/// </returns>
+		public static Func<ConsList<T>, ConsList<V>> Apply<T, V>(
+			this ConsList<Func<T, V>> funcList)
+			=> values => funcList.Bind(values.Map);
+	}
+}
