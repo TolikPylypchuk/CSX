@@ -72,17 +72,6 @@ namespace CSX.Options
 		public abstract IEnumerator<T> GetEnumerator();
 
 		/// <summary>
-		/// Gets an enumerator which contains this value if it's present
-		/// or is empty otherwise.
-		/// </summary>
-		/// <returns>
-		/// An enumerator which contains this value if it's present
-		/// or is empty otherwise.
-		/// </returns>
-		IEnumerator IEnumerable.GetEnumerator()
-			=> this.GetEnumerator();
-
-		/// <summary>
 		/// Checks whether this value equals another value.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
@@ -113,6 +102,18 @@ namespace CSX.Options
 		/// </summary>
 		/// <returns>A string representation of this option.</returns>
 		public abstract override string ToString();
+
+		/// <summary>
+		/// Gets an enumerator which contains this value if it's present
+		/// or is empty otherwise.
+		/// </summary>
+		/// <returns>
+		/// An enumerator which contains this value if it's present
+		/// or is empty otherwise.
+		/// </returns>
+		IEnumerator IEnumerable.GetEnumerator()
+			=> this.GetEnumerator();
+
 	}
 
 	/// <summary>
