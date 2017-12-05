@@ -19,7 +19,8 @@
 
   <ItemGroup>
     <Folder Include="Enumerators\" />
-    <Folder Include="NewFolder\" />
+    <Folder Include="Lists\" />
+    <Folder Include="Functions\" />
     <Folder Include="Options\" />
   </ItemGroup>
 
