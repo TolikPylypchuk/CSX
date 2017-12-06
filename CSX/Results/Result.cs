@@ -159,12 +159,31 @@ namespace CSX.Results
 		/// Returns a successful result containing the specified value.
 		/// </summary>
 		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
+		/// <param name="value">The value of the result.</param>
+		/// <returns>A successful result containing the specified value.</returns>
+		public static Result<TSuccess, string> Succeed<TSuccess>(TSuccess value)
+			=> new Success<TSuccess, string>(value);
+		
+		/// <summary>
+		/// Returns a successful result containing the specified value.
+		/// </summary>
+		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
 		/// <typeparam name="TError">The type of the failure value.</typeparam>
 		/// <param name="value">The value of the result.</param>
 		/// <returns>A successful result containing the specified value.</returns>
 		public static Result<TSuccess, TError> ToSuccess<TSuccess, TError>(
 			this TSuccess value)
 			=> Succeed<TSuccess, TError>(value);
+
+		/// <summary>
+		/// Returns a successful result containing the specified value.
+		/// </summary>
+		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
+		/// <param name="value">The value of the result.</param>
+		/// <returns>A successful result containing the specified value.</returns>
+		public static Result<TSuccess, string> ToSuccess<TSuccess>(
+			this TSuccess value)
+			=> Succeed<TSuccess, string>(value);
 
 		/// <summary>
 		/// Returns a failed result containing the specified error.
@@ -177,6 +196,15 @@ namespace CSX.Results
 			=> new Failure<TSuccess, TError>(error);
 
 		/// <summary>
+		/// Returns a failed result containing the specified error.
+		/// </summary>
+		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
+		/// <param name="error">The error of the result.</param>
+		/// <returns>A failed result containing the specified error.</returns>
+		public static Result<TSuccess, string> Fail<TSuccess>(string error)
+			=> new Failure<TSuccess, string>(error);
+
+		/// <summary>
 		/// Returns a failed result containing the specified errors.
 		/// </summary>
 		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
@@ -186,6 +214,15 @@ namespace CSX.Results
 		public static Result<TSuccess, TError> Fail<TSuccess, TError>(
 			ConsList<TError> errors)
 			=> new Failure<TSuccess, TError>(errors);
+		
+		/// <summary>
+		/// Returns a failed result containing the specified errors.
+		/// </summary>
+		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
+		/// <param name="errors">The errors of the result.</param>
+		/// <returns>A failed result containing the specified errors.</returns>
+		public static Result<TSuccess, string> Fail<TSuccess>(ConsList<string> errors)
+			=> new Failure<TSuccess, string>(errors);
 
 		/// <summary>
 		/// Returns a failed result containing the specified errors.
@@ -199,6 +236,15 @@ namespace CSX.Results
 			=> new Failure<TSuccess, TError>(ConsList.Copy(errors));
 
 		/// <summary>
+		/// Returns a failed result containing the specified errors.
+		/// </summary>
+		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
+		/// <param name="errors">The errors of the result.</param>
+		/// <returns>A failed result containing the specified errors.</returns>
+		public static Result<TSuccess, string> Fail<TSuccess>(IEnumerable<string> errors)
+			=> new Failure<TSuccess, string>(ConsList.Copy(errors));
+
+		/// <summary>
 		/// Returns a failed result containing the specified error.
 		/// </summary>
 		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
@@ -210,10 +256,43 @@ namespace CSX.Results
 			=> Fail<TSuccess, TError>(error);
 
 		/// <summary>
+		/// Returns a failed result containing the specified error.
+		/// </summary>
+		/// <typeparam name="TSuccess">The type of the success value.</typeparam>
+		/// <param name="error">The error of the result.</param>
+		/// <returns>A failed result containing the specified error.</returns>
+		public static Result<TSuccess, string> ToFailure<TSuccess>(this string error)
+			=> Fail<TSuccess, string>(error);
+
+		/// <summary>
+		/// Returns a function which when called will map the provided value.
+		/// </summary>
+		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
+		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
+		/// <typeparam name="TError">The type of the failure value.</typeparam>
+		/// <param name="func">The funciton used during the mapping.</param>
+		/// <returns>A function which when called will map the provided value.</returns>
+		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>>
+			Lift<TSuccess, VSuccess, TError>(
+				this Func<TSuccess, VSuccess> func)
+			=> value => value.Map(func);
+
+		/// <summary>
+		/// Returns a function which maps the provided result when called.
+		/// </summary>
+		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
+		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
+		/// <param name="func">The funciton to lift.</param>
+		/// <returns>A function which when called will map the provided value.</returns>
+		public static Func<Result<TSuccess, string>, Result<VSuccess, string>>
+			Lift<TSuccess, VSuccess>(this Func<TSuccess, VSuccess> func)
+			=> value => value.Map(func);
+
+		/// <summary>
 		/// Applies a specified function, if it's a success, to a value,
 		/// if it's a success.
 		/// </summary>
-		/// <typeparam name="TSucccess">The input type of the function.</typeparam>
+		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
 		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
 		/// <typeparam name="TError">The type of the failure value.</typeparam>
 		/// <param name="funcResult">The function to apply, if it's a success.</param>
@@ -222,9 +301,9 @@ namespace CSX.Results
 		/// Otherwise, a function which always returns
 		/// <see cref="Failure{TSuccess, TError}" />.
 		/// </returns>
-		public static Func<Result<TSucccess, TError>, Result<VSuccess, TError>>
-			Apply<TSucccess, VSuccess, TError>(
-				this Result<Func<TSucccess, VSuccess>, TError> funcResult)
+		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>>
+			Apply<TSuccess, VSuccess, TError>(
+				this Result<Func<TSuccess, VSuccess>, TError> funcResult)
 			=> valueOption =>
 			{
 				Result<VSuccess, TError> result = null;

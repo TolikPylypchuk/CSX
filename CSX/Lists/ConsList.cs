@@ -204,6 +204,16 @@ namespace CSX.Lists
 			=> item == null ? list : new ConsCell<T>(item, list);
 
 		/// <summary>
+		/// Returns a function which maps the provided list when called.
+		/// </summary>
+		/// <typeparam name="T">The input type of the function.</typeparam>
+		/// <typeparam name="V">The output type of the function.</typeparam>
+		/// <param name="func">The funciton to lift.</param>
+		/// <returns>A function which maps the provided list when called.</returns>
+		public static Func<ConsList<T>, ConsList<V>> Lift<T, V>(this Func<T, V> func)
+			=> values => values.Map(func);
+
+		/// <summary>
 		/// Creates a cartesian product of two lists, which consists
 		/// of results of function application to elements of the
 		/// second list.

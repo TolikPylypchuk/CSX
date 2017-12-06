@@ -167,12 +167,12 @@ namespace CSX.Options
 			=> From(value);
 
 		/// <summary>
-		/// Lifts a specified function to the <seealso cref="Option{T}" /> world.
+		/// Returns a function which maps the provided option when called.
 		/// </summary>
 		/// <typeparam name="T">The input type of the function.</typeparam>
 		/// <typeparam name="V">The output type of the function.</typeparam>
-		/// <param name="func">The function to lift.</param>
-		/// <returns>A lifted version of the specified function.</returns>
+		/// <param name="func">The funciton to lift.</param>
+		/// <returns>A function which maps the provided option when called.</returns>
 		public static Func<Option<T>, Option<V>> Lift<T, V>(Func<T, V> func)
 			=> value => value.Map(func);
 
