@@ -13,7 +13,7 @@ namespace CSX.Functions
 		/// <typeparam name="T">The type of the value.</typeparam>
 		/// <param name="value">The value to return.</param>
 		/// <returns>The provided value.</returns>
-		public static T Id<T>(T value)
+		public static T Identity<T>(T value)
 			=> value;
 
 		/// <summary>
