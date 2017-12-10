@@ -17,3 +17,6 @@ but it lets polymorphism deal with choosing the right cases
 thus eliminating a lot of boilerplate. And it's similar
 to Scala's sealed trait/final case classes pattern of
 defining union types.
+
+For more information take a look at the
+[wiki](https://github.com/TolikPylypchuk/CSX/wiki).
