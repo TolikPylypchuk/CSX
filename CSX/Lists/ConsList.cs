@@ -160,7 +160,7 @@ namespace CSX.Lists
 		/// or an empty list if <paramref name="item" /> is <c>null</c>.
 		/// </returns>
 		public static ConsList<T> From<T>(T item)
-			=> item == null ? Empty<T>() : new ConsCell<T>(item, Empty<T>());
+			=> item != null ? new ConsCell<T>(item, Empty<T>()) : Empty<T>();
 
 		/// <summary>
 		/// Constructs a shallow copy of the specified <paramref name="collection" />.
@@ -201,7 +201,7 @@ namespace CSX.Lists
 		/// to the <paramref name="item" />.
 		/// </returns>
 		public static ConsList<T> AddTo<T>(this T item, ConsList<T> list)
-			=> item == null ? list : new ConsCell<T>(item, list);
+			=> item != null ? new ConsCell<T>(item, list) : list;
 
 		/// <summary>
 		/// Returns a function which maps the provided list when called.
