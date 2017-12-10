@@ -137,7 +137,25 @@ namespace CSX.Options
 		/// </returns>
 		/// <seealso cref="ToOption{T}(T)" />
 		public static Option<T> From<T>(T value)
-			=> value == null ? Empty<T>() : new Some<T>(value);
+			=> value != null ? new Some<T>(value) : Empty<T>();
+
+		/// <summary>
+		/// Constructs an option from a <paramref name="value" />.
+		/// If the <paramref name="value" /> is <c>null</c>,
+		/// returns <see cref="None{T}" />.
+		/// </summary>
+		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
+		/// <param name="value">
+		/// The value that the constructed option will contain.
+		/// </param>
+		/// <returns>
+		/// An option which contains the <paramref name="value" />
+		/// or <see cref="None{T}" /> if the value is <c>null</c>.
+		/// </returns>
+		/// <seealso cref="ToOption{T}(T?)" />
+		public static Option<T> From<T>(T? value)
+			where T : struct
+			=> value.HasValue ? From(value.Value) : Empty<T>();
 
 		/// <summary>
 		/// Constructs an empty option, i.e. <see cref="None{T}" />.
@@ -164,6 +182,24 @@ namespace CSX.Options
 		/// </returns>
 		/// <seealso cref="From{T}(T)" />
 		public static Option<T> ToOption<T>(this T value)
+			=> From(value);
+
+		/// <summary>
+		/// Constructs an option from a <paramref name="value" />.
+		/// If the <paramref name="value" /> is <c>null</c>,
+		/// returns <see cref="None{T}" />.
+		/// </summary>
+		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
+		/// <param name="value">
+		/// The value that the constructed option will contain.
+		/// </param>
+		/// <returns>
+		/// An option which contains the <paramref name="value" />
+		/// or <see cref="None{T}" /> if the value is <c>null</c>.
+		/// </returns>
+		/// <seealso cref="From{T}(T?)" />
+		public static Option<T> ToOption<T>(this T? value)
+			where T : struct
 			=> From(value);
 
 		/// <summary>
