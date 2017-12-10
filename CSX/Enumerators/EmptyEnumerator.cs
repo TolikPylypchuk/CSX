@@ -12,12 +12,6 @@ namespace CSX.Enumerators
 	public class EmptyEnumerator<T> : IEnumerator<T>
 	{
 		/// <summary>
-		/// Constructs the only instance of the <see cref="EmptyEnumerator{T}" /> class.
-		/// </summary>
-		static EmptyEnumerator() =>
-			Instance = new EmptyEnumerator<T>();
-
-		/// <summary>
 		/// Constructs a new instance of the <see cref="EmptyEnumerator{T}" /> class.
 		/// </summary>
 		private EmptyEnumerator() { }
@@ -25,12 +19,12 @@ namespace CSX.Enumerators
 		/// <summary>
 		/// The only instance of the <see cref="EmptyEnumerator{T}" /> class.
 		/// </summary>
-		public static EmptyEnumerator<T> Instance { get; }
+		public static EmptyEnumerator<T> Instance { get; } = new EmptyEnumerator<T>();
 
 		/// <summary>
-		/// This method should never be called as it doesn't return anything useful.
+		/// This property should never be called as it doesn't get anything useful.
 		/// </summary>
-		public T Current => default(T);
+		public T Current => default;
 
 		/// <summary>
 		/// Does nothing.
@@ -49,7 +43,7 @@ namespace CSX.Enumerators
 		public void Reset() { }
 
 		/// <summary>
-		/// This method should never be called as it doesn't return anything useful.
+		/// This property should never be called as it doesn't get anything useful.
 		/// </summary>
 		object IEnumerator.Current => this.Current;
 	}
