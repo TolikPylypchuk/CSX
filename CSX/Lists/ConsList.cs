@@ -170,8 +170,13 @@ namespace CSX.Lists
 		/// <returns>
 		/// A shallow copy of the specified <paramref name="collection" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="collection" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> Copy<T>(IEnumerable<T> collection)
-			=> collection.Aggregate(Empty<T>(), (acc, item) => acc + item);
+			=> collection != null
+				? collection.Aggregate(Empty<T>(), (acc, item) => acc + item)
+				: throw new ArgumentNullException(nameof(collection));
 
 		/// <summary>
 		/// Constructs a list from specified <paramref name="items" />.
@@ -210,8 +215,17 @@ namespace CSX.Lists
 		/// <typeparam name="V">The output type of the function.</typeparam>
 		/// <param name="func">The funciton to lift.</param>
 		/// <returns>A function which maps the provided list when called.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public static Func<ConsList<T>, ConsList<V>> Lift<T, V>(this Func<T, V> func)
-			=> values => values.Map(func);
+			=> func != null
+				? (Func<ConsList<T>, ConsList<V>>)
+					(values =>
+						values != null
+							? values.Map(func)
+							: throw new ArgumentNullException(nameof(values)))
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Creates a cartesian product of two lists, which consists
@@ -224,8 +238,17 @@ namespace CSX.Lists
 		/// <returns>
 		/// A function which returns the cartesian product.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="funcList" /> is <c>null</c>.
+		/// </exception>
 		public static Func<ConsList<T>, ConsList<V>> Apply<T, V>(
 			this ConsList<Func<T, V>> funcList)
-			=> values => funcList.Bind(values.Map);
+			=> funcList != null
+				? (Func<ConsList<T>, ConsList<V>>)
+					(values =>
+						values != null
+							? funcList.Bind(values.Map)
+							: throw new ArgumentNullException(nameof(values)))
+				: throw new ArgumentNullException(nameof(funcList));
 	}
 }

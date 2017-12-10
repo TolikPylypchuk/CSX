@@ -209,8 +209,17 @@ namespace CSX.Options
 		/// <typeparam name="V">The output type of the function.</typeparam>
 		/// <param name="func">The funciton to lift.</param>
 		/// <returns>A function which maps the provided option when called.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public static Func<Option<T>, Option<V>> Lift<T, V>(Func<T, V> func)
-			=> value => value.Map(func);
+			=> func != null
+				? (Func<Option<T>, Option<V>>)
+					(value =>
+						value != null
+						? value.Map(func)
+						: throw new ArgumentNullException(nameof(value)))
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Applies a specified function, if it's present, to a value,
@@ -223,8 +232,17 @@ namespace CSX.Options
 		/// A lifted version of the specified function, if it's present.
 		/// Otherwise, a function which always returns <see cref="None{T}" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public static Func<Option<T>, Option<V>> Apply<T, V>(
 			this Option<Func<T, V>> func)
-			=> value => func.Bind(value.Map);
+			=> func != null
+				? (Func<Option<T>, Option<V>>)
+					(value =>
+						value != null
+						? func.Bind(value.Map)
+						: throw new ArgumentNullException(nameof(value)))
+				: throw new ArgumentNullException(nameof(func));
 	}
 }
