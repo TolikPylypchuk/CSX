@@ -17,7 +17,7 @@ namespace CSX.Enumerators
 		private EmptyEnumerator() { }
 
 		/// <summary>
-		/// The only instance of the <see cref="EmptyEnumerator{T}" /> class.
+		/// Gets the only instance of the <see cref="EmptyEnumerator{T}" /> class.
 		/// </summary>
 		public static EmptyEnumerator<T> Instance { get; } = new EmptyEnumerator<T>();
 
