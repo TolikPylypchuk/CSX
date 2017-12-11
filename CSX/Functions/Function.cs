@@ -68,7 +68,7 @@ namespace CSX.Functions
 		/// <param name="function">The function to curry.</param>
 		/// <returns>A curried function.</returns>
 		public static Func<T1, Func<T2, Func<T3, TResult>>> Curried<T1, T2, T3, TResult>(
-			Func<T1, T2, T3, TResult> function)
+			this Func<T1, T2, T3, TResult> function)
 			=> arg1 => arg2 => arg3 => function(arg1, arg2, arg3);
 
 		/// <summary>
@@ -427,7 +427,7 @@ namespace CSX.Functions
 		/// <param name="action">The action to curry.</param>
 		/// <returns>A curried action.</returns>
 		public static Func<T1, Func<T2, Action<T3>>> Curried<T1, T2, T3>(
-			Action<T1, T2, T3> action)
+			this Action<T1, T2, T3> action)
 			=> arg1 => arg2 => arg3 => action(arg1, arg2, arg3);
 
 		/// <summary>

@@ -10,6 +10,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>7.2</LangVersion>
+    <NoWarn>1701;1702;1705;IDE0039</NoWarn>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Functions\" />
     <Folder Include="Lists\" />
     <Folder Include="Results\" />
     <Folder Include="Options\" />
