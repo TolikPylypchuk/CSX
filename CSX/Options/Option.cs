@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using CSX.Results;
+
 namespace CSX.Options
 {
 	/// <summary>
@@ -25,7 +27,7 @@ namespace CSX.Options
 		/// The value to provide if this option doesn't have one.
 		/// </param>
 		/// <returns>The value if it's present, or an alternative otherwise.</returns>
-		public abstract T GetOrDefault(T alternative);
+		public abstract T GetOrElse(T alternative);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's present.
@@ -60,6 +62,31 @@ namespace CSX.Options
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
 		public abstract Option<T> IfNone(Action action);
+
+		/// <summary>
+		/// Converts this option to a result.
+		/// </summary>
+		/// <param name="error">
+		/// The error to return if the value is absent.
+		/// </param>
+		/// <typeparam name="TError">The type of the error.</typeparam>
+		/// <returns>
+		/// Success(value) if the value is present.
+		/// Otherwise, Failure(<paramref name="error" />).
+		/// </returns>
+		public abstract Result<T, TError> ToResult<TError>(TError error);
+
+		/// <summary>
+		/// Converts this option to a result.
+		/// </summary>
+		/// <param name="error">
+		/// The error to return if the value is absent.
+		/// </param>
+		/// <returns>
+		/// Success(value) if the value is present.
+		/// Otherwise, Failure(<paramref name="error" />).
+		/// </returns>
+		public abstract Result<T, string> ToResult(string error);
 
 		/// <summary>
 		/// Gets an enumerator which contains this value if it's present

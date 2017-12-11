@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Lists\" />
     <Folder Include="Functions\" />
+    <Folder Include="Lists\" />
     <Folder Include="Results\" />
     <Folder Include="Options\" />
   </ItemGroup>

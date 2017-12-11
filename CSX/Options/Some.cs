@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using CSX.Results;
+
 namespace CSX.Options
 {
 	/// <summary>
@@ -26,7 +28,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns>The value of this option.</returns>
-		public override T GetOrDefault(T _) => this.Value;
+		public override T GetOrElse(T _) => this.Value;
 
 		/// <summary>
 		/// Applies a specified function to this value.
@@ -68,7 +70,24 @@ namespace CSX.Options
 		/// <returns><c>this</c></returns>
 		public override Option<T> IfNone(Action _)
 			=> this;
+		
+		/// <summary>
+		/// Converts this option to a success.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <typeparam name="TError">The type of the error.</typeparam>
+		/// <returns>Success(value)</returns>
+		public override Result<T, TError> ToResult<TError>(TError _)
+			=> Result.Succeed<T, TError>(this.Value);
 
+		/// <summary>
+		/// Converts this option to a success.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns>Success(value)</returns>
+		public override Result<T, string> ToResult(string _)
+			=> Result.Succeed(this.Value);
+		
 		/// <summary>
 		/// Returns an enumerator which contains this value.
 		/// </summary>

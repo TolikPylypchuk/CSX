@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CSX.Enumerators;
+using CSX.Results;
 
 namespace CSX.Options
 {
@@ -21,7 +22,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
-		public override T GetOrDefault(T alternative)
+		public override T GetOrElse(T alternative)
 			=> alternative;
 
 		/// <summary>
@@ -60,7 +61,24 @@ namespace CSX.Options
 			action();
 			return this;
 		}
+		
+		/// <summary>
+		/// Converts this option to a failure.
+		/// </summary>
+		/// <param name="error">The error to return.</param>
+		/// <typeparam name="TError">The type of the error.</typeparam>
+		/// <returns>Failure(<paramref name="error" />)</returns>
+		public override Result<T, TError> ToResult<TError>(TError error)
+			=> Result.Fail<T, TError>(error);
 
+		/// <summary>
+		/// Converts this option to a failure.
+		/// </summary>
+		/// <param name="error">The error to return.</param>
+		/// <returns>Failure(<paramref name="error" />)</returns>
+		public override Result<T, string> ToResult(string error)
+			=> Result.Fail<T>(error);
+		
 		/// <summary>
 		/// Returns an empty enumerator.
 		/// </summary>
