@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using CSX.Options.Matchers;
 using CSX.Results;
 
 namespace CSX.Options
@@ -13,7 +14,8 @@ namespace CSX.Options
 	/// <seealso cref="Option" />
 	/// <seealso cref="Some{T}" />
 	/// <seealso cref="None{T}" />
-	public abstract class Option<T> : IEquatable<Option<T>>, IEnumerable, IEnumerable<T>
+	public abstract class Option<T> :
+		IEquatable<Option<T>>, IEnumerable, IEnumerable<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Option{T}" /> class.
@@ -49,6 +51,42 @@ namespace CSX.Options
 		/// </returns>
 		public abstract Option<V> Bind<V>(Func<T, Option<V>> func);
 
+		/// <summary>
+		/// Returns the result of the specified function if this option is Some.
+		/// </summary>
+		/// <param name="func">
+		/// The function whose result is returned if this match succeeds.
+		/// </param>
+		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <returns>
+		/// If this option is Some, then the result of the function,
+		/// provided to the None matcher. Otherwise, the result of the specified function.
+		/// </returns>
+		public NoneMatcher<T, V> MatchSome<V>(Func<T, V> func)
+			=> new NoneMatcher<T, V>(this, func);
+		
+		/// <summary>
+		/// Returns the result of the specified function if this option is None.
+		/// </summary>
+		/// <param name="func">
+		/// The function whose result is returned if this match succeeds.
+		/// </param>
+		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <returns>
+		/// If this option is None, then the result of the function,
+		/// provided to the None matcher. Otherwise, the result of the specified function.
+		/// </returns>
+		public SomeMatcher<T, V> MatchNone<V>(Func<V> func)
+			=> new SomeMatcher<T, V>(this, func);
+		
+		/// <summary>
+		/// Returns a result of the specified function.
+		/// </summary>
+		/// <param name="func">The function that provides the match result.</param>
+		/// <returns>The result of <paramref name="func" />.</returns>
+		public V MatchAny<V>(Func<V> func)
+			=> func();
+		
 		/// <summary>
 		/// Executes a specified action if the value is present.
 		/// </summary>
