@@ -73,6 +73,26 @@ namespace CSX.Lists
 		}
 
 		/// <summary>
+		/// Folds this list to a single value from left to right.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="func">The folder function.</param>
+		/// <returns>The folded value.</returns>
+		public override V Fold<V>(V seed, Func<V, T, V> func)
+			=> this.Tail.Fold(func(seed, this.Head), func);
+
+		/// <summary>
+		/// Folds this list to a single value from right to left.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="func">The folder function.</param>
+		/// <returns>The folded value.</returns>
+		public override V FoldBack<V>(V seed, Func<T, V, V> func)
+			=> func(this.Head, this.Tail.FoldBack(seed, func));
+
+		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
 		/// <returns>

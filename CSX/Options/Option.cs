@@ -54,14 +54,14 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public abstract Option<T> IfSome(Action<T> action);
+		public abstract Option<T> DoIfSome(Action<T> action);
 
 		/// <summary>
 		/// Executes a specified action if the value is absent.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public abstract Option<T> IfNone(Action action);
+		public abstract Option<T> DoIfNone(Action action);
 
 		/// <summary>
 		/// Converts this option to a result.

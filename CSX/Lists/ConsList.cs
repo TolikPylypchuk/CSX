@@ -55,6 +55,24 @@ namespace CSX.Lists
 		public abstract ConsList<T> ForEach(Action<T> action);
 
 		/// <summary>
+		/// Folds this list to a single value from left to right.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="func">The folder function.</param>
+		/// <returns>The folded value.</returns>
+		public abstract V Fold<V>(V seed, Func<V, T, V> func);
+
+		/// <summary>
+		/// Folds this list to a single value from right to left.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="func">The folder function.</param>
+		/// <returns>The folded value.</returns>
+		public abstract V FoldBack<V>(V seed, Func<T, V, V> func);
+
+		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
 		/// <returns>

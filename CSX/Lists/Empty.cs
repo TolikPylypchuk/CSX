@@ -51,6 +51,28 @@ namespace CSX.Lists
 			=> this;
 
 		/// <summary>
+		/// Folds this list to a single value from left to right,
+		/// i.e. just returns the seed.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="seed">The return value.</param>
+		/// <param name="_">Not used.</param>
+		/// <returns><paramref name="seed" /></returns>
+		public override V Fold<V>(V seed, Func<V, T, V> _)
+			=> seed;
+
+		/// <summary>
+		/// Folds this list to a single value from right to left,
+		/// i.e. just returns the seed.
+		/// </summary>
+		/// <typeparam name="V">The type of the returned value.</typeparam>
+		/// <param name="seed">The return value.</param>
+		/// <param name="_">Not used.</param>
+		/// <returns><paramref name="seed" /></returns>
+		public override V FoldBack<V>(V seed, Func<T, V, V> _)
+			=> seed;
+
+		/// <summary>
 		/// Returns an empty enumerator.
 		/// </summary>
 		/// <returns>An empty enumerator.</returns>

@@ -48,7 +48,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns><c>this</c></returns>
-		public override Option<T> IfSome(Action<T> _)
+		public override Option<T> DoIfSome(Action<T> _)
 			=> this;
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public override Option<T> IfNone(Action action)
+		public override Option<T> DoIfNone(Action action)
 		{
 			action();
 			return this;

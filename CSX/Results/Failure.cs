@@ -41,7 +41,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
-		public override TSuccess GetOrDefault(TSuccess alternative)
+		public override TSuccess GetOrElse(TSuccess alternative)
 			=> alternative;
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns><c>this</c></returns>
-		public override Result<TSuccess, TError> IfSuccess(Action<TSuccess> _)
+		public override Result<TSuccess, TError> DoIfSuccess(Action<TSuccess> _)
 			=> this;
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public override Result<TSuccess, TError> IfFailure(
+		public override Result<TSuccess, TError> DoIfFailure(
 			Action<ConsList<TError>> action)
 		{
 			action(this.Errors);

@@ -30,7 +30,7 @@ namespace CSX.Results
 		/// The value to provide if this result is a failure.
 		/// </param>
 		/// <returns>The value if it's a succcess, or an alternative otherwise.</returns>
-		public abstract TSuccess GetOrDefault(TSuccess alternative);
+		public abstract TSuccess GetOrElse(TSuccess alternative);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's a success.
@@ -70,14 +70,14 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public abstract Result<TSuccess, TError> IfSuccess(Action<TSuccess> action);
+		public abstract Result<TSuccess, TError> DoIfSuccess(Action<TSuccess> action);
 
 		/// <summary>
 		/// Executes a specified action if it's a failure.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public abstract Result<TSuccess, TError> IfFailure(Action<ConsList<TError>> action);
+		public abstract Result<TSuccess, TError> DoIfFailure(Action<ConsList<TError>> action);
 
 		/// <summary>
 		/// Converts this result to an option.
@@ -381,17 +381,17 @@ namespace CSX.Results
 							Fail<VSuccess, TError>;
 
 						funcResult
-							.IfSuccess(func =>
+							.DoIfSuccess(func =>
 								valueResult
-									.IfSuccess(value =>
+									.DoIfSuccess(value =>
 										result = Succeed<VSuccess, TError>(func(value)))
-									.IfFailure(valueErrors =>
+									.DoIfFailure(valueErrors =>
 										result = fail(valueErrors)))
-							.IfFailure(funcErrors =>
+							.DoIfFailure(funcErrors =>
 								valueResult
-									.IfSuccess(_ =>
+									.DoIfSuccess(_ =>
 										result = fail(funcErrors))
-									.IfFailure(valueErrors =>
+									.DoIfFailure(valueErrors =>
 										result = fail(funcErrors.Add(valueErrors))));
 
 						return result;

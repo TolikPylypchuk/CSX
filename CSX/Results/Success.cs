@@ -32,7 +32,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns>The value of this result.</returns>
-		public override TSuccess GetOrDefault(TSuccess _) => this.Value;
+		public override TSuccess GetOrElse(TSuccess _) => this.Value;
 
 		/// <summary>
 		/// Applies a specified function to the value of this result.
@@ -69,7 +69,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
-		public override Result<TSuccess, TError> IfSuccess(Action<TSuccess> action)
+		public override Result<TSuccess, TError> DoIfSuccess(Action<TSuccess> action)
 		{
 			action(this.Value);
 			return this;
@@ -80,7 +80,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns><c>this</c></returns>
-		public override Result<TSuccess, TError> IfFailure(Action<ConsList<TError>> _)
+		public override Result<TSuccess, TError> DoIfFailure(Action<ConsList<TError>> _)
 			=> this;
 
 		/// <summary>
