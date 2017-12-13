@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using CSX.Lists;
 using CSX.Options;
+using CSX.Results.Matchers;
 
 namespace CSX.Results
 {
@@ -64,6 +65,43 @@ namespace CSX.Results
 		/// </returns>
 		public abstract Result<VSuccess, TError> Bind<VSuccess>(
 			Func<TSuccess, Result<VSuccess, TError>> func);
+
+		/// <summary>
+		/// Returns the result of the specified function if this result is successful.
+		/// </summary>
+		/// <param name="func">
+		/// The function whose result is returned if this match succeeds.
+		/// </param>
+		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <returns>
+		/// If this result is failed, then the result of the function,
+		/// provided to the Failure matcher. Otherwise, the result of the specified function.
+		/// </returns>
+		public FailureMatcher<TSuccess, TError, V> MatchSuccess<V>(Func<TSuccess, V> func)
+			=> new FailureMatcher<TSuccess, TError, V>(this, func);
+
+		/// <summary>
+		/// Returns the result of the specified function if this result is failed.
+		/// </summary>
+		/// <param name="func">
+		/// The function whose result is returned if this match succeeds.
+		/// </param>
+		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <returns>
+		/// If this result is successful, then the result of the function,
+		/// provided to the Success matcher. Otherwise, the result of the specified function.
+		/// </returns>
+		public SuccessMatcher<TSuccess, TError, V> MatchFailure<V>(
+			Func<ConsList<TError>, V> func)
+			=> new SuccessMatcher<TSuccess, TError, V>(this, func);
+
+		/// <summary>
+		/// Returns a result of the specified function.
+		/// </summary>
+		/// <param name="func">The function that provides the match result.</param>
+		/// <returns>The result of <paramref name="func" />.</returns>
+		public V MatchAny<V>(Func<V> func)
+			=> func();
 
 		/// <summary>
 		/// Executes a specified action if it's a success.

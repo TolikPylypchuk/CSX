@@ -59,7 +59,7 @@ namespace CSX.Options
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this option is Some, then the result of the function,
+		/// If this option is None, then the result of the function,
 		/// provided to the None matcher. Otherwise, the result of the specified function.
 		/// </returns>
 		public NoneMatcher<T, V> MatchSome<V>(Func<T, V> func)
@@ -73,8 +73,8 @@ namespace CSX.Options
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this option is None, then the result of the function,
-		/// provided to the None matcher. Otherwise, the result of the specified function.
+		/// If this option is Some, then the result of the function,
+		/// provided to the Some matcher. Otherwise, the result of the specified function.
 		/// </returns>
 		public SomeMatcher<T, V> MatchNone<V>(Func<V> func)
 			=> new SomeMatcher<T, V>(this, func);

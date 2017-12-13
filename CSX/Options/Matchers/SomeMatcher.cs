@@ -25,7 +25,7 @@ namespace CSX.Options.Matchers
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <returns>
-		/// If this option is Some, then the result of the function,
+		/// If this option is None, then the result of the function,
 		/// provided to the None matcher. Otherwise, the result of the specified function.
 		/// </returns>
 		public TResult MatchSome(Func<TValue, TResult> func)
