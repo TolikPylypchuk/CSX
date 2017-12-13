@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using CSX.Lists.Matchers;
+
 namespace CSX.Lists
 {
 	/// <summary>
@@ -46,6 +48,42 @@ namespace CSX.Lists
 		/// A flattened list consisting of results of the function application.
 		/// </returns>
 		public abstract ConsList<V> Bind<V>(Func<T, ConsList<V>> func);
+
+		/// <summary>
+		/// Returns the result of the specified function if this list is a ConsCell.
+		/// </summary>
+		/// <param name="func">
+		/// The function whose result is returned if this match succeeds.
+		/// </param>
+		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <returns>
+		/// If this list is Empty, then the result of the function,
+		/// provided to the Empty matcher. Otherwise, the result of the specified function.
+		/// </returns>
+		public EmptyMatcher<T, V> MatchConsCell<V>(Func<T, ConsList<T>, V> func)
+			=> new EmptyMatcher<T, V>(this, func);
+
+		/// <summary>
+		/// Returns the result of the specified function if this list is Empty.
+		/// </summary>
+		/// <param name="func">
+		/// The function whose result is returned if this match succeeds.
+		/// </param>
+		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <returns>
+		/// If this list is a ConsCell, then the result of the function,
+		/// provided to the ConsCell matcher. Otherwise, the result of the specified function.
+		/// </returns>
+		public ConsCellMatcher<T, V> MatchEmpty<V>(Func<V> func)
+			=> new ConsCellMatcher<T, V>(this, func);
+
+		/// <summary>
+		/// Returns a result of the specified function.
+		/// </summary>
+		/// <param name="func">The function that provides the match result.</param>
+		/// <returns>The result of <paramref name="func" />.</returns>
+		public V MatchAny<V>(Func<V> func)
+			=> func();
 
 		/// <summary>
 		/// Applies a specified function to each element of this list.
