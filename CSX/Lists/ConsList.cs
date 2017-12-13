@@ -14,8 +14,7 @@ namespace CSX.Lists
 	/// <seealso cref="ConsList" />
 	/// <seealso cref="ConsCell{T}" />
 	/// <seealso cref="Empty{T}" />
-	public abstract class ConsList<T> :
-		IEquatable<ConsList<T>>, IEnumerable, IEnumerable<T>
+	public abstract class ConsList<T> : IEquatable<ConsList<T>>, IEnumerable, IEnumerable<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConsList{T}" /> class.

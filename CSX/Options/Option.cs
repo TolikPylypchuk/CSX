@@ -14,8 +14,7 @@ namespace CSX.Options
 	/// <seealso cref="Option" />
 	/// <seealso cref="Some{T}" />
 	/// <seealso cref="None{T}" />
-	public abstract class Option<T> :
-		IEquatable<Option<T>>, IEnumerable, IEnumerable<T>
+	public abstract class Option<T> : IEquatable<Option<T>>, IEnumerable, IEnumerable<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Option{T}" /> class.
