@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace CSX.Enumerators
+namespace CSX.Collections
 {
 	/// <summary>
 	/// Represents an empty enumerator.
@@ -12,7 +12,7 @@ namespace CSX.Enumerators
 	public class EmptyEnumerator<T> : IEnumerator<T>
 	{
 		/// <summary>
-		/// Constructs a new instance of the <see cref="EmptyEnumerator{T}" /> class.
+		/// Initializes a new instance of the <see cref="EmptyEnumerator{T}" /> class.
 		/// </summary>
 		private EmptyEnumerator() { }
 

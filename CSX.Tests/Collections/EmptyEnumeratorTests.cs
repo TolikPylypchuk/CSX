@@ -2,7 +2,7 @@
 
 using Xunit;
 
-namespace CSX.Enumerators
+namespace CSX.Collections
 {
 	public class EmptyEnumeratorTests
 	{

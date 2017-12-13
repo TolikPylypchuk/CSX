@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using CSX.Enumerators;
+using CSX.Collections;
 
 namespace CSX.Lists
 {
