@@ -40,6 +40,25 @@ namespace CSX.Lists
 			=> this.Head.AddTo(this.Tail.Add(other));
 
 		/// <summary>
+		/// Executes a specified action.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns><c>this</c></returns>
+		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action)
+		{
+			action(this.Head, this.Tail);
+			return this;
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns><c>this</c></returns>
+		public override ConsList<T> DoIfEmpty(Action _)
+			=> this;
+
+		/// <summary>
 		/// Applies a specified function to the value of this cell
 		/// and to the rest of the list and returns a list consisting of results.
 		/// </summary>

@@ -27,6 +27,25 @@ namespace CSX.Lists
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns><c>this</c></returns>
+		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> _)
+			=> this;
+
+		/// <summary>
+		/// Executes a specified action.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns><c>this</c></returns>
+		public override ConsList<T> DoIfEmpty(Action action)
+		{
+			action();
+			return this;
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="_">Not used.</param>
 		/// <returns>An empty list of type <typeparamref name="V" />.</returns>

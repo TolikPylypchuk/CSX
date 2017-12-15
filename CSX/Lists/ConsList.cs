@@ -85,6 +85,20 @@ namespace CSX.Lists
 			=> func();
 
 		/// <summary>
+		/// Executes a specified action if this list is a cons cell.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns><c>this</c></returns>
+		public abstract ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action);
+
+		/// <summary>
+		/// Executes a specified action if this list is empty.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns><c>this</c></returns>
+		public abstract ConsList<T> DoIfEmpty(Action action);
+
+		/// <summary>
 		/// Applies a specified function to each element of this list.
 		/// </summary>
 		/// <param name="action">The function to apply.</param>
