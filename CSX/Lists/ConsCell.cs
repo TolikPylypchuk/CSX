@@ -8,6 +8,8 @@ namespace CSX.Lists
 	/// which contains a value.
 	/// </summary>
 	/// <typeparam name="T">The type of the value.</typeparam>
+	/// <seealso cref="ConsList{T}" />
+	/// <seealso cref="Empty{T}" />
 	public class ConsCell<T> : ConsList<T>, IEquatable<ConsCell<T>>
 	{
 		/// <summary>
@@ -24,11 +26,13 @@ namespace CSX.Lists
 		/// <summary>
 		/// Gets the value stored in this cell.
 		/// </summary>
+		/// <seealso cref="Tail" />
 		public T Head { get; }
 
 		/// <summary>
 		/// Gets the rest of the list.
 		/// </summary>
+		/// <seealso cref="Head" />
 		public ConsList<T> Tail { get; }
 
 		/// <summary>
@@ -44,6 +48,7 @@ namespace CSX.Lists
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <seealso cref="DoIfEmpty(Action)" />
 		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action)
 		{
 			action(this.Head, this.Tail);
@@ -55,6 +60,7 @@ namespace CSX.Lists
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns><c>this</c></returns>
+		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public override ConsList<T> DoIfEmpty(Action _)
 			=> this;
 
@@ -79,10 +85,10 @@ namespace CSX.Lists
 			=> func(this.Head).Add(this.Tail.Bind(func));
 
 		/// <summary>
-		/// Applies a specified function to this cell's value and to
+		/// Executes a specified <paramref name="action" /> for this cell's value and for
 		/// the rest of the list.
 		/// </summary>
-		/// <param name="action">The function to apply.</param>
+		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
 		public override ConsList<T> ForEach(Action<T> action)
 		{
@@ -98,6 +104,7 @@ namespace CSX.Lists
 		/// <param name="seed">The first parameter of the chain of calls to func.</param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public override V Fold<V>(V seed, Func<V, T, V> func)
 			=> this.Tail.Fold(func(seed, this.Head), func);
 
@@ -108,6 +115,7 @@ namespace CSX.Lists
 		/// <param name="seed">The first parameter of the chain of calls to func.</param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public override V FoldBack<V>(V seed, Func<T, V, V> func)
 			=> func(this.Head, this.Tail.FoldBack(seed, func));
 
@@ -171,7 +179,9 @@ namespace CSX.Lists
 		/// </summary>
 		/// <returns>This object's hash code.</returns>
 		public override int GetHashCode()
-			=> this.ToString().GetHashCode();
+			=> this.Map(item => item.GetHashCode())
+			       .Fold(String.Empty, (acc, code) => $"{acc} {code}")
+			       .GetHashCode();
 
 		/// <summary>
 		/// Returns a string representation of this list.

@@ -9,6 +9,8 @@ namespace CSX.Lists
 	/// Represents an empty cons list.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements of this list.</typeparam>
+	/// <seealso cref="ConsList{T}" />
+	/// <seealso cref="ConsCell{T}" />
 	public class Empty<T> : ConsList<T>, IEquatable<Empty<T>>
 	{
 		/// <summary>
@@ -23,25 +25,6 @@ namespace CSX.Lists
 		/// <returns>The <paramref name="other" /> list.</returns>
 		public override ConsList<T> Add(ConsList<T> other)
 			=> other;
-
-		/// <summary>
-		/// Does nothing.
-		/// </summary>
-		/// <param name="_">Not used.</param>
-		/// <returns><c>this</c></returns>
-		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> _)
-			=> this;
-
-		/// <summary>
-		/// Executes a specified action.
-		/// </summary>
-		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
-		public override ConsList<T> DoIfEmpty(Action action)
-		{
-			action();
-			return this;
-		}
 
 		/// <summary>
 		/// Does nothing.
@@ -66,6 +49,27 @@ namespace CSX.Lists
 		/// </summary>
 		/// <param name="_">Not used.</param>
 		/// <returns><c>this</c></returns>
+		/// <seealso cref="DoIfEmpty(Action)" />
+		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> _)
+			=> this;
+
+		/// <summary>
+		/// Executes a specified action.
+		/// </summary>
+		/// <param name="action">The action to execute.</param>
+		/// <returns><c>this</c></returns>
+		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
+		public override ConsList<T> DoIfEmpty(Action action)
+		{
+			action();
+			return this;
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns><c>this</c></returns>
 		public override ConsList<T> ForEach(Action<T> _)
 			=> this;
 
@@ -77,6 +81,7 @@ namespace CSX.Lists
 		/// <param name="seed">The return value.</param>
 		/// <param name="_">Not used.</param>
 		/// <returns><paramref name="seed" /></returns>
+		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public override V Fold<V>(V seed, Func<V, T, V> _)
 			=> seed;
 
@@ -88,6 +93,7 @@ namespace CSX.Lists
 		/// <param name="seed">The return value.</param>
 		/// <param name="_">Not used.</param>
 		/// <returns><paramref name="seed" /></returns>
+		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public override V FoldBack<V>(V seed, Func<T, V, V> _)
 			=> seed;
 

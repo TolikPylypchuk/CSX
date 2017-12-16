@@ -7,6 +7,7 @@ namespace CSX.Collections
 	/// Represents an enumerable which contains no elements.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements.</typeparam>
+	/// <seealso cref="EmptyEnumerator{T}" />
 	public class EmptyEnumerable<T> : IEnumerable<T>
 	{
 		/// <summary>

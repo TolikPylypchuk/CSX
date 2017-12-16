@@ -8,21 +8,27 @@ namespace CSX.Functions
 	public static class Function
 	{
 		/// <summary>
-		/// Returns the provided value.
+		/// Returns the provided <paramref name="value" />.
 		/// </summary>
-		/// <typeparam name="T">The type of the value.</typeparam>
+		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
 		/// <param name="value">The value to return.</param>
-		/// <returns>The provided value.</returns>
+		/// <returns>The provided <paramref name="value" />.</returns>
 		public static T Identity<T>(T value)
 			=> value;
 
 		/// <summary>
-		/// Returns the provided value cast to a base type.
+		/// Returns the provided <paramref name="value" /> cast to a base type.
 		/// </summary>
-		/// <typeparam name="T">The type of the value.</typeparam>
-		/// <typeparam name="TBase">The base type of the value.</typeparam>
+		/// <typeparam name="T">
+		/// The type of the <paramref name="value" />.
+		/// </typeparam>
+		/// <typeparam name="TBase">
+		/// The base type of the <paramref name="value" />.
+		/// </typeparam>
 		/// <param name="value">The value to return.</param>
-		/// <returns>The provided value cast to a base type.</returns>
+		/// <returns>
+		/// The provided <paramref name="value" /> cast to a base type.
+		/// </returns>
 		public static TBase Cast<T, TBase>(T value) where T : TBase
 			=> value;
 

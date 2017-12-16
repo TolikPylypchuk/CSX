@@ -49,30 +49,38 @@ namespace CSX.Lists
 		public abstract ConsList<V> Bind<V>(Func<T, ConsList<V>> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this list is a ConsCell.
+		/// Returns the result of the specified function if this list is a
+		/// <see cref="ConsCell{T}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this list is Empty, then the result of the function,
-		/// provided to the Empty matcher. Otherwise, the result of the specified function.
+		/// If this list is <see cref="Empty{T}" />, then the result of the function,
+		/// provided to the <see cref="Empty{T}" /> matcher function.
+		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
+		/// <seealso cref="MatchEmpty{V}(Func{V})" />
+		/// <seealso cref="MatchAny{V}(Func{V})" />
 		public EmptyMatcher<T, V> MatchConsCell<V>(Func<T, ConsList<T>, V> func)
 			=> new EmptyMatcher<T, V>(this, func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this list is Empty.
+		/// Returns the result of the specified function if this list is
+		/// <see cref="Empty{T}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this list is a ConsCell, then the result of the function,
-		/// provided to the ConsCell matcher. Otherwise, the result of the specified function.
+		/// If this list is a <see cref="ConsCell{T}" />, then the result of the function,
+		/// provided to the <see cref="ConsCell{T}" /> matcher.
+		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
+		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
+		/// <seealso cref="MatchAny{V}(Func{V})" />
 		public ConsCellMatcher<T, V> MatchEmpty<V>(Func<V> func)
 			=> new ConsCellMatcher<T, V>(this, func);
 
@@ -81,27 +89,31 @@ namespace CSX.Lists
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
+		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
+		/// <seealso cref="MatchEmpty{V}(Func{V})" />
 		public V MatchAny<V>(Func<V> func)
 			=> func();
 
 		/// <summary>
-		/// Executes a specified action if this list is a cons cell.
+		/// Executes a specified <paramref name="action" /> if this list is a cons cell.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <seealso cref="DoIfEmpty(Action)" />
 		public abstract ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action);
 
 		/// <summary>
-		/// Executes a specified action if this list is empty.
+		/// Executes a specified <paramref name="action" /> if this list is empty.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public abstract ConsList<T> DoIfEmpty(Action action);
 
 		/// <summary>
-		/// Applies a specified function to each element of this list.
+		/// Executes a specified <paramref name="action" /> to each element of this list.
 		/// </summary>
-		/// <param name="action">The function to apply.</param>
+		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
 		public abstract ConsList<T> ForEach(Action<T> action);
 
@@ -112,6 +124,7 @@ namespace CSX.Lists
 		/// <param name="seed">The first parameter of the chain of calls to func.</param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public abstract V Fold<V>(V seed, Func<V, T, V> func);
 
 		/// <summary>
@@ -121,6 +134,7 @@ namespace CSX.Lists
 		/// <param name="seed">The first parameter of the chain of calls to func.</param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public abstract V FoldBack<V>(V seed, Func<T, V, V> func);
 
 		/// <summary>
