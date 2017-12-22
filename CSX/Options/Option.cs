@@ -51,29 +51,33 @@ namespace CSX.Options
 		public abstract Option<V> Bind<V>(Func<T, Option<V>> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this option is Some.
+		/// Returns the result of the specified function if this option is
+		/// <see cref="Some{T}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this option is None, then the result of the function,
-		/// provided to the None matcher. Otherwise, the result of the specified function.
+		/// If this option is <see cref="None{T}" />, then the result of the function,
+		/// provided to the <see cref="None{T}" /> matcher.
+		/// Otherwise, the result of the specified function.
 		/// </returns>
 		public NoneMatcher<T, V> MatchSome<V>(Func<T, V> func)
 			=> new NoneMatcher<T, V>(this, func);
-		
+
 		/// <summary>
-		/// Returns the result of the specified function if this option is None.
+		/// Returns the result of the specified function if this option is
+		/// <see cref="None{T}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this option is Some, then the result of the function,
-		/// provided to the Some matcher. Otherwise, the result of the specified function.
+		/// If this option is <see cref="Some{T}" />, then the result of the function,
+		/// provided to the <see cref="Some{T}" /> matcher.
+		/// Otherwise, the result of the specified function.
 		/// </returns>
 		public SomeMatcher<T, V> MatchNone<V>(Func<V> func)
 			=> new SomeMatcher<T, V>(this, func);
@@ -87,14 +91,14 @@ namespace CSX.Options
 			=> func();
 		
 		/// <summary>
-		/// Executes a specified action if the value is present.
+		/// Executes a specified <paramref name="action" /> if the value is present.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
 		public abstract Option<T> DoIfSome(Action<T> action);
 
 		/// <summary>
-		/// Executes a specified action if the value is absent.
+		/// Executes a specified <paramref name="action" /> if the value is absent.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
@@ -177,7 +181,6 @@ namespace CSX.Options
 		/// </returns>
 		IEnumerator IEnumerable.GetEnumerator()
 			=> this.GetEnumerator();
-
 	}
 
 	/// <summary>

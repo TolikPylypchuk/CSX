@@ -10,6 +10,8 @@ namespace CSX.Options
 	/// Represents a case of <see cref="Option{T}" /> which doesn't contain a value.
 	/// </summary>
 	/// <typeparam name="T">The type of the value.</typeparam>
+	/// <seealso cref="Option{T}" />
+	/// <seealso cref="Some{T}" />
 	public class None<T> : Option<T>, IEquatable<None<T>>
 	{
 		/// <summary>

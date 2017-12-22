@@ -14,12 +14,12 @@ namespace CSX.Lists.Matchers
 	public class ConsCellMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// A list to match against.
+		/// The list to match against.
 		/// </summary>
 		private readonly ConsList<TValue> list;
 
 		/// <summary>
-		/// A function that is executed if this list is empty.
+		/// The function that is executed if this list is empty.
 		/// </summary>
 		private readonly Func<TResult> funcIfEmpty;
 
@@ -27,9 +27,9 @@ namespace CSX.Lists.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="ConsCellMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="list">A list to match against.</param>
+		/// <param name="list">The list to match against.</param>
 		/// <param name="funcIfEmpty">
-		/// A function that is executed if this list is empty.
+		/// The function that is executed if this list is empty.
 		/// </param>
 		internal ConsCellMatcher(ConsList<TValue> list, Func<TResult> funcIfEmpty)
 		{
@@ -45,7 +45,7 @@ namespace CSX.Lists.Matchers
 		/// </param>
 		/// <returns>
 		/// If this list is <see cref="Empty{T}" />, then the result of the function,
-		/// provided to the <see cref="Empty{T}" /> matcher function.
+		/// provided to the <see cref="Empty{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		public TResult MatchConsCell(Func<TValue, ConsList<TValue>, TResult> func)

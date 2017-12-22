@@ -8,19 +8,18 @@ namespace CSX.Lists.Matchers
 	/// <typeparam name="TValue">The type of the value of the list.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>
 	/// <seealso cref="ConsCellMatcher{TValue, TResult}" />
-	/// <seealso cref="EmptyMatcher{TValue, TResult}" />
 	/// <seealso cref="ConsList{T}" />
 	/// <seealso cref="ConsCell{T}" />
 	/// <seealso cref="Empty{T}" />
 	public class EmptyMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// A list to match against.
+		/// The list to match against.
 		/// </summary>
 		private readonly ConsList<TValue> list;
 
 		/// <summary>
-		/// A function that is executed if this list is a cons cell.
+		/// The function that is executed if this list is a cons cell.
 		/// </summary>
 		private readonly Func<TValue, ConsList<TValue>, TResult> funcIfConsCell;
 
@@ -28,9 +27,9 @@ namespace CSX.Lists.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="list">A list to match against.</param>
+		/// <param name="list">The list to match against.</param>
 		/// <param name="funcIfConsCell">
-		/// A function that is executed if this list is a cons cell.
+		/// The function that is executed if this list is a cons cell.
 		/// </param>
 		internal EmptyMatcher(
 			ConsList<TValue> list,
@@ -48,7 +47,7 @@ namespace CSX.Lists.Matchers
 		/// </param>
 		/// <returns>
 		/// If this list is <see cref="ConsCell{T}" />, then the result of the function,
-		/// provided to the <see cref="ConsCell{T}" /> matcher function.
+		/// provided to the <see cref="ConsCell{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		public TResult MatchEmpty(Func<TResult> func)

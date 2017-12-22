@@ -9,6 +9,8 @@ namespace CSX.Options
 	/// Represents a case of <see cref="Option{T}" /> which contains a value.
 	/// </summary>
 	/// <typeparam name="T">The type of the value.</typeparam>
+	/// <seealso cref="Option{T}" />
+	/// <seealso cref="None{T}" />
 	public class Some<T> : Option<T>, IEquatable<Some<T>>
 	{
 		/// <summary>

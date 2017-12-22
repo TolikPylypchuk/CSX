@@ -7,11 +7,30 @@ namespace CSX.Options.Matchers
 	/// </summary>
 	/// <typeparam name="TValue">The type of the value of the option.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>
+	/// <seealso cref="NoneMatcher{TValue, TResult}" />
+	/// <seealso cref="Option{T}" />
+	/// <seealso cref="Some{T}" />
+	/// <seealso cref="None{T}" />
 	public class SomeMatcher<TValue, TResult>
 	{
+		/// <summary>
+		/// The option to match against.
+		/// </summary>
 		private readonly Option<TValue> option;
+
+		/// <summary>
+		/// The function that is executed when the value is absent.
+		/// </summary>
 		private readonly Func<TResult> funcIfNone;
 
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="SomeMatcher{TValue, TResult}" /> class.
+		/// </summary>
+		/// <param name="option">The option to match against.</param>
+		/// <param name="funcIfNone">
+		/// The function that is executed when the value is absent.
+		/// </param>
 		internal SomeMatcher(Option<TValue> option, Func<TResult> funcIfNone)
 		{
 			this.option = option;
@@ -19,14 +38,16 @@ namespace CSX.Options.Matchers
 		}
 
 		/// <summary>
-		/// Returns the result of the specified function if this option is Some.
+		/// Returns the result of the specified function if this option is
+		/// <see cref="Some{T}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <returns>
-		/// If this option is None, then the result of the function,
-		/// provided to the None matcher. Otherwise, the result of the specified function.
+		/// If this option is <see cref="None{T}" />, then the result of the function,
+		/// provided to the <see cref="None{T}" /> matcher.
+		/// Otherwise, the result of the specified function.
 		/// </returns>
 		public TResult MatchSome(Func<TValue, TResult> func)
 		{

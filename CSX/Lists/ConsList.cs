@@ -58,7 +58,7 @@ namespace CSX.Lists
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
 		/// If this list is <see cref="Empty{T}" />, then the result of the function,
-		/// provided to the <see cref="Empty{T}" /> matcher function.
+		/// provided to the <see cref="Empty{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <seealso cref="MatchEmpty{V}(Func{V})" />
