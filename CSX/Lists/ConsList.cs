@@ -46,7 +46,7 @@ namespace CSX.Lists
 		/// <returns>
 		/// A flattened list consisting of results of the function application.
 		/// </returns>
-		public abstract ConsList<V> Bind<V>(Func<T, ConsList<V>> func);
+		public abstract ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func);
 
 		/// <summary>
 		/// Returns the result of the specified function if this list is a
@@ -330,7 +330,7 @@ namespace CSX.Lists
 				? (Func<ConsList<T>, ConsList<V>>)
 					(values =>
 						values != null
-							? funcList.Bind(values.Map)
+							? funcList.FlatMap(values.Map)
 							: throw new ArgumentNullException(nameof(values)))
 				: throw new ArgumentNullException(nameof(funcList));
 	}

@@ -81,8 +81,8 @@ namespace CSX.Lists
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>A list consisting of results of the function application.</returns>
-		public override ConsList<V> Bind<V>(Func<T, ConsList<V>> func)
-			=> func(this.Head).Add(this.Tail.Bind(func));
+		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
+			=> func(this.Head).Add(this.Tail.FlatMap(func));
 
 		/// <summary>
 		/// Executes a specified <paramref name="action" /> for this cell's value and for

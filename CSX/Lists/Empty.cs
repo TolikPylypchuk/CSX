@@ -41,7 +41,7 @@ namespace CSX.Lists
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="_">Not used.</param>
 		/// <returns>An empty list of type <typeparamref name="V" />.</returns>
-		public override ConsList<V> Bind<V>(Func<T, ConsList<V>> _)
+		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> _)
 			=> ConsList.Empty<V>();
 
 		/// <summary>

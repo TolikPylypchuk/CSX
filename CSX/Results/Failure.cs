@@ -12,6 +12,8 @@ namespace CSX.Results
 	/// </summary>
 	/// <typeparam name="TSuccess">The type of the success value.</typeparam>
 	/// <typeparam name="TError">The type of the failure value.</typeparam>
+	/// <seealso cref="Result{TSuccess, TError}" />
+	/// <seealso cref="Success{TSuccess, TError}" />
 	public class Failure<TSuccess, TError> :
 		Result<TSuccess, TError>, IEquatable<Failure<TSuccess, TError>>
 	{
@@ -95,9 +97,9 @@ namespace CSX.Results
 		}
 
 		/// <summary>
-		/// Returns None.
+		/// Returns <see cref="None{TSuccess}" />.
 		/// </summary>
-		/// <returns>None.</returns>
+		/// <returns><see cref="None{TSuccess}" />.</returns>
 		public override Option<TSuccess> ToOption()
 			=> Option.Empty<TSuccess>();
 

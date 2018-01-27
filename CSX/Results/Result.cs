@@ -67,29 +67,35 @@ namespace CSX.Results
 			Func<TSuccess, Result<VSuccess, TError>> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this result is successful.
+		/// Returns the result of the specified function if this result is
+		/// a <see cref="Success{TSuccess, TError}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this result is failed, then the result of the function,
-		/// provided to the Failure matcher. Otherwise, the result of the specified function.
+		/// If this result is a <see cref="Failure{TSuccess, TError}" />,
+		/// then the result of the function, provided to the
+		/// <see cref="Failure{TSuccess, TError}" /> matcher.
+		/// Otherwise, the result of the specified function.
 		/// </returns>
 		public FailureMatcher<TSuccess, TError, V> MatchSuccess<V>(Func<TSuccess, V> func)
 			=> new FailureMatcher<TSuccess, TError, V>(this, func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this result is failed.
+		/// Returns the result of the specified function if this result is
+		/// a <see cref="Failure{TSuccess, TError}" />.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="V">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this result is successful, then the result of the function,
-		/// provided to the Success matcher. Otherwise, the result of the specified function.
+		/// If this result is a <see cref="Success{TSuccess, TError}" />,
+		/// then the result of the function, provided to the
+		/// <see cref="Success{TSuccess, TError}" /> matcher.
+		/// Otherwise, the result of the specified function.
 		/// </returns>
 		public SuccessMatcher<TSuccess, TError, V> MatchFailure<V>(
 			Func<ConsList<TError>, V> func)
@@ -414,36 +420,31 @@ namespace CSX.Results
 						valueResult = valueResult ??
 							throw new ArgumentNullException(nameof(valueResult));
 
-						Result<VSuccess, TError> result = null;
 						Func<ConsList<TError>, Result<VSuccess, TError>> fail =
 							Fail<VSuccess, TError>;
 
-						funcResult
-							.DoIfSuccess(func =>
+						return funcResult
+							.MatchSuccess(func =>
 								valueResult
-									.DoIfSuccess(value =>
-										result = Succeed<VSuccess, TError>(func(value)))
-									.DoIfFailure(valueErrors =>
-										result = fail(valueErrors)))
-							.DoIfFailure(funcErrors =>
+									.MatchSuccess(value =>
+										Succeed<VSuccess, TError>(func(value)))
+									.MatchFailure(valueErrors => fail(valueErrors)))
+							.MatchFailure(funcErrors =>
 								valueResult
-									.DoIfSuccess(_ =>
-										result = fail(funcErrors))
-									.DoIfFailure(valueErrors =>
-										result = fail(funcErrors.Add(valueErrors))));
-
-						return result;
+									.MatchSuccess(_ => fail(funcErrors))
+									.MatchFailure(valueErrors =>
+										fail(funcErrors.Add(valueErrors))));
 					})
 				: throw new ArgumentNullException(nameof(funcResult));
 
 		/// <summary>
-		/// Returns a funciton, which returns a success if there were no exceptions,
+		/// Returns a function, which returns a success if there were no exceptions,
 		/// or a failure containing an exception if it is thrown.
 		/// The resulting function can accept <c>null</c>.
 		/// </summary>
 		/// <typeparam name="TInput">The input type of the function.</typeparam>
 		/// <typeparam name="TSuccess">The output type of the function.</typeparam>
-		/// <param name="func"></param>
+		/// <param name="func">The function which may throw an exception.</param>
 		/// <returns>
 		/// A funciton, which returns a success if there were no exceptions,
 		/// or a failure containing an exception if it is thrown.

@@ -207,7 +207,7 @@ namespace CSX.Options
 			=> value != null ? new Some<T>(value) : Empty<T>();
 
 		/// <summary>
-		/// Constructs an option from a <paramref name="value" />.
+		/// Constructs an option from a nullable <paramref name="value" />.
 		/// If the <paramref name="value" /> is <c>null</c>,
 		/// returns <see cref="None{T}" />.
 		/// </summary>
@@ -252,7 +252,7 @@ namespace CSX.Options
 			=> From(value);
 
 		/// <summary>
-		/// Constructs an option from a <paramref name="value" />.
+		/// Constructs an option from a nullable <paramref name="value" />.
 		/// If the <paramref name="value" /> is <c>null</c>,
 		/// returns <see cref="None{T}" />.
 		/// </summary>

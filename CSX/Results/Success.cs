@@ -11,6 +11,8 @@ namespace CSX.Results
 	/// </summary>
 	/// <typeparam name="TSuccess">The type of the success value.</typeparam>
 	/// <typeparam name="TError">The type of the failure value.</typeparam>
+	/// <seealso cref="Result{TSuccess, TError}" />
+	/// <seealso cref="Failure{TSuccess, TError}" />
 	public class Success<TSuccess, TError> :
 		Result<TSuccess, TError>, IEquatable<Success<TSuccess, TError>>
 	{
