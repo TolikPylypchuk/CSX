@@ -31,6 +31,16 @@ namespace CSX.Options
 		public abstract T GetOrElse(T alternative);
 
 		/// <summary>
+		/// Gets the value if it's present, or throws an exception otherwise.
+		/// </summary>
+		/// <param name="message">The message of the exception.</param>
+		/// <returns>The value if it's present.</returns>
+		/// <exception cref="OptionAbsentException">
+		/// The value is not present.
+		/// </exception>
+		public abstract T GetOrThrow(string message = "The value is not present.");
+
+		/// <summary>
 		/// Applies a specified function to this value if it's present.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>

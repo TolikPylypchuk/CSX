@@ -34,6 +34,15 @@ namespace CSX.Results
 		public abstract TSuccess GetOrElse(TSuccess alternative);
 
 		/// <summary>
+		/// Gets the result if it's a success, or throws an exception otherwise.
+		/// </summary>
+		/// <returns>The result if it's a success.</returns>
+		/// <exception cref="ResultFailedException">
+		/// The result is a failure.
+		/// </exception>
+		public abstract TSuccess GetOrThrow();
+
+		/// <summary>
 		/// Applies a specified function to this value if it's a success.
 		/// </summary>
 		/// <typeparam name="VSuccess">The type of the returned value.</typeparam>

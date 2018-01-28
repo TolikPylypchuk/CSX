@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using CSX.Collections;
 using CSX.Lists;
@@ -45,6 +46,43 @@ namespace CSX.Results
 		/// <returns>The <paramref name="alternative" /> value.</returns>
 		public override TSuccess GetOrElse(TSuccess alternative)
 			=> alternative;
+
+		/// <summary>
+		/// Throws an <see cref="InvalidOperationException" /> or
+		/// <see cref="AggregateException" />.
+		/// </summary>
+		/// <returns>Nothing.</returns>
+		/// <exception cref="InvalidOperationException">
+		/// This result contains 1 error.
+		/// </exception>
+		/// <exception cref="AggregateException">
+		/// This result contains more than 1 error.
+		/// </exception>
+		public override TSuccess GetOrThrow()
+		{
+			if (this.Errors.Count() == 1)
+			{
+				if (typeof(TError) == typeof(Exception) ||
+					typeof(TError).IsSubclassOf(typeof(Exception)))
+				{
+					throw new ResultFailedException(
+						this.Errors.FirstOrDefault() as Exception);
+				}
+
+				throw new ResultFailedException(
+					this.Errors.FirstOrDefault()?.ToString());
+			}
+
+			if (typeof(TError) == typeof(Exception) ||
+				typeof(TError).IsSubclassOf(typeof(Exception)))
+			{
+				throw new ResultFailedException(
+					this.Errors.Select(error => error as Exception));
+			}
+
+			throw new ResultFailedException(
+				this.Errors.Select(error => error.ToString()));
+		}
 
 		/// <summary>
 		/// Returns a failure with type <typeparamref name="VSuccess" />.

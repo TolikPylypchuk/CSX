@@ -28,6 +28,17 @@ namespace CSX.Options
 			=> alternative;
 
 		/// <summary>
+		/// Throws an <see cref="InvalidOperationException" />.
+		/// </summary>
+		/// <param name="message">The message of the exception.</param>
+		/// <returns>Nothing.</returns>
+		/// <exception cref="OptionAbsentException">
+		/// Thrown unconditionally.
+		/// </exception>
+		public override T GetOrThrow(string message = "The value is not present.")
+			=> throw new OptionAbsentException(message);
+
+		/// <summary>
 		/// Returns an empty option of type <typeparamref name="V" />.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>

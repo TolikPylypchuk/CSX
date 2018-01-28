@@ -37,6 +37,13 @@ namespace CSX.Results
 		public override TSuccess GetOrElse(TSuccess _) => this.Value;
 
 		/// <summary>
+		/// Returns the value of this result.
+		/// </summary>
+		/// <returns>The value of this result.</returns>
+		public override TSuccess GetOrThrow()
+			=> this.Value;
+
+		/// <summary>
 		/// Applies a specified function to the value of this result.
 		/// </summary>
 		/// <typeparam name="VSuccess">The type of the returned value.</typeparam>

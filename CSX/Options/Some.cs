@@ -33,6 +33,14 @@ namespace CSX.Options
 		public override T GetOrElse(T _) => this.Value;
 
 		/// <summary>
+		/// Returns the value of this option.
+		/// </summary>
+		/// <param name="_">Not used.</param>
+		/// <returns>The value of this option.</returns>
+		public override T GetOrThrow(string _ = "The value is not present.")
+			=> this.Value;
+
+		/// <summary>
 		/// Applies a specified function to this value.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
