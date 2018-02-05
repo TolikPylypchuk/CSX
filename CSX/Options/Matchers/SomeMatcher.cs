@@ -49,8 +49,16 @@ namespace CSX.Options.Matchers
 		/// provided to the <see cref="None{T}" /> matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public TResult MatchSome(Func<TValue, TResult> func)
 		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
 			foreach (var value in this.option)
 			{
 				return func(value);
@@ -64,8 +72,16 @@ namespace CSX.Options.Matchers
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
 			foreach (var _ in this.option)
 			{
 				return func();

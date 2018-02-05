@@ -524,5 +524,252 @@ namespace CSX.Functions
 
 			Assert.Equal(2, callNumber);
 		}
+
+
+		[Fact(DisplayName = "Curried<TResult> throws an exception for a null")]
+		public void TestCurriedFunc0Null()
+		{
+			Func<int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, TResult> throws an exception for a null")]
+		public void TestCurriedFunc1Null()
+		{
+			Func<int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, T2, TResult> throws an exception for a null")]
+		public void TestCurriedFunc2Null()
+		{
+			Func<int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, T2, T3, TResult> throws an exception for a null")]
+		public void TestCurriedFunc3Null()
+		{
+			Func<int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T4, TResult> throws an exception for a null")]
+		public void TestCurriedFunc4Null()
+		{
+			Func<int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T5, TResult> throws an exception for a null")]
+		public void TestCurriedFunc5Null()
+		{
+			Func<int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T6, TResult> throws an exception for a null")]
+		public void TestCurriedFunc6Null()
+		{
+			Func<int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T7, TResult> throws an exception for a null")]
+		public void TestCurriedFunc7Null()
+		{
+			Func<int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T8, TResult> throws an exception for a null")]
+		public void TestCurriedFunc8Null()
+		{
+			Func<int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T9, TResult> throws an exception for a null")]
+		public void TestCurriedFunc9Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T10, TResult> throws an exception for a null")]
+		public void TestCurriedFunc10Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T11, TResult> throws an exception for a null")]
+		public void TestCurriedFunc11Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T12, TResult> throws an exception for a null")]
+		public void TestCurriedFunc12Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T13, TResult> throws an exception for a null")]
+		public void TestCurriedFunc13Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int,
+				int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T14, TResult> throws an exception for a null")]
+		public void TestCurriedFunc14Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int,
+				int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T15, TResult> throws an exception for a null")]
+		public void TestCurriedFunc15Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int,
+				int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T16, TResult> throws an exception for a null")]
+		public void TestCurriedFunc16Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int,
+				int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Curried());
+		}
+
+		[Fact(DisplayName = "Curried throws an exception for a null")]
+		public void TestCurriedAction0Null()
+		{
+			Action action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1> throws an exception for a null")]
+		public void TestCurriedAction1Null()
+		{
+			Action<int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, T2> throws an exception for a null")]
+		public void TestCurriedAction2Null()
+		{
+			Action<int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, T2, T3> throws an exception for a null")]
+		public void TestCurriedAction3Null()
+		{
+			Action<int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T4> throws an exception for a null")]
+		public void TestCurriedAction4Null()
+		{
+			Action<int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T5> throws an exception for a null")]
+		public void TestCurriedAction5Null()
+		{
+			Action<int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T6> throws an exception for a null")]
+		public void TestCurriedAction6Null()
+		{
+			Action<int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T7> throws an exception for a null")]
+		public void TestCurriedAction7Null()
+		{
+			Action<int, int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T8> throws an exception for a null")]
+		public void TestCurriedAction8Null()
+		{
+			Action<int, int, int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T9> throws an exception for a null")]
+		public void TestCurriedAction9Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T10> throws an exception for a null")]
+		public void TestCurriedAction10Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T11> throws an exception for a null")]
+		public void TestCurriedAction11Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T12> throws an exception for a null")]
+		public void TestCurriedAction12Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T13> throws an exception for a null")]
+		public void TestCurriedAction13Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int,
+				int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T14> throws an exception for a null")]
+		public void TestCurriedAction14Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int,
+				int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T15> throws an exception for a null")]
+		public void TestCurriedAction15Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int,
+				int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
+
+		[Fact(DisplayName = "Curried<T1, ..., T16> throws an exception for a null")]
+		public void TestCurriedAction16Null()
+		{
+			Action<int, int, int, int, int, int, int, int, int, int,
+				int, int, int, int, int, int> action = null;
+			Assert.Throws<ArgumentNullException>(() => action.Curried());
+		}
 	}
 }

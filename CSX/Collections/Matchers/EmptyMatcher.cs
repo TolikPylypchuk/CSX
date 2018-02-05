@@ -50,8 +50,16 @@ namespace CSX.Collections.Matchers
 		/// provided to the <see cref="ConsCell{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public TResult MatchEmpty(Func<TResult> func)
 		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
 			switch (this.list)
 			{
 				case ConsCell<TValue> cell:
@@ -66,8 +74,16 @@ namespace CSX.Collections.Matchers
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
 			switch (this.list)
 			{
 				case ConsCell<TValue> cell:

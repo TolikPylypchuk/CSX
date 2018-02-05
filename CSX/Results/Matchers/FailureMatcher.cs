@@ -55,8 +55,16 @@ namespace CSX.Results.Matchers
 		/// <see cref="Success{TSuccess, TError}" /> matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public TResult MatchFailure(Func<ConsList<TError>, TResult> func)
 		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
 			switch (this.result)
 			{
 				case Success<TSuccess, TError> success:
@@ -73,8 +81,16 @@ namespace CSX.Results.Matchers
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
 			foreach (var value in this.result)
 			{
 				return this.funcIfSuccess(value);
