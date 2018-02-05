@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using CSX.Collections;
-
-namespace CSX.Lists
+namespace CSX.Collections
 {
 	/// <summary>
 	/// Represents an empty cons list.

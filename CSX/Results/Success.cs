@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using CSX.Lists;
+using CSX.Collections;
 using CSX.Options;
 
 namespace CSX.Results

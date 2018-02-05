@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using CSX.Lists;
+using CSX.Collections;
 using CSX.Options;
 using CSX.Results.Matchers;
 

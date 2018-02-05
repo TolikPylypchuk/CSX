@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CSX.Lists
+namespace CSX.Collections
 {
 	/// <summary>
 	/// Represents cons cell - a case of <see cref="ConsList{T}" />

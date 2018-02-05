@@ -59,7 +59,7 @@ namespace CSX.Results
 		}
 
 		/// <summary>
-		/// Gets or sets the messages of this error.
+		/// Gets the messages of this error.
 		/// </summary>
 		public IList<string> Messages { get; } = new List<string>();
 

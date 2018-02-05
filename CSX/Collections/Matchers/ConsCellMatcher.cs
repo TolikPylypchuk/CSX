@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace CSX.Lists.Matchers
+namespace CSX.Collections.Matchers
 {
 	/// <summary>
-	/// Represents a matcher that is used when <see cref="ConsCell{T}" /> is already matched.
+	/// Represents a matcher that is used when <see cref="Empty{T}" /> is already matched.
 	/// </summary>
 	/// <typeparam name="TValue">The type of the value of the list.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>
-	/// <seealso cref="ConsCellMatcher{TValue, TResult}" />
+	/// <seealso cref="EmptyMatcher{TValue, TResult}" />
 	/// <seealso cref="ConsList{T}" />
 	/// <seealso cref="ConsCell{T}" />
 	/// <seealso cref="Empty{T}" />
-	public class EmptyMatcher<TValue, TResult>
+	public class ConsCellMatcher<TValue, TResult>
 	{
 		/// <summary>
 		/// The list to match against.
@@ -19,46 +19,44 @@ namespace CSX.Lists.Matchers
 		private readonly ConsList<TValue> list;
 
 		/// <summary>
-		/// The function that is executed if this list is a cons cell.
+		/// The function that is executed if this list is empty.
 		/// </summary>
-		private readonly Func<TValue, ConsList<TValue>, TResult> funcIfConsCell;
+		private readonly Func<TResult> funcIfEmpty;
 
 		/// <summary>
 		/// Initializes a new instance of the
-		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
+		/// <see cref="ConsCellMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="list">The list to match against.</param>
-		/// <param name="funcIfConsCell">
-		/// The function that is executed if this list is a cons cell.
+		/// <param name="funcIfEmpty">
+		/// The function that is executed if this list is empty.
 		/// </param>
-		internal EmptyMatcher(
-			ConsList<TValue> list,
-			Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
+		internal ConsCellMatcher(ConsList<TValue> list, Func<TResult> funcIfEmpty)
 		{
 			this.list = list;
-			this.funcIfConsCell = funcIfConsCell;
+			this.funcIfEmpty = funcIfEmpty;
 		}
 
 		/// <summary>
-		/// Returns the result of the specified function if this list is empty.
+		/// Returns the result of the specified function if this list is a cons cell.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <returns>
-		/// If this list is <see cref="ConsCell{T}" />, then the result of the function,
-		/// provided to the <see cref="ConsCell{T}" /> matcher.
+		/// If this list is <see cref="Empty{T}" />, then the result of the function,
+		/// provided to the <see cref="Empty{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
-		public TResult MatchEmpty(Func<TResult> func)
+		public TResult MatchConsCell(Func<TValue, ConsList<TValue>, TResult> func)
 		{
 			switch (this.list)
 			{
 				case ConsCell<TValue> cell:
-					return this.funcIfConsCell(cell.Head, cell.Tail);
+					return func(cell.Head, cell.Tail);
 			}
 
-			return func();
+			return this.funcIfEmpty();
 		}
 
 		/// <summary>
@@ -70,11 +68,11 @@ namespace CSX.Lists.Matchers
 		{
 			switch (this.list)
 			{
-				case ConsCell<TValue> cell:
-					return this.funcIfConsCell(cell.Head, cell.Tail);
+				case ConsCell<TValue> _:
+					return func();
 			}
 
-			return func();
+			return this.funcIfEmpty();
 		}
 	}
 }

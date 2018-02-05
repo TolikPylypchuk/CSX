@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CSX.Collections;
-using CSX.Lists;
 using CSX.Options;
 
 namespace CSX.Results

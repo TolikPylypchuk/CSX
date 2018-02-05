@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using CSX.Lists.Matchers;
+using CSX.Collections.Matchers;
 
-namespace CSX.Lists
+namespace CSX.Collections
 {
 	/// <summary>
 	/// Represents a list, constructed from cons cells.

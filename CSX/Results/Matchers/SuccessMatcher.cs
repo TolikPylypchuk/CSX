@@ -1,6 +1,6 @@
 ﻿using System;
 
-using CSX.Lists;
+using CSX.Collections;
 
 namespace CSX.Results.Matchers
 {
