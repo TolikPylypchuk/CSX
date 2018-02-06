@@ -15,14 +15,24 @@ namespace CSX.Functions
 			Assert.Equal(expected, Identity(expected));
 		}
 
+		[Fact(DisplayName = "Identity returns the argument when it's null")]
+		public void TestIdentityNull()
+		{
+			Assert.Null(Identity<string>(null));
+		}
+
 		[Fact(DisplayName = "Cast returns the argument as base type")]
 		public void TestCast()
 		{
 			const int expected = 1;
-
-			ValueType actual = Cast<int, ValueType>(expected);
-
+			object actual = Cast<int, Object>(expected);
 			Assert.Equal(expected, actual);
+		}
+
+		[Fact(DisplayName = "Cast returns the argument as base type when it's null")]
+		public void TestCastNull()
+		{
+			Assert.Null(Cast<string, Object>(null));
 		}
 
 		[Fact(DisplayName = "Curried<TResult> returns the function")]
@@ -524,8 +534,7 @@ namespace CSX.Functions
 
 			Assert.Equal(2, callNumber);
 		}
-
-
+		
 		[Fact(DisplayName = "Curried<TResult> throws an exception for a null")]
 		public void TestCurriedFunc0Null()
 		{
