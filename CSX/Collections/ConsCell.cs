@@ -40,17 +40,30 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="other">The other list.</param>
 		/// <returns>A concatenation of this list with another list.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="other" /> is <c>null</c>.
+		/// </exception>
 		public override ConsList<T> Add(ConsList<T> other)
-			=> this.Head.AddTo(this.Tail.Add(other));
+			=> other != null
+				? this.Head.AddTo(this.Tail.Add(other))
+				: throw new ArgumentNullException(nameof(other));
 
 		/// <summary>
 		/// Executes a specified action.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="DoIfEmpty(Action)" />
 		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action)
 		{
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action));
+			}
+
 			action(this.Head, this.Tail);
 			return this;
 		}
@@ -58,11 +71,14 @@ namespace CSX.Collections
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="action">Not used.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
-		public override ConsList<T> DoIfEmpty(Action _)
-			=> this;
+		public override ConsList<T> DoIfEmpty(Action action)
+			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
 		/// Applies a specified function to the value of this cell
@@ -71,8 +87,13 @@ namespace CSX.Collections
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>A list consisting of results of the function application.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public override ConsList<V> Map<V>(Func<T, V> func)
-			=> ConsList.From(func(this.Head)).Add(this.Tail.Map(func));
+			=> func != null
+				? ConsList.From(func(this.Head)).Add(this.Tail.Map(func))
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Applies a specified function to the value of this cell
@@ -81,8 +102,13 @@ namespace CSX.Collections
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>A list consisting of results of the function application.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
-			=> func(this.Head).Add(this.Tail.FlatMap(func));
+			=> func != null
+				? func(this.Head).Add(this.Tail.FlatMap(func))
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Executes a specified <paramref name="action" /> for this cell's value and for
@@ -90,8 +116,16 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		public override ConsList<T> ForEach(Action<T> action)
 		{
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action));
+			}
+
 			action(this.Head);
 			this.Tail.ForEach(action);
 			return this;
@@ -101,23 +135,39 @@ namespace CSX.Collections
 		/// Folds this list to a single value from left to right.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="seed">
+		/// The first parameter of the chain of calls to <paramref name="func" />.
+		/// May be <c>null</c>.
+		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public override V Fold<V>(V seed, Func<V, T, V> func)
-			=> this.Tail.Fold(func(seed, this.Head), func);
+			=> func != null
+				? this.Tail.Fold(func(seed, this.Head), func)
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Folds this list to a single value from right to left.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="seed">
+		/// The first parameter of the chain of calls to <paramref name="func" />.
+		/// May be <c>null</c>.
+		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public override V FoldBack<V>(V seed, Func<T, V, V> func)
-			=> func(this.Head, this.Tail.FoldBack(seed, func));
+			=> func != null
+				? func(this.Head, this.Tail.FoldBack(seed, func))
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
@@ -139,7 +189,7 @@ namespace CSX.Collections
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// <c>true</c> if every element of this list equals equals
 		/// another list's corresponding element.
@@ -152,7 +202,7 @@ namespace CSX.Collections
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// <c>true</c> if every element of this list equals equals
 		/// another list's corresponding element.
@@ -165,14 +215,14 @@ namespace CSX.Collections
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be null.</param>
 		/// <returns>
 		/// <c>true</c> if every element of this list equals equals
 		/// another list's corresponding element.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
 		public bool Equals(ConsCell<T> other)
-			=> this.Head.Equals(other.Head) && this.Tail.Equals(other.Tail);
+			=> other != null && this.Head.Equals(other.Head) && this.Tail.Equals(other.Tail);
 
 		/// <summary>
 		/// Gets this object's hash code.

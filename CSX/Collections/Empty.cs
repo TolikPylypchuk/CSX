@@ -21,44 +21,68 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="other">The list to add.</param>
 		/// <returns>The <paramref name="other" /> list.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="other" /> is <c>null</c>.
+		/// </exception>
 		public override ConsList<T> Add(ConsList<T> other)
-			=> other;
+			=> other ?? throw new ArgumentNullException(nameof(other));
 
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
-		/// <param name="_">Not used.</param>
+		/// <param name="func">Not used.</param>
 		/// <returns>An empty list of type <typeparamref name="V" />.</returns>
-		public override ConsList<V> Map<V>(Func<T, V> _)
-			=> ConsList.Empty<V>();
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		public override ConsList<V> Map<V>(Func<T, V> func)
+			=> func != null
+				? ConsList.Empty<V>()
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
-		/// <param name="_">Not used.</param>
+		/// <param name="func">Not used.</param>
 		/// <returns>An empty list of type <typeparamref name="V" />.</returns>
-		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> _)
-			=> ConsList.Empty<V>();
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
+			=> func != null
+				? ConsList.Empty<V>()
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="action">Not used.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="DoIfEmpty(Action)" />
-		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> _)
-			=> this;
+		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action)
+			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
 		/// Executes a specified action.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public override ConsList<T> DoIfEmpty(Action action)
 		{
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action));
+			}
+
 			action();
 			return this;
 		}
@@ -66,34 +90,43 @@ namespace CSX.Collections
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="action">Not used.</param>
 		/// <returns><c>this</c></returns>
-		public override ConsList<T> ForEach(Action<T> _)
-			=> this;
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		public override ConsList<T> ForEach(Action<T> action)
+			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
 		/// Folds this list to a single value from left to right,
 		/// i.e. just returns the seed.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The return value.</param>
-		/// <param name="_">Not used.</param>
+		/// <param name="seed">The return value. May be <c>null</c>.</param>
+		/// <param name="func">Not used.</param>
 		/// <returns><paramref name="seed" /></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
-		public override V Fold<V>(V seed, Func<V, T, V> _)
-			=> seed;
+		public override V Fold<V>(V seed, Func<V, T, V> func)
+			=> func != null ? seed : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Folds this list to a single value from right to left,
 		/// i.e. just returns the seed.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The return value.</param>
-		/// <param name="_">Not used.</param>
+		/// <param name="seed">The return value. May be <c>null</c>.</param>
+		/// <param name="func">Not used.</param>
 		/// <returns><paramref name="seed" /></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
-		public override V FoldBack<V>(V seed, Func<T, V, V> _)
-			=> seed;
+		public override V FoldBack<V>(V seed, Func<T, V, V> func)
+			=> func != null ? seed : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns an empty enumerator.
@@ -107,7 +140,7 @@ namespace CSX.Collections
 		/// whether the <paramref name="other" /> list also has type
 		/// <see cref="Empty{T}" />.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// Returns <c>true</c> if the <paramref name="other" /> list also has type
 		/// <see cref="Empty{T}" />. Otherwise, returns <c>false</c>.
@@ -120,7 +153,7 @@ namespace CSX.Collections
 		/// whether the <paramref name="other" /> list also has type
 		/// <see cref="Empty{T}" />.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// Returns <c>true</c> if the <paramref name="other" /> list also has type
 		/// <see cref="Empty{T}" />. Otherwise, returns <c>false</c>.
@@ -131,7 +164,7 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether this list equals another list and always returns <c>true</c>.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns><c>true</c></returns>
 		public bool Equals(Empty<T> other)
 			=> true;

@@ -26,6 +26,9 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="other">The other list.</param>
 		/// <returns>A concatenation of this list with another list.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="other" /> is <c>null</c>.
+		/// </exception>
 		public abstract ConsList<T> Add(ConsList<T> other);
 
 		/// <summary>
@@ -35,6 +38,9 @@ namespace CSX.Collections
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>A list consisting of results of the function application.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public abstract ConsList<V> Map<V>(Func<T, V> func);
 
 		/// <summary>
@@ -46,6 +52,9 @@ namespace CSX.Collections
 		/// <returns>
 		/// A flattened list consisting of results of the function application.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public abstract ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func);
 
 		/// <summary>
@@ -61,10 +70,15 @@ namespace CSX.Collections
 		/// provided to the <see cref="Empty{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="MatchEmpty{V}(Func{V})" />
 		/// <seealso cref="MatchAny{V}(Func{V})" />
 		public EmptyMatcher<T, V> MatchConsCell<V>(Func<T, ConsList<T>, V> func)
-			=> new EmptyMatcher<T, V>(this, func);
+			=> func != null
+				? new EmptyMatcher<T, V>(this, func)
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns the result of the specified function if this list is
@@ -79,10 +93,15 @@ namespace CSX.Collections
 		/// provided to the <see cref="ConsCell{T}" /> matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
 		/// <seealso cref="MatchAny{V}(Func{V})" />
 		public ConsCellMatcher<T, V> MatchEmpty<V>(Func<V> func)
-			=> new ConsCellMatcher<T, V>(this, func);
+			=> func != null
+				? new ConsCellMatcher<T, V>(this, func)
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns a result of the specified function.
@@ -91,14 +110,22 @@ namespace CSX.Collections
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
 		/// <seealso cref="MatchEmpty{V}(Func{V})" />
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		public V MatchAny<V>(Func<V> func)
-			=> func();
+			=> func != null
+				? func()
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Executes a specified <paramref name="action" /> if this list is a cons cell.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="DoIfEmpty(Action)" />
 		public abstract ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action);
 
@@ -107,6 +134,9 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public abstract ConsList<T> DoIfEmpty(Action action);
 
@@ -115,15 +145,24 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
 		public abstract ConsList<T> ForEach(Action<T> action);
 
 		/// <summary>
 		/// Folds this list to a single value from left to right.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="seed">
+		/// The first parameter of the chain of calls to <paramref name="func" />.
+		/// May be <c>null</c>.
+		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public abstract V Fold<V>(V seed, Func<V, T, V> func);
 
@@ -131,9 +170,15 @@ namespace CSX.Collections
 		/// Folds this list to a single value from right to left.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The first parameter of the chain of calls to func.</param>
+		/// <param name="seed">
+		/// The first parameter of the chain of calls to <paramref name="func" />.
+		/// May be <c>null</c>.
+		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public abstract V FoldBack<V>(V seed, Func<T, V, V> func);
 
@@ -149,7 +194,7 @@ namespace CSX.Collections
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// <c>true</c> if every element of this list equals equals
 		/// another list's corresponding element.
@@ -161,7 +206,7 @@ namespace CSX.Collections
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
 		/// </summary>
-		/// <param name="other">The list to compare to.</param>
+		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// <c>true</c> if every element of this list equals equals
 		/// another list's corresponding element.
@@ -200,8 +245,15 @@ namespace CSX.Collections
 		/// A result of concatenation of the <paramref name="list" />
 		/// to the <paramref name="item" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="item" /> or <paramref name="list" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> operator +(T item, ConsList<T> list)
-			=> item.AddTo(list);
+			=> item != null
+				? list != null
+					? item.AddTo(list)
+					: throw new ArgumentNullException(nameof(list))
+				: throw new ArgumentNullException(nameof(item));
 
 		/// <summary>
 		/// Concatenates an <paramref name="item" /> to a <paramref name="list" />
@@ -213,8 +265,15 @@ namespace CSX.Collections
 		/// A result of concatenation of the <paramref name="item" />
 		/// to the <paramref name="list" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="list" /> or <paramref name="item" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> operator +(ConsList<T> list, T item)
-			=> list.Add(ConsList.From(item));
+			=> list != null
+				? item != null
+					? list.Add(ConsList.From(item))
+					: throw new ArgumentNullException(nameof(item))
+				: throw new ArgumentNullException(nameof(list));
 
 		/// <summary>
 		/// Returns a concatenation of two lists.
@@ -222,8 +281,15 @@ namespace CSX.Collections
 		/// <param name="a">The first list.</param>
 		/// <param name="b">The second list.</param>
 		/// <returns>A concatenation of two lists.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="a" /> or <paramref name="b" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> operator +(ConsList<T> a, ConsList<T> b)
-			=> a.Add(b);
+			=> a != null
+				? b != null
+					? a.Add(b)
+					: throw new ArgumentNullException(nameof(b))
+				: throw new ArgumentNullException(nameof(a));
 	}
 
 	/// <summary>
@@ -233,17 +299,20 @@ namespace CSX.Collections
 	public static class ConsList
 	{
 		/// <summary>
-		/// Constructs a list containing one <paramref name="item" />
-		/// or an empty list if <paramref name="item" /> is <c>null</c>.
+		/// Constructs a list containing one <paramref name="item" />.
 		/// </summary>
 		/// <typeparam name="T">The type of the item.</typeparam>
 		/// <param name="item">The item of the list.</param>
 		/// <returns>
-		/// A list containing one <paramref name="item" />
-		/// or an empty list if <paramref name="item" /> is <c>null</c>.
+		/// A list containing one <paramref name="item" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="item" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> From<T>(T item)
-			=> item != null ? new ConsCell<T>(item, Empty<T>()) : Empty<T>();
+			=> item != null
+				? new ConsCell<T>(item, Empty<T>())
+				: throw new ArgumentNullException(nameof(item));
 
 		/// <summary>
 		/// Constructs a shallow copy of the specified <paramref name="collection" />.
@@ -267,8 +336,13 @@ namespace CSX.Collections
 		/// <typeparam name="T">The type of the items.</typeparam>
 		/// <param name="items">The items of the list.</param>
 		/// <returns>A list from specified <paramref name="items" />.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="items" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> Construct<T>(params T[] items)
-			=> Copy(items);
+			=> items != null
+				? Copy(items)
+				: throw new ArgumentNullException(nameof(items));
 
 		/// <summary>
 		/// Constructs an empty list.
@@ -288,8 +362,15 @@ namespace CSX.Collections
 		/// A result of concatenation of the <paramref name="list" />
 		/// to the <paramref name="item" />.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="item" /> or <paramref name="list" /> is <c>null</c>.
+		/// </exception>
 		public static ConsList<T> AddTo<T>(this T item, ConsList<T> list)
-			=> item != null ? new ConsCell<T>(item, list) : list;
+			=> item != null
+				? list != null
+					? new ConsCell<T>(item, list)
+					: throw new ArgumentNullException(nameof(list))
+				: throw new ArgumentNullException(nameof(item));
 
 		/// <summary>
 		/// Returns a function which maps the provided list when called.
@@ -302,13 +383,17 @@ namespace CSX.Collections
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
 		public static Func<ConsList<T>, ConsList<V>> Lift<T, V>(this Func<T, V> func)
-			=> func != null
-				? (Func<ConsList<T>, ConsList<V>>)
-					(values =>
-						values != null
-							? values.Map(func)
-							: throw new ArgumentNullException(nameof(values)))
-				: throw new ArgumentNullException(nameof(func));
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return values =>
+				values != null
+					? values.Map(func)
+					: throw new ArgumentNullException(nameof(values));
+		}
 
 		/// <summary>
 		/// Creates a cartesian product of two lists, which consists
@@ -326,12 +411,16 @@ namespace CSX.Collections
 		/// </exception>
 		public static Func<ConsList<T>, ConsList<V>> Apply<T, V>(
 			this ConsList<Func<T, V>> funcList)
-			=> funcList != null
-				? (Func<ConsList<T>, ConsList<V>>)
-					(values =>
-						values != null
-							? funcList.FlatMap(values.Map)
-							: throw new ArgumentNullException(nameof(values)))
-				: throw new ArgumentNullException(nameof(funcList));
+		{
+			if (funcList == null)
+			{
+				throw new ArgumentNullException(nameof(funcList));
+			}
+
+			return values =>
+				values != null
+					? funcList.FlatMap(values.Map)
+					: throw new ArgumentNullException(nameof(values));
+		}
 	}
 }
