@@ -36,6 +36,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
 		public override ConsList<V> Map<V>(Func<T, V> func)
 			=> func != null
 				? ConsList.Empty<V>()
@@ -50,6 +51,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Map{V}(Func{T, V})" />
 		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
 			=> func != null
 				? ConsList.Empty<V>()
@@ -137,8 +139,7 @@ namespace CSX.Collections
 
 		/// <summary>
 		/// Checks whether this list equals another list, i.e.
-		/// whether the <paramref name="other" /> list also has type
-		/// <see cref="Empty{T}" />.
+		/// whether the <paramref name="other" /> list is also empty.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
@@ -150,8 +151,7 @@ namespace CSX.Collections
 
 		/// <summary>
 		/// Checks whether this list equals another list, i.e.
-		/// whether the <paramref name="other" /> list also has type
-		/// <see cref="Empty{T}" />.
+		/// whether the <paramref name="other" /> list is also empty.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
@@ -162,12 +162,15 @@ namespace CSX.Collections
 			=> other is Empty<T>;
 
 		/// <summary>
-		/// Checks whether this list equals another list and always returns <c>true</c>.
+		/// Checks whether this list equals another list.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
-		/// <returns><c>true</c></returns>
+		/// <returns>
+		/// <c>true</c> if <paramref name="other" /> isn't <c>null</c>.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
 		public bool Equals(Empty<T> other)
-			=> true;
+			=> other != null;
 
 		/// <summary>
 		/// Returns <c>1</c>.

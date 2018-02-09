@@ -20,7 +20,8 @@ namespace CSX.Options
 		internal None() { }
 
 		/// <summary>
-		/// Returns the <paramref name="alternative" /> value.
+		/// Returns the alternative value.
+		/// The alternative may be <c>null</c>.
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
@@ -42,55 +43,92 @@ namespace CSX.Options
 		/// Returns an empty option of type <typeparamref name="V" />.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="_">Not used.</param>
+		/// <param name="func">Not used.</param>
 		/// <returns>An empty option of type <typeparamref name="V" />.</returns>
-		public override Option<V> Map<V>(Func<T, V> _)
-			=> Option.Empty<V>();
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Bind{V}(Func{T, Option{V}})" />
+		public override Option<V> Map<V>(Func<T, V> func)
+			=> func != null
+				? Option.Empty<V>()
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns an empty option of type <typeparamref name="V" />.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="_">Not used.</param>
+		/// <param name="func">Not used.</param>
 		/// <returns>An empty option of type <typeparamref name="V" />.</returns>
-		public override Option<V> Bind<V>(Func<T, Option<V>> _)
-			=> Option.Empty<V>();
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <see cref="Map{V}(Func{T, V})" />
+		public override Option<V> Bind<V>(Func<T, Option<V>> func)
+			=> func != null
+				? Option.Empty<V>()
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="action">Not used.</param>
 		/// <returns><c>this</c></returns>
-		public override Option<T> DoIfSome(Action<T> _)
-			=> this;
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="DoIfNone(Action)" />
+		public override Option<T> DoIfSome(Action<T> action)
+			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
 		/// Executes a specified <paramref name="action" />.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="DoIfSome(Action{T})" />
 		public override Option<T> DoIfNone(Action action)
 		{
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action));
+			}
+
 			action();
 			return this;
 		}
-		
+
 		/// <summary>
 		/// Converts this option to a failure.
 		/// </summary>
 		/// <param name="error">The error to return.</param>
 		/// <typeparam name="TError">The type of the error.</typeparam>
 		/// <returns>Failure(<paramref name="error" />)</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="error" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="ToResult(string)" />
 		public override Result<T, TError> ToResult<TError>(TError error)
-			=> Result.Fail<T, TError>(error);
+			=> error != null
+				? Result.Fail<T, TError>(error)
+				: throw new ArgumentNullException(nameof(error));
 
 		/// <summary>
 		/// Converts this option to a failure.
 		/// </summary>
 		/// <param name="error">The error to return.</param>
 		/// <returns>Failure(<paramref name="error" />)</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="error" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="ToResult{TError}(TError)" />
 		public override Result<T, string> ToResult(string error)
-			=> Result.Fail<T>(error);
+			=> error != null
+				? Result.Fail<T>(error)
+				: throw new ArgumentNullException(nameof(error));
 		
 		/// <summary>
 		/// Returns an empty enumerator.
@@ -126,12 +164,15 @@ namespace CSX.Options
 			=> other is None<T>;
 
 		/// <summary>
-		/// Checks whether this object equals another object and always returns <c>true</c>.
+		/// Checks whether this object equals another object.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
-		/// <returns><c>true</c></returns>
+		/// <returns>
+		/// <c>true</c> if <paramref name="other" /> isn't <c>null</c>.
+		/// Otherwise, <c>false</c>.
+		/// </returns>
 		public bool Equals(None<T> other)
-			=> true;
+			=> other != null;
 
 		/// <summary>
 		/// Returns <c>1</c>.

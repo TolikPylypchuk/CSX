@@ -90,6 +90,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
 		public override ConsList<V> Map<V>(Func<T, V> func)
 			=> func != null
 				? ConsList.From(func(this.Head)).Add(this.Tail.Map(func))
@@ -105,6 +106,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Map{V}(Func{T, V})" />
 		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
 			=> func != null
 				? func(this.Head).Add(this.Tail.FlatMap(func))

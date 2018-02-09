@@ -28,16 +28,17 @@ namespace CSX.Options
 		/// <summary>
 		/// Returns the value of this option.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="alternative">Not used.</param>
 		/// <returns>The value of this option.</returns>
-		public override T GetOrElse(T _) => this.Value;
+		public override T GetOrElse(T alternative)
+			=> this.Value;
 
 		/// <summary>
 		/// Returns the value of this option.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="message">Not used.</param>
 		/// <returns>The value of this option.</returns>
-		public override T GetOrThrow(string _ = "The value is not present.")
+		public override T GetOrThrow(string message = "The value is not present.")
 			=> this.Value;
 
 		/// <summary>
@@ -46,10 +47,16 @@ namespace CSX.Options
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>
-		/// Some(func(value)).
+		/// <c>Some(func(value))</c>.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Bind{V}(Func{T, Option{V}})" />
 		public override Option<V> Map<V>(Func<T, V> func)
-			=> Option.From(func(this.Value));
+			=> func != null
+				? Option.From(func(this.Value))
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Applies a specified function to this value.
@@ -57,18 +64,33 @@ namespace CSX.Options
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>
-		/// func(value).
+		/// <c>func(value)</c>.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Map{V}(Func{T, V})" />
 		public override Option<V> Bind<V>(Func<T, Option<V>> func)
-			=> func(this.Value);
+			=> func != null
+				? func(this.Value)
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Executes a specified <paramref name="action" /> on this value.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="DoIfNone(Action)" />
 		public override Option<T> DoIfSome(Action<T> action)
 		{
+			if (action == null)
+			{
+				throw new ArgumentNullException(nameof(action));
+			}
+
 			action(this.Value);
 			return this;
 		}
@@ -76,27 +98,43 @@ namespace CSX.Options
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
-		/// <param name="_">Not used.</param>
+		/// <param name="action">Not used.</param>
 		/// <returns><c>this</c></returns>
-		public override Option<T> DoIfNone(Action _)
-			=> this;
-		
-		/// <summary>
-		/// Converts this option to a success.
-		/// </summary>
-		/// <param name="_">Not used.</param>
-		/// <typeparam name="TError">The type of the error.</typeparam>
-		/// <returns>Success(value)</returns>
-		public override Result<T, TError> ToResult<TError>(TError _)
-			=> Result.Succeed<T, TError>(this.Value);
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="DoIfSome(Action{T})" />
+		public override Option<T> DoIfNone(Action action)
+			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
 		/// Converts this option to a success.
 		/// </summary>
-		/// <param name="_">Not used.</param>
-		/// <returns>Success(value)</returns>
-		public override Result<T, string> ToResult(string _)
-			=> Result.Succeed(this.Value);
+		/// <param name="error">Not used.</param>
+		/// <typeparam name="TError">The type of the error.</typeparam>
+		/// <returns><c>Success(value)</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="error" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="ToResult(string)" />
+		public override Result<T, TError> ToResult<TError>(TError error)
+			=> error != null
+				? Result.Succeed<T, TError>(this.Value)
+				: throw new ArgumentNullException(nameof(error));
+
+		/// <summary>
+		/// Converts this option to a success.
+		/// </summary>
+		/// <param name="error">Not used.</param>
+		/// <returns><c>Success(value)</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="error" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="ToResult{TError}(TError)" />
+		public override Result<T, string> ToResult(string error)
+			=> error != null
+				? Result.Succeed(this.Value)
+				: throw new ArgumentNullException(nameof(error));
 		
 		/// <summary>
 		/// Returns an enumerator which contains this value.
@@ -109,6 +147,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Checks whether this value equals another value.
+		/// The other value may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
@@ -120,6 +159,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Checks whether this value equals another value.
+		/// The other value may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
@@ -131,6 +171,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Checks whether this value equals another value.
+		/// The other value may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
@@ -138,7 +179,7 @@ namespace CSX.Options
 		/// Otherwise, <c>false</c>.
 		/// </returns>
 		public bool Equals(Some<T> other)
-			=> this.Value.Equals(other.Value);
+			=> other != null && this.Value.Equals(other.Value);
 
 		/// <summary>
 		/// Gets this value's hash code.

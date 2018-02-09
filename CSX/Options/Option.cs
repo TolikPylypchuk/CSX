@@ -23,6 +23,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Gets the value if it's present, or an alternative otherwise.
+		/// The alternative may be <c>null</c>.
 		/// </summary>
 		/// <param name="alternative">
 		/// The value to provide if this option doesn't have one.
@@ -46,8 +47,12 @@ namespace CSX.Options
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>
-		/// Some(func(value)) if the value is present and None otherwise.
+		/// <c>Some(func(value))</c> if the value is present and <c>None</c> otherwise.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Bind{V}(Func{T, Option{V}})" />
 		public abstract Option<V> Map<V>(Func<T, V> func);
 
 		/// <summary>
@@ -56,8 +61,12 @@ namespace CSX.Options
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
 		/// <returns>
-		/// func(value) if the value is present and None otherwise.
+		/// <c>func(value)</c> if the value is present and None otherwise.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Map{V}(Func{T, V})" />
 		public abstract Option<V> Bind<V>(Func<T, Option<V>> func);
 
 		/// <summary>
@@ -73,8 +82,15 @@ namespace CSX.Options
 		/// provided to the <see cref="None{T}" /> matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="MatchNone{V}(Func{V})" />
+		/// <seealso cref="MatchAny{V}(Func{V})" />
 		public NoneMatcher<T, V> MatchSome<V>(Func<T, V> func)
-			=> new NoneMatcher<T, V>(this, func);
+			=> func != null
+				? new NoneMatcher<T, V>(this, func)
+				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns the result of the specified function if this option is
@@ -89,22 +105,38 @@ namespace CSX.Options
 		/// provided to the <see cref="Some{T}" /> matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="MatchSome{V}(Func{T, V})" />
+		/// <seealso cref="MatchAny{V}(Func{V})" />
 		public SomeMatcher<T, V> MatchNone<V>(Func<V> func)
-			=> new SomeMatcher<T, V>(this, func);
-		
+			=> func != null
+				? new SomeMatcher<T, V>(this, func)
+				: throw new ArgumentNullException(nameof(func));
+
 		/// <summary>
 		/// Returns a result of the specified function.
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="MatchSome{V}(Func{T, V})" />
+		/// <seealso cref="MatchNone{V}(Func{V})" />
 		public V MatchAny<V>(Func<V> func)
-			=> func();
-		
+			=> func != null ? func() : throw new ArgumentNullException(nameof(func));
+
 		/// <summary>
 		/// Executes a specified <paramref name="action" /> if the value is present.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="DoIfNone(Action)" />
 		public abstract Option<T> DoIfSome(Action<T> action);
 
 		/// <summary>
@@ -112,6 +144,10 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><c>this</c></returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="action" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="DoIfSome(Action{T})" />
 		public abstract Option<T> DoIfNone(Action action);
 
 		/// <summary>
@@ -122,9 +158,13 @@ namespace CSX.Options
 		/// </param>
 		/// <typeparam name="TError">The type of the error.</typeparam>
 		/// <returns>
-		/// Success(value) if the value is present.
-		/// Otherwise, Failure(<paramref name="error" />).
+		/// <c>Success(value)</c> if the value is present.
+		/// Otherwise, <c>Failure(error)</c>.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="error" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="ToResult(string)" />
 		public abstract Result<T, TError> ToResult<TError>(TError error);
 
 		/// <summary>
@@ -134,9 +174,13 @@ namespace CSX.Options
 		/// The error to return if the value is absent.
 		/// </param>
 		/// <returns>
-		/// Success(value) if the value is present.
-		/// Otherwise, Failure(<paramref name="error" />).
+		/// <c>Success(value)</c> if the value is present.
+		/// Otherwise, <c>Failure(error)</c>.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="error" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="ToResult{TError}(TError)" />
 		public abstract Result<T, string> ToResult(string error);
 
 		/// <summary>
@@ -151,6 +195,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Checks whether this value equals another value.
+		/// The other value may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
@@ -161,6 +206,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Checks whether this value equals another value.
+		/// The other value may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
@@ -212,7 +258,9 @@ namespace CSX.Options
 		/// An option which contains the <paramref name="value" />
 		/// or <see cref="None{T}" /> if the value is <c>null</c>.
 		/// </returns>
+		/// <seealso cref="From{T}(T?)" />
 		/// <seealso cref="ToOption{T}(T)" />
+		/// <seealso cref="ToOption{T}(T?)" />
 		public static Option<T> From<T>(T value)
 			=> value != null ? new Some<T>(value) : Empty<T>();
 
@@ -229,6 +277,8 @@ namespace CSX.Options
 		/// An option which contains the <paramref name="value" />
 		/// or <see cref="None{T}" /> if the value is <c>null</c>.
 		/// </returns>
+		/// <seealso cref="From{T}(T)" />
+		/// <seealso cref="ToOption{T}(T)" />
 		/// <seealso cref="ToOption{T}(T?)" />
 		public static Option<T> From<T>(T? value)
 			where T : struct
@@ -258,6 +308,8 @@ namespace CSX.Options
 		/// or <see cref="None{T}" /> if the value is <c>null</c>.
 		/// </returns>
 		/// <seealso cref="From{T}(T)" />
+		/// <seealso cref="From{T}(T?)" />
+		/// <seealso cref="ToOption{T}(T?)" />
 		public static Option<T> ToOption<T>(this T value)
 			=> From(value);
 
@@ -274,7 +326,9 @@ namespace CSX.Options
 		/// An option which contains the <paramref name="value" />
 		/// or <see cref="None{T}" /> if the value is <c>null</c>.
 		/// </returns>
+		/// <seealso cref="From{T}(T)" />
 		/// <seealso cref="From{T}(T?)" />
+		/// <seealso cref="ToOption{T}(T)" />
 		public static Option<T> ToOption<T>(this T? value)
 			where T : struct
 			=> From(value);
@@ -290,13 +344,17 @@ namespace CSX.Options
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
 		public static Func<Option<T>, Option<V>> Lift<T, V>(Func<T, V> func)
-			=> func != null
-				? (Func<Option<T>, Option<V>>)
-					(value =>
-						value != null
-						? value.Map(func)
-						: throw new ArgumentNullException(nameof(value)))
-				: throw new ArgumentNullException(nameof(func));
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return value =>
+				value != null
+					? value.Map(func)
+					: throw new ArgumentNullException(nameof(value));
+		}
 
 		/// <summary>
 		/// Applies a specified function, if it's present, to a value,
@@ -314,12 +372,16 @@ namespace CSX.Options
 		/// </exception>
 		public static Func<Option<T>, Option<V>> Apply<T, V>(
 			this Option<Func<T, V>> func)
-			=> func != null
-				? (Func<Option<T>, Option<V>>)
-					(value =>
-						value != null
-						? func.Bind(value.Map)
-						: throw new ArgumentNullException(nameof(value)))
-				: throw new ArgumentNullException(nameof(func));
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return value =>
+				value != null
+					? func.Bind(value.Map)
+					: throw new ArgumentNullException(nameof(value));
+		}
 	}
 }

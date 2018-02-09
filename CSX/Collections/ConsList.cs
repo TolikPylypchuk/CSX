@@ -41,6 +41,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
 		public abstract ConsList<V> Map<V>(Func<T, V> func);
 
 		/// <summary>
@@ -55,6 +56,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Map{V}(Func{T, V})" />
 		public abstract ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func);
 
 		/// <summary>
@@ -113,6 +115,8 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
+		/// <seealso cref="MatchEmpty{V}(Func{V})" />
 		public V MatchAny<V>(Func<V> func)
 			=> func != null
 				? func()
