@@ -190,6 +190,7 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
@@ -197,12 +198,16 @@ namespace CSX.Collections
 		/// another list's corresponding element.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="Equals(ConsCell{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(object other)
 			=> other is ConsCell<T> otherCell && this.Equals(otherCell);
 
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
@@ -210,12 +215,16 @@ namespace CSX.Collections
 		/// another list's corresponding element.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(ConsCell{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(ConsList<T> other)
 			=> other is ConsCell<T> otherCell && this.Equals(otherCell);
 
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be null.</param>
 		/// <returns>
@@ -223,6 +232,9 @@ namespace CSX.Collections
 		/// another list's corresponding element.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="GetHashCode" />
 		public bool Equals(ConsCell<T> other)
 			=> other != null && this.Head.Equals(other.Head) && this.Tail.Equals(other.Tail);
 
@@ -230,6 +242,9 @@ namespace CSX.Collections
 		/// Gets this object's hash code.
 		/// </summary>
 		/// <returns>This object's hash code.</returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="Equals(ConsCell{T})" />
 		public override int GetHashCode()
 			=> this.Map(item => item.GetHashCode())
 			       .Fold(String.Empty, (acc, code) => $"{acc} {code}")

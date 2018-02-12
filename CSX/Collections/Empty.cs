@@ -140,35 +140,47 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether this list equals another list, i.e.
 		/// whether the <paramref name="other" /> list is also empty.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// Returns <c>true</c> if the <paramref name="other" /> list also has type
 		/// <see cref="Empty{T}" />. Otherwise, returns <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="Equals(Empty{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(object other)
 			=> other is Empty<T>;
 
 		/// <summary>
 		/// Checks whether this list equals another list, i.e.
 		/// whether the <paramref name="other" /> list is also empty.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// Returns <c>true</c> if the <paramref name="other" /> list also has type
 		/// <see cref="Empty{T}" />. Otherwise, returns <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Empty{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(ConsList<T> other)
 			=> other is Empty<T>;
 
 		/// <summary>
 		/// Checks whether this list equals another list.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
 		/// <c>true</c> if <paramref name="other" /> isn't <c>null</c>.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="GetHashCode" />
 		public bool Equals(Empty<T> other)
 			=> other != null;
 
@@ -176,6 +188,9 @@ namespace CSX.Collections
 		/// Returns <c>1</c>.
 		/// </summary>
 		/// <returns><c>1</c></returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="Equals(Empty{T})" />
 		public override int GetHashCode()
 			=> 1;
 

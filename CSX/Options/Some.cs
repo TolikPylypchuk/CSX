@@ -30,6 +30,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="alternative">Not used.</param>
 		/// <returns>The value of this option.</returns>
+		/// <seealso cref="GetOrThrow(string)" />
 		public override T GetOrElse(T alternative)
 			=> this.Value;
 
@@ -38,6 +39,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="message">Not used.</param>
 		/// <returns>The value of this option.</returns>
+		/// <seealso cref="GetOrElse(T)" />
 		public override T GetOrThrow(string message = "The value is not present.")
 			=> this.Value;
 
@@ -154,6 +156,9 @@ namespace CSX.Options
 		/// <c>true</c> if this value equals other's value.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="Equals(Some{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(object other)
 			=> other is Some<T> otherSome && this.Equals(otherSome);
 
@@ -166,6 +171,9 @@ namespace CSX.Options
 		/// <c>true</c> if this value equals other's value.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Some{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(Option<T> other)
 			=> other is Some<T> otherSome && this.Equals(otherSome);
 
@@ -178,6 +186,9 @@ namespace CSX.Options
 		/// <c>true</c> if this value equals other's value.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="GetHashCode" />
 		public bool Equals(Some<T> other)
 			=> other != null && this.Value.Equals(other.Value);
 
@@ -185,6 +196,9 @@ namespace CSX.Options
 		/// Gets this value's hash code.
 		/// </summary>
 		/// <returns>This value's hash code.</returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="Equals(Some{T})" />
 		public override int GetHashCode()
 			=> this.Value.GetHashCode();
 

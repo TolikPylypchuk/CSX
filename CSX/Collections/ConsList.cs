@@ -66,7 +66,7 @@ namespace CSX.Collections
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
-		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
 		/// If this list is <see cref="Empty{T}" />, then the result of the function,
 		/// provided to the <see cref="Empty{T}" /> matcher.
@@ -75,11 +75,12 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
-		/// <seealso cref="MatchEmpty{V}(Func{V})" />
-		/// <seealso cref="MatchAny{V}(Func{V})" />
-		public EmptyMatcher<T, V> MatchConsCell<V>(Func<T, ConsList<T>, V> func)
+		/// <seealso cref="MatchEmpty{TResult}(Func{TResult})" />
+		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
+		public EmptyMatcher<T, TResult> MatchConsCell<TResult>(
+			Func<T, ConsList<T>, TResult> func)
 			=> func != null
-				? new EmptyMatcher<T, V>(this, func)
+				? new EmptyMatcher<T, TResult>(this, func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
@@ -89,7 +90,7 @@ namespace CSX.Collections
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
-		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
 		/// If this list is a <see cref="ConsCell{T}" />, then the result of the function,
 		/// provided to the <see cref="ConsCell{T}" /> matcher.
@@ -98,26 +99,25 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
-		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
-		/// <seealso cref="MatchAny{V}(Func{V})" />
-		public ConsCellMatcher<T, V> MatchEmpty<V>(Func<V> func)
+		/// <seealso cref="MatchConsCell{TResult}(Func{T, ConsList{T}, TResult})" />
+		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
+		public ConsCellMatcher<T, TResult> MatchEmpty<TResult>(Func<TResult> func)
 			=> func != null
-				? new ConsCellMatcher<T, V>(this, func)
+				? new ConsCellMatcher<T, TResult>(this, func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns a result of the specified function.
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>The result of <paramref name="func" />.</returns>
-		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
-		/// <seealso cref="MatchEmpty{V}(Func{V})" />
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
-		/// <seealso cref="MatchConsCell{V}(Func{T, ConsList{T}, V})" />
-		/// <seealso cref="MatchEmpty{V}(Func{V})" />
-		public V MatchAny<V>(Func<V> func)
+		/// <seealso cref="MatchConsCell{TResult}(Func{T, ConsList{T}, TResult})" />
+		/// <seealso cref="MatchEmpty{TResult}(Func{TResult})" />
+		public TResult MatchAny<TResult>(Func<TResult> func)
 			=> func != null
 				? func()
 				: throw new ArgumentNullException(nameof(func));
@@ -197,6 +197,7 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
@@ -204,11 +205,14 @@ namespace CSX.Collections
 		/// another list's corresponding element.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(ConsList{T})" />
+		/// <seealso cref="GetHashCode" />
 		public abstract override bool Equals(object other);
 
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
+		/// The other list may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
 		/// <returns>
@@ -216,12 +220,15 @@ namespace CSX.Collections
 		/// another list's corresponding element.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
 		public abstract bool Equals(ConsList<T> other);
 
 		/// <summary>
 		/// Gets this object's hash code.
 		/// </summary>
 		/// <returns>This object's hash code.</returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(ConsList{T})" />
 		public abstract override int GetHashCode();
 
 		/// <summary>
@@ -386,6 +393,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Apply{T, V}(ConsList{Func{T, V}})" />
 		public static Func<ConsList<T>, ConsList<V>> Lift<T, V>(this Func<T, V> func)
 		{
 			if (func == null)
@@ -413,6 +421,7 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="funcList" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Lift{T, V}(Func{T, V})" />
 		public static Func<ConsList<T>, ConsList<V>> Apply<T, V>(
 			this ConsList<Func<T, V>> funcList)
 		{

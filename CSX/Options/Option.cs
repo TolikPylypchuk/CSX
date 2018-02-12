@@ -29,6 +29,7 @@ namespace CSX.Options
 		/// The value to provide if this option doesn't have one.
 		/// </param>
 		/// <returns>The value if it's present, or an alternative otherwise.</returns>
+		/// <seealso cref="GetOrThrow(string)" />
 		public abstract T GetOrElse(T alternative);
 
 		/// <summary>
@@ -39,6 +40,7 @@ namespace CSX.Options
 		/// <exception cref="OptionAbsentException">
 		/// The value is not present.
 		/// </exception>
+		/// <seealso cref="GetOrElse(T)" />
 		public abstract T GetOrThrow(string message = "The value is not present.");
 
 		/// <summary>
@@ -76,7 +78,7 @@ namespace CSX.Options
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
-		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
 		/// If this option is <see cref="None{T}" />, then the result of the function,
 		/// provided to the <see cref="None{T}" /> matcher.
@@ -85,11 +87,11 @@ namespace CSX.Options
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
-		/// <seealso cref="MatchNone{V}(Func{V})" />
-		/// <seealso cref="MatchAny{V}(Func{V})" />
-		public NoneMatcher<T, V> MatchSome<V>(Func<T, V> func)
+		/// <seealso cref="MatchNone{TResult}(Func{TResult})" />
+		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
+		public NoneMatcher<T, TResult> MatchSome<TResult>(Func<T, TResult> func)
 			=> func != null
-				? new NoneMatcher<T, V>(this, func)
+				? new NoneMatcher<T, TResult>(this, func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
@@ -99,7 +101,7 @@ namespace CSX.Options
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
-		/// <typeparam name="V">The type of the match result.</typeparam>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
 		/// If this option is <see cref="Some{T}" />, then the result of the function,
 		/// provided to the <see cref="Some{T}" /> matcher.
@@ -108,24 +110,25 @@ namespace CSX.Options
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
-		/// <seealso cref="MatchSome{V}(Func{T, V})" />
-		/// <seealso cref="MatchAny{V}(Func{V})" />
-		public SomeMatcher<T, V> MatchNone<V>(Func<V> func)
+		/// <seealso cref="MatchSome{TResult}(Func{T, TResult})" />
+		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
+		public SomeMatcher<T, TResult> MatchNone<TResult>(Func<TResult> func)
 			=> func != null
-				? new SomeMatcher<T, V>(this, func)
+				? new SomeMatcher<T, TResult>(this, func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Returns a result of the specified function.
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
-		/// <seealso cref="MatchSome{V}(Func{T, V})" />
-		/// <seealso cref="MatchNone{V}(Func{V})" />
-		public V MatchAny<V>(Func<V> func)
+		/// <seealso cref="MatchSome{TResult}(Func{T, TResult})" />
+		/// <seealso cref="MatchNone{TResult}(Func{TResult})" />
+		public TResult MatchAny<TResult>(Func<TResult> func)
 			=> func != null ? func() : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
@@ -202,6 +205,8 @@ namespace CSX.Options
 		/// <c>true</c> if this value equals other's value.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="GetHashCode" />
 		public abstract override bool Equals(object other);
 
 		/// <summary>
@@ -213,12 +218,16 @@ namespace CSX.Options
 		/// <c>true</c> if this value equals other's value.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="GetHashCode" />
 		public abstract bool Equals(Option<T> other);
 
 		/// <summary>
 		/// Gets this value's hash code.
 		/// </summary>
 		/// <returns>This value's hash code.</returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Option{T})" />
 		public abstract override int GetHashCode();
 
 		/// <summary>
@@ -343,6 +352,7 @@ namespace CSX.Options
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Apply{T, V}(Option{Func{T, V}})" />
 		public static Func<Option<T>, Option<V>> Lift<T, V>(Func<T, V> func)
 		{
 			if (func == null)
@@ -370,6 +380,7 @@ namespace CSX.Options
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Lift{T, V}(Func{T, V})" />
 		public static Func<Option<T>, Option<V>> Apply<T, V>(
 			this Option<Func<T, V>> func)
 		{

@@ -25,6 +25,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
+		/// <seealso cref="GetOrThrow(string)" />
 		public override T GetOrElse(T alternative)
 			=> alternative;
 
@@ -36,6 +37,7 @@ namespace CSX.Options
 		/// <exception cref="OptionAbsentException">
 		/// Thrown unconditionally.
 		/// </exception>
+		/// <seealso cref="GetOrElse(T)" />
 		public override T GetOrThrow(string message = "The value is not present.")
 			=> throw new OptionAbsentException(message);
 
@@ -141,12 +143,16 @@ namespace CSX.Options
 		/// Checks whether this object equals another object, i.e.
 		/// whether the <paramref name="other" /> object also has type
 		/// <see cref="None{T}" />.
+		/// The other object may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
 		/// Returns <c>true</c> if the <paramref name="other" /> object also has type
 		/// <see cref="None{T}" />. Otherwise, returns <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="Equals(None{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(object other)
 			=> other is None<T>;
 
@@ -154,23 +160,31 @@ namespace CSX.Options
 		/// Checks whether this object equals another object, i.e.
 		/// whether the <paramref name="other" /> object also has type
 		/// <see cref="None{T}" />.
+		/// The other object may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
 		/// Returns <c>true</c> if the <paramref name="other" /> object also has type
 		/// <see cref="None{T}" />. Otherwise, returns <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(None{T})" />
+		/// <seealso cref="GetHashCode" />
 		public override bool Equals(Option<T> other)
 			=> other is None<T>;
 
 		/// <summary>
 		/// Checks whether this object equals another object.
+		/// The other object may be <c>null</c>.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
 		/// <c>true</c> if <paramref name="other" /> isn't <c>null</c>.
 		/// Otherwise, <c>false</c>.
 		/// </returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="GetHashCode" />
 		public bool Equals(None<T> other)
 			=> other != null;
 
@@ -178,6 +192,9 @@ namespace CSX.Options
 		/// Returns <c>1</c>.
 		/// </summary>
 		/// <returns><c>1</c></returns>
+		/// <seealso cref="Equals(object)" />
+		/// <seealso cref="Equals(Option{T})" />
+		/// <seealso cref="Equals(None{T})" />
 		public override int GetHashCode()
 			=> 1;
 
