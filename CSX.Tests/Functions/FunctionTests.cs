@@ -573,56 +573,57 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T5, TResult> throws an exception for a null")]
 		public void TestCurriedFunc5Null()
 		{
-			Func<int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T6, TResult> throws an exception for a null")]
 		public void TestCurriedFunc6Null()
 		{
-			Func<int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T7, TResult> throws an exception for a null")]
 		public void TestCurriedFunc7Null()
 		{
-			Func<int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T8, TResult> throws an exception for a null")]
 		public void TestCurriedFunc8Null()
 		{
-			Func<int, int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T9, TResult> throws an exception for a null")]
 		public void TestCurriedFunc9Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T10, TResult> throws an exception for a null")]
 		public void TestCurriedFunc10Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T11, TResult> throws an exception for a null")]
 		public void TestCurriedFunc11Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T12, TResult> throws an exception for a null")]
 		public void TestCurriedFunc12Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int,
+				int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
@@ -630,7 +631,7 @@ namespace CSX.Functions
 		public void TestCurriedFunc13Null()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int> func = null;
+				int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
@@ -638,7 +639,7 @@ namespace CSX.Functions
 		public void TestCurriedFunc14Null()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int> func = null;
+				int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
@@ -646,7 +647,7 @@ namespace CSX.Functions
 		public void TestCurriedFunc15Null()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int> func = null;
+				int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
@@ -654,7 +655,7 @@ namespace CSX.Functions
 		public void TestCurriedFunc16Null()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int, int> func = null;
+				int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
