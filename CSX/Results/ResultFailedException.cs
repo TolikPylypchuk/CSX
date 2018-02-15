@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+
+using CSX.Collections;
 
 namespace CSX.Results
 {
@@ -10,58 +11,27 @@ namespace CSX.Results
 	/// </summary>
 	public class ResultFailedException : Exception
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ResultFailedException" /> class.
-		/// </summary>
-		/// <param name="message">The message that describes the error.</param>
-		public ResultFailedException(string message)
-			: base(message, new Exception(message))
+		internal ResultFailedException(ConsList<string> errors)
 		{
-			this.Messages.Add(message);
+			this.Messages = errors;
+			this.Exceptions = errors.Map(str => new Exception(str));
+		}
+
+		internal ResultFailedException(ConsList<Exception> errors)
+		{
+			this.Exceptions = errors;
+			this.Messages = errors.Map(exp => exp.Message);
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ResultFailedException" /> class.
+		/// Gets the exceptions of this error.
 		/// </summary>
-		/// <param name="inner">The cause of this exception.</param>
-		public ResultFailedException(Exception inner)
-			: base(inner.Message, inner)
-		{
-			this.Messages.Add(inner.Message);
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ResultFailedException" /> class.
-		/// </summary>
-		/// <param name="messages">The messages that describe the error.</param>
-		public ResultFailedException(IEnumerable<string> messages)
-			: base(
-				String.Empty,
-			    new AggregateException(messages.Select(message => new Exception(message))))
-		{
-			foreach (string message in messages)
-			{
-				this.Messages.Add(message);
-			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ResultFailedException" /> class.
-		/// </summary>
-		/// <param name="exceptions">The causes of this exception.</param>
-		public ResultFailedException(IEnumerable<Exception> exceptions)
-			: base(String.Empty, new AggregateException(exceptions))
-		{
-			foreach (var exp in exceptions)
-			{
-				this.Messages.Add(exp.Message);
-			}
-		}
-
+		public ConsList<Exception> Exceptions { get; }
+		
 		/// <summary>
 		/// Gets the messages of this error.
 		/// </summary>
-		public IList<string> Messages { get; } = new List<string>();
+		public ConsList<string> Messages { get; }
 
 		/// <summary>
 		/// Gets the message of this exception.

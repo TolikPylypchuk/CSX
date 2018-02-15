@@ -12,6 +12,6 @@ namespace CSX.Options
 		/// Initializes a new instance of the <see cref="OptionAbsentException" /> class.
 		/// </summary>
 		/// <param name="message">The message that describes the error.</param>
-		public OptionAbsentException(string message) : base(message) { }
+		internal OptionAbsentException(string message) : base(message) { }
 	}
 }

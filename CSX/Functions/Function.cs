@@ -34,6 +34,19 @@ namespace CSX.Functions
 			=> value;
 
 		/// <summary>
+		/// Returns the provided <paramref name="value" /> cast to another type,
+		/// even if it is <c>null</c>.
+		/// </summary>
+		/// <typeparam name="TFrom">The type of the <paramref name="value" />.</typeparam>
+		/// <typeparam name="TTo">The base type to cast to</typeparam>
+		/// <param name="value">The value to return.</param>
+		/// <returns>
+		/// The provided <paramref name="value" /> cast to another type.
+		/// </returns>
+		public static TTo UnsafeCast<TFrom, TTo>(TFrom value) where TTo : class
+			=> value as TTo;
+
+		/// <summary>
 		/// Creates a curried version of the specified function.
 		/// </summary>
 		/// <typeparam name="TResult">The type of the result.</typeparam>

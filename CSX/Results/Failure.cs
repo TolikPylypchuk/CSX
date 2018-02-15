@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using CSX.Collections;
 using CSX.Options;
+
+using static CSX.Functions.Function;
 
 namespace CSX.Results
 {
@@ -57,28 +58,15 @@ namespace CSX.Results
 		/// <seealso cref="GetOrElse(TSuccess)" />
 		public override TSuccess GetOrThrow()
 		{
-			if (this.Errors.Count() == 1)
-			{
-				if (typeof(TError) == typeof(Exception) ||
-					typeof(TError).IsSubclassOf(typeof(Exception)))
-				{
-					throw new ResultFailedException(
-						this.Errors.FirstOrDefault() as Exception);
-				}
-
-				throw new ResultFailedException(
-					this.Errors.FirstOrDefault()?.ToString());
-			}
-
 			if (typeof(TError) == typeof(Exception) ||
 				typeof(TError).IsSubclassOf(typeof(Exception)))
 			{
 				throw new ResultFailedException(
-					this.Errors.Select(error => error as Exception));
+					this.Errors.Map(UnsafeCast<TError, Exception>));
 			}
 
 			throw new ResultFailedException(
-				this.Errors.Select(error => error.ToString()));
+				this.Errors.Map(error => error.ToString()));
 		}
 
 		/// <summary>

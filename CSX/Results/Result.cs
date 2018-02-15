@@ -625,6 +625,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
+		/// <seealso cref="Apply{TSuccess, VSuccess}(Result{Func{TSuccess, VSuccess}, string})" />
 		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>>
 			Lift<TSuccess, VSuccess, TError>(
 				this Func<TSuccess, VSuccess> func)
@@ -652,6 +653,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
+		/// <seealso cref="Apply{TSuccess, VSuccess}(Result{Func{TSuccess, VSuccess}, string})" />
 		public static Func<Result<TSuccess, string>, Result<VSuccess, string>>
 			Lift<TSuccess, VSuccess>(this Func<TSuccess, VSuccess> func)
 		{
@@ -684,6 +686,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
+		/// <seealso cref="Apply{TSuccess, VSuccess}(Result{Func{TSuccess, VSuccess}, string})" />
 		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>>
 			Apply<TSuccess, VSuccess, TError>(
 				this Result<Func<TSuccess, VSuccess>, TError> funcResult)
@@ -714,6 +717,28 @@ namespace CSX.Results
 							.MatchFailure(valueErrors => fail(funcErrors.Add(valueErrors))));
 			};
 		}
+
+		/// <summary>
+		/// Applies a specified function, if it's a success, to a value,
+		/// if it's a success.
+		/// </summary>
+		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
+		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
+		/// <param name="funcResult">The function to apply, if it's a success.</param>
+		/// <returns>
+		/// A lifted version of the specified function, if it's a success.
+		/// Otherwise, a function which always returns
+		/// <see cref="Failure{TSuccess, TError}" />.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="funcResult" /> is <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
+		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
+		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
+		public static Func<Result<TSuccess, string>, Result<VSuccess, string>>
+			Apply<TSuccess, VSuccess>(this Result<Func<TSuccess, VSuccess>, string> funcResult)
+		=> funcResult.Apply<TSuccess, VSuccess, string>();
 
 		/// <summary>
 		/// Returns a function, which returns a success if there were no exceptions,

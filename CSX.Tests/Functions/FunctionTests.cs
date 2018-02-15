@@ -25,14 +25,34 @@ namespace CSX.Functions
 		public void TestCast()
 		{
 			const int expected = 1;
-			object actual = Cast<int, Object>(expected);
+			object actual = Cast<int, object>(expected);
 			Assert.Equal(expected, actual);
 		}
 
 		[Fact(DisplayName = "Cast returns the argument as base type when it's null")]
 		public void TestCastNull()
 		{
-			Assert.Null(Cast<string, Object>(null));
+			Assert.Null(Cast<string, object>(null));
+		}
+
+		[Fact(DisplayName = "UnsafeCast returns the argument as another type")]
+		public void TestUnsafeCast()
+		{
+			object expected = "test";
+			string actual = UnsafeCast<object, string>(expected);
+			Assert.Equal(expected, actual);
+		}
+
+		[Fact(DisplayName = "UnsafeCast returns the argument as another type when it's null")]
+		public void TestUnsafeCastNull()
+		{
+			Assert.Null(UnsafeCast<object, string>(null));
+		}
+
+		[Fact(DisplayName = "UnsafeCast returns null if types don't match")]
+		public void TestUnsafeCastToNull()
+		{
+			Assert.Null(UnsafeCast<object, string>(1));
 		}
 
 		[Fact(DisplayName = "Curried<TResult> returns the function")]
