@@ -353,7 +353,7 @@ namespace CSX.Options
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
 		/// <seealso cref="Apply{T, V}(Option{Func{T, V}})" />
-		public static Func<Option<T>, Option<V>> Lift<T, V>(Func<T, V> func)
+		public static Func<Option<T>, Option<V>> Lift<T, V>(this Func<T, V> func)
 		{
 			if (func == null)
 			{
