@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using Xunit;
 
@@ -7,21 +8,21 @@ namespace CSX.Collections
 	public class EmptyEnumeratorTests
 	{
 		[Fact(DisplayName = "Current always gets the default value of T")]
-		public void TestMoveNext()
+		public void TestCurrent()
 		{
-			Assert.Equal(default, EmptyEnumerator<int>.Instance.Current);
+			Assert.Throws<InvalidOperationException>(
+				() => EmptyEnumerator<int>.Instance.Current);
 		}
 
-		[Fact(DisplayName = "IEnumerator.Current always gets the default value of T")]
+		[Fact(DisplayName = "IEnumerator.Current always throws an exception")]
 		public void TestIEnumeratorCurrent()
 		{
-			Assert.Equal(
-				default(int),
-				((IEnumerator)EmptyEnumerator<int>.Instance).Current);
+			Assert.Throws<InvalidOperationException>(
+				() => ((IEnumerator)EmptyEnumerator<int>.Instance).Current);
 		}
 
 		[Fact(DisplayName = "MoveNext always returns false")]
-		public void TestCurrent()
+		public void TestMoveNext()
 		{
 			Assert.False(EmptyEnumerator<int>.Instance.MoveNext());
 		}
