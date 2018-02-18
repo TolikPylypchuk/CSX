@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace CSX.Collections
@@ -21,9 +22,12 @@ namespace CSX.Collections
 		public static EmptyEnumerator<T> Instance { get; } = new EmptyEnumerator<T>();
 
 		/// <summary>
-		/// This property should never be called as it doesn't get anything useful.
+		/// Throws an <see cref="InvalidOperationException" />.
 		/// </summary>
-		public T Current => default;
+		/// <exception cref="InvalidOperationException">
+		/// Thrown unconditionally.
+		/// </exception>
+		public T Current => throw new InvalidOperationException("The enumerator is empty.");
 
 		/// <summary>
 		/// Does nothing.
@@ -42,8 +46,11 @@ namespace CSX.Collections
 		public void Reset() { }
 
 		/// <summary>
-		/// This property should never be called as it doesn't get anything useful.
+		/// Throws an <see cref="InvalidOperationException" />.
 		/// </summary>
+		/// <exception cref="InvalidOperationException">
+		/// Thrown unconditionally.
+		/// </exception>
 		object IEnumerator.Current => this.Current;
 	}
 }
