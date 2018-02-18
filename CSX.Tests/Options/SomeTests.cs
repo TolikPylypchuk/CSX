@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+
 using Xunit;
 
 using CSX.Exceptions;
@@ -131,16 +132,14 @@ namespace CSX.Options
 		[Fact(DisplayName = "ToResult throws an exception for null")]
 		public void TestToResultNull()
 		{
-			const int expected = 1;
-			var option = expected.ToOption();
+			var option = 1.ToOption();
 			Assert.Throws<ArgumentNullException>(() => option.ToResult(null));
 		}
 
 		[Fact(DisplayName = "ToResult(string) throws an exception for null")]
 		public void TestToResultStringNull()
 		{
-			const int expected = 1;
-			var option = expected.ToOption();
+			var option = 1.ToOption();
 			Assert.Throws<ArgumentNullException>(() => option.ToResult(null));
 		}
 
