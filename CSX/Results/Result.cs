@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using CSX.Collections;
+using CSX.Exceptions;
 using CSX.Options;
 using CSX.Results.Matchers;
 
@@ -56,6 +57,9 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public abstract Result<VSuccess, TError> Map<VSuccess>(
@@ -72,6 +76,9 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public abstract Result<TSuccess, VError> MapFailure<VError>(
@@ -87,6 +94,9 @@ namespace CSX.Results
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
@@ -737,8 +747,9 @@ namespace CSX.Results
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
 		public static Func<Result<TSuccess, string>, Result<VSuccess, string>>
-			Apply<TSuccess, VSuccess>(this Result<Func<TSuccess, VSuccess>, string> funcResult)
-		=> funcResult.Apply<TSuccess, VSuccess, string>();
+			Apply<TSuccess, VSuccess>(
+				this Result<Func<TSuccess, VSuccess>, string> funcResult)
+			=> funcResult.Apply<TSuccess, VSuccess, string>();
 
 		/// <summary>
 		/// Returns a function, which returns a success if there were no exceptions,

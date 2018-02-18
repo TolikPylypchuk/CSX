@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CSX.Collections.Matchers;
+using CSX.Exceptions;
 
 namespace CSX.Collections
 {
@@ -41,6 +42,9 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
 		public abstract ConsList<V> Map<V>(Func<T, V> func);
 
@@ -55,6 +59,9 @@ namespace CSX.Collections
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
 		/// </exception>
 		/// <seealso cref="Map{V}(Func{T, V})" />
 		public abstract ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func);

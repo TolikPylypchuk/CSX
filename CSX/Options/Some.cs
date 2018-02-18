@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using CSX.Exceptions;
 using CSX.Results;
 
 namespace CSX.Options
@@ -54,11 +55,23 @@ namespace CSX.Options
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Bind{V}(Func{T, Option{V}})" />
 		public override Option<V> Map<V>(Func<T, V> func)
-			=> func != null
-				? Option.From(func(this.Value))
-				: throw new ArgumentNullException(nameof(func));
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			var result = func(this.Value);
+
+			return result != null
+				? Option.From(result)
+				: throw new UnacceptableNullException("Cannot map to null.");
+		}
 
 		/// <summary>
 		/// Applies a specified function to this value.
@@ -75,6 +88,7 @@ namespace CSX.Options
 		public override Option<V> Bind<V>(Func<T, Option<V>> func)
 			=> func != null
 				? func(this.Value)
+					?? throw new UnacceptableNullException("Cannot bind to null.")
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>

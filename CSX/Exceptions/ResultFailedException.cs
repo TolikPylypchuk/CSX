@@ -3,7 +3,7 @@ using System.Linq;
 
 using CSX.Collections;
 
-namespace CSX.Results
+namespace CSX.Exceptions
 {
 	/// <summary>
 	/// Represents an exception which occurs when a get operation is performed

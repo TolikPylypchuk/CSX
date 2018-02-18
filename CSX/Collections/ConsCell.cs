@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using CSX.Exceptions;
+
 namespace CSX.Collections
 {
 	/// <summary>
@@ -49,6 +51,62 @@ namespace CSX.Collections
 				: throw new ArgumentNullException(nameof(other));
 
 		/// <summary>
+		/// Applies a specified function to the value of this cell
+		/// and to the rest of the list and returns a list consisting of results.
+		/// </summary>
+		/// <typeparam name="V">The type of results.</typeparam>
+		/// <param name="func">The function to apply.</param>
+		/// <returns>A list consisting of results of the function application.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
+		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
+		public override ConsList<V> Map<V>(Func<T, V> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			var result = func(this.Head);
+
+			return result != null
+				? ConsList.From(result).Add(this.Tail.Map(func))
+				: throw new UnacceptableNullException("Cannot map to null.");
+		}
+
+		/// <summary>
+		/// Applies a specified function to the value of this cell
+		/// and to the rest of the list and returns a list consisting of results.
+		/// </summary>
+		/// <typeparam name="V">The type of results.</typeparam>
+		/// <param name="func">The function to apply.</param>
+		/// <returns>A list consisting of results of the function application.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
+		/// <seealso cref="Map{V}(Func{T, V})" />
+		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			var result = func(this.Head);
+
+			return result != null
+				? result.Add(this.Tail.FlatMap(func))
+				: throw new UnacceptableNullException("Cannot flat map to null.");
+		}
+
+		/// <summary>
 		/// Executes a specified action.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
@@ -79,38 +137,6 @@ namespace CSX.Collections
 		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public override ConsList<T> DoIfEmpty(Action action)
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
-
-		/// <summary>
-		/// Applies a specified function to the value of this cell
-		/// and to the rest of the list and returns a list consisting of results.
-		/// </summary>
-		/// <typeparam name="V">The type of results.</typeparam>
-		/// <param name="func">The function to apply.</param>
-		/// <returns>A list consisting of results of the function application.</returns>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
-		/// </exception>
-		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
-		public override ConsList<V> Map<V>(Func<T, V> func)
-			=> func != null
-				? ConsList.From(func(this.Head)).Add(this.Tail.Map(func))
-				: throw new ArgumentNullException(nameof(func));
-
-		/// <summary>
-		/// Applies a specified function to the value of this cell
-		/// and to the rest of the list and returns a list consisting of results.
-		/// </summary>
-		/// <typeparam name="V">The type of results.</typeparam>
-		/// <param name="func">The function to apply.</param>
-		/// <returns>A list consisting of results of the function application.</returns>
-		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
-		/// </exception>
-		/// <seealso cref="Map{V}(Func{T, V})" />
-		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
-			=> func != null
-				? func(this.Head).Add(this.Tail.FlatMap(func))
-				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
 		/// Executes a specified <paramref name="action" /> for this cell's value and for

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CSX.Options
+namespace CSX.Exceptions
 {
 	/// <summary>
 	/// Represents an exception which occurs when a get operation is performed

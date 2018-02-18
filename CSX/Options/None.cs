@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CSX.Collections;
+using CSX.Exceptions;
 using CSX.Results;
 
 namespace CSX.Options

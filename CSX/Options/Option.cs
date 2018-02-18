@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using CSX.Exceptions;
 using CSX.Options.Matchers;
 using CSX.Results;
 
@@ -54,6 +55,9 @@ namespace CSX.Options
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Bind{V}(Func{T, Option{V}})" />
 		public abstract Option<V> Map<V>(Func<T, V> func);
 
@@ -67,6 +71,9 @@ namespace CSX.Options
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
 		/// </exception>
 		/// <seealso cref="Map{V}(Func{T, V})" />
 		public abstract Option<V> Bind<V>(Func<T, Option<V>> func);

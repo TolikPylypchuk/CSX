@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CSX.Collections;
+using CSX.Exceptions;
 using CSX.Options;
 
 namespace CSX.Results
@@ -54,13 +55,25 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public override Result<VSuccess, TError> Map<VSuccess>(
 			Func<TSuccess, VSuccess> func)
-			=> func != null
-				? Result.Succeed<VSuccess, TError>(func(this.Value))
-				: throw new ArgumentNullException(nameof(func));
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			var result = func(this.Value);
+
+			return result != null
+				? Result.Succeed<VSuccess, TError>(result)
+				: throw new UnacceptableNullException("Cannot map to null.");
+		}
 
 		/// <summary>
 		/// Returns a success with type <typeparamref name="VError" />.
@@ -71,6 +84,8 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
+		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public override Result<TSuccess, VError> MapFailure<VError>(
 			Func<TError, VError> func)
 			=> func != null
@@ -86,12 +101,16 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
 		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
+		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
 		public override Result<VSuccess, TError> Bind<VSuccess>(
 			Func<TSuccess, Result<VSuccess, TError>> func)
 			=> func != null
 				? func(this.Value)
+					?? throw new UnacceptableNullException("Cannot bind to null.")
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>

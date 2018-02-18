@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CSX.Collections;
+using CSX.Exceptions;
 using CSX.Options;
 
 using static CSX.Functions.Function;
@@ -94,6 +95,9 @@ namespace CSX.Results
 		/// <returns>Failure(func(value)).</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <c>null</c>.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="func" /> returns <c>null</c>.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
