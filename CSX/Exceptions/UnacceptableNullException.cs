@@ -7,6 +7,7 @@ namespace CSX.Exceptions
 	/// Represents an exception which indicates that a value,
 	/// which must not be <c>null</c>, is <c>null</c>.
 	/// </summary>
+	[Serializable]
 	public class UnacceptableNullException : Exception
 	{
 		/// <summary>
