@@ -36,7 +36,7 @@ namespace CSX.Collections
 		[Fact(DisplayName = "Dispose does nothing")]
 		public void TestDispose()
 		{
-			EmptyEnumerator<int>.Instance.Dispose();
+			((IDisposable)EmptyEnumerator<int>.Instance).Dispose();
 		}
 	}
 }

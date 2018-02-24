@@ -38,6 +38,11 @@ namespace CSX.Collections
 		public ConsList<T> Tail { get; }
 
 		/// <summary>
+		/// Gets the number of items in this list.
+		/// </summary>
+		public override int Count => 1 + this.Tail.Count;
+
+		/// <summary>
 		/// Returns a concatenation of this list with another list.
 		/// </summary>
 		/// <param name="other">The other list.</param>
@@ -155,8 +160,7 @@ namespace CSX.Collections
 			}
 
 			action(this.Head);
-			this.Tail.ForEach(action);
-			return this;
+			return this.Tail.ForEach(action);
 		}
 
 		/// <summary>
@@ -198,6 +202,52 @@ namespace CSX.Collections
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
+		/// Checks whether the specified item is in this list.
+		/// </summary>
+		/// <param name="item">The item to check.</param>
+		/// <returns>
+		/// <see langword="true" />, if this item is contained in this list.
+		/// Otherwise, <see langword="false" />.
+		/// </returns>
+		public override bool Contains(T item)
+			=> item != null && (item.Equals(this.Head) || this.Tail.Contains(item));
+
+		/// <summary>
+		/// Copies the items of this list into a specified array.
+		/// </summary>
+		/// <param name="array">The array into which the items will be copied.</param>
+		/// <param name="arrayIndex">The start index of the array.</param>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="array" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="arrayIndex" /> is less than 0.
+		/// </exception>
+		/// <exception cref="ArgumentException">
+		/// This list contains more items that can fit into the <paramref name="array" />.
+		/// </exception>
+		public override void CopyTo(T[] array, int arrayIndex)
+		{
+			if (array == null)
+			{
+				throw new ArgumentNullException(nameof(array));
+			}
+
+			if (arrayIndex < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+			}
+
+			if (this.Count > array.Length - arrayIndex)
+			{
+				throw new ArgumentException(
+					"The list contains more items that can fit into the array.");
+			}
+
+			this.CopyToImpl(array, arrayIndex);
+		}
+
+		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
 		/// <returns>
@@ -212,7 +262,7 @@ namespace CSX.Collections
 				yield return item;
 			}
 		}
-
+		
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
@@ -282,5 +332,44 @@ namespace CSX.Collections
 		/// <returns>A semicolon-delimited list of elements.</returns>
 		public override string ToString()
 			=> $"{this.Head}; {this.Tail}";
+
+		/// <summary>
+		/// Copies the items of this list into a specified array.
+		/// </summary>
+		/// <param name="array">The array into which the items will be copied.</param>
+		/// <param name="arrayIndex">The start index of the array.</param>
+		internal override void CopyToImpl(T[] array, int arrayIndex)
+		{
+			array[arrayIndex] = this.Head;
+			this.Tail.CopyToImpl(array, arrayIndex + 1);
+		}
+
+		/// <summary>
+		/// Gets the item at the specified index.
+		/// </summary>
+		/// <param name="index">The index of the item to get.</param>
+		/// <param name="currentIndex">The index of the current cell.</param>
+		/// <returns>The item at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="index" /> is not a valid index.
+		/// </exception>
+		internal override T GetItemImpl(int index, int currentIndex)
+			=> index == currentIndex
+				? this.Head
+				: this.Tail.GetItemImpl(index, currentIndex + 1);
+
+		/// <summary>
+		/// Returns the index of the first occurence of the specified item in this list.
+		/// </summary>
+		/// <param name="item">The value to find.</param>
+		/// <param name="currentIndex">The index of the current cell.</param>
+		/// <returns>
+		/// The index of the first occurence of the specified item in this list or
+		/// -1 if this item is not present in this list.
+		/// </returns>
+		internal override int IndexOfImpl(T item, int currentIndex)
+			=> this.Head.Equals(item)
+				? currentIndex
+				: this.Tail.IndexOfImpl(item, currentIndex + 1);
 	}
 }

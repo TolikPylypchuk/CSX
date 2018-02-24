@@ -30,11 +30,6 @@ namespace CSX.Collections
 		public T Current => throw new InvalidOperationException("The enumerator is empty.");
 
 		/// <summary>
-		/// Does nothing.
-		/// </summary>
-		public void Dispose() { }
-
-		/// <summary>
 		/// Does nothing. Always returns <c>false</c>.
 		/// </summary>
 		/// <returns><c>false</c></returns>
@@ -52,5 +47,10 @@ namespace CSX.Collections
 		/// Thrown unconditionally.
 		/// </exception>
 		object IEnumerator.Current => this.Current;
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		void IDisposable.Dispose() { }
 	}
 }

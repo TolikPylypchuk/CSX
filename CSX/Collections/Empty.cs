@@ -17,6 +17,12 @@ namespace CSX.Collections
 		internal Empty() { }
 
 		/// <summary>
+		/// Gets the number of items in this list, which is 0.
+		/// </summary>
+		public override int Count
+			=> 0;
+
+		/// <summary>
 		/// Returns the <paramref name="other" /> list.
 		/// </summary>
 		/// <param name="other">The list to add.</param>
@@ -131,6 +137,38 @@ namespace CSX.Collections
 			=> func != null ? seed : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
+		/// Always returns <see langword="false" />.
+		/// </summary>
+		/// <param name="item">Not used.</param>
+		/// <returns><see langword="false" /></returns>
+		public override bool Contains(T item)
+			=> false;
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="array">Not used.</param>
+		/// <param name="arrayIndex">Not used.</param>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="array" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="arrayIndex" /> is less than 0.
+		/// </exception>
+		public override void CopyTo(T[] array, int arrayIndex)
+		{
+			if (array == null)
+			{
+				throw new ArgumentNullException(nameof(array));
+			}
+
+			if (arrayIndex < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+			}
+		}
+
+		/// <summary>
 		/// Returns an empty enumerator.
 		/// </summary>
 		/// <returns>An empty enumerator.</returns>
@@ -200,5 +238,33 @@ namespace CSX.Collections
 		/// <returns>An empty string.</returns>
 		public override string ToString()
 			=> String.Empty;
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="array">Not used.</param>
+		/// <param name="arrayIndex">Not used.</param>
+		internal override void CopyToImpl(T[] array, int arrayIndex) { }
+
+		/// <summary>
+		/// Throws an <see cref="ArgumentOutOfRangeException" />.
+		/// </summary>
+		/// <param name="index">Not used.</param>
+		/// <param name="currentIndex">Not used.</param>
+		/// <returns>Nothing.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// Thrown unconditionally.
+		/// </exception>
+		internal override T GetItemImpl(int index, int currentIndex)
+			=> throw new ArgumentOutOfRangeException(nameof(index));
+		
+		/// <summary>
+		/// Always returns -1.
+		/// </summary>
+		/// <param name="item">Not used.</param>
+		/// <param name="currentIndex">Not used.</param>
+		/// <returns>-1</returns>
+		internal override int IndexOfImpl(T item, int currentIndex)
+			=> -1;
 	}
 }

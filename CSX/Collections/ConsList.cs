@@ -15,12 +15,38 @@ namespace CSX.Collections
 	/// <seealso cref="ConsList" />
 	/// <seealso cref="ConsCell{T}" />
 	/// <seealso cref="Empty{T}" />
-	public abstract class ConsList<T> : IEquatable<ConsList<T>>, IEnumerable, IEnumerable<T>
+	public abstract class ConsList<T> :
+		IEquatable<ConsList<T>>,
+		IEnumerable, IEnumerable<T>,
+		ICollection, ICollection<T>,
+		IList, IList<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConsList{T}" /> class.
 		/// </summary>
 		private protected ConsList() { }
+
+		/// <summary>
+		/// Gets the number of items in this list.
+		/// </summary>
+		public abstract int Count { get; }
+
+		/// <summary>
+		/// Gets the item at the specified index.
+		/// </summary>
+		/// <param name="index">The index of the item to get.</param>
+		/// <returns>The item at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="index" /> is not a valid index.
+		/// </exception>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally on an attempt to set an item.
+		/// </exception>
+		public T this[int index]
+		{
+			get => this.GetItemImpl(index, 0);
+			set => throw new NotSupportedException("Cannot set a new item in a cons list.");
+		}
 
 		/// <summary>
 		/// Returns a concatenation of this list with another list.
@@ -192,7 +218,33 @@ namespace CSX.Collections
 		/// </exception>
 		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public abstract V FoldBack<V>(V seed, Func<T, V, V> func);
+		
+		/// <summary>
+		/// Checks whether the specified item is in this list.
+		/// </summary>
+		/// <param name="item">The item to check.</param>
+		/// <returns>
+		/// <see langword="true" />, if this item is contained in this list.
+		/// Otherwise, <see langword="false" />.
+		/// </returns>
+		public abstract bool Contains(T item);
 
+		/// <summary>
+		/// Copies the items of this list into a specified array.
+		/// </summary>
+		/// <param name="array">The array into which the items will be copied.</param>
+		/// <param name="arrayIndex">The start index of the array.</param>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="array" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="arrayIndex" /> is less than 0.
+		/// </exception>
+		/// <exception cref="ArgumentException">
+		/// This list contains more items that can fit into the <paramref name="array" />.
+		/// </exception>
+		public abstract void CopyTo(T[] array, int arrayIndex);
+		
 		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
@@ -200,6 +252,19 @@ namespace CSX.Collections
 		/// An enumerator that enumerates every element of this list.
 		/// </returns>
 		public abstract IEnumerator<T> GetEnumerator();
+
+		/// <summary>
+		/// Returns the index of the first occurence of the specified item in this list.
+		/// </summary>
+		/// <param name="item">The value to find.</param>
+		/// <returns>
+		/// The index of the first occurence of the specified item in this list or
+		/// -1 if this item is not present in this list.
+		/// </returns>
+		public int IndexOf(T item)
+			=> item != null
+				? this.IndexOfImpl(item, 0)
+				: -1;
 
 		/// <summary>
 		/// Checks whether every element of this list equals
@@ -245,6 +310,170 @@ namespace CSX.Collections
 		public abstract override string ToString();
 
 		/// <summary>
+		/// Copies the items of this list into a specified array.
+		/// </summary>
+		/// <param name="array">The array into which the items will be copied.</param>
+		/// <param name="arrayIndex">The start index of the array.</param>
+		internal abstract void CopyToImpl(T[] array, int arrayIndex);
+
+		/// <summary>
+		/// Gets the item at the specified index.
+		/// </summary>
+		/// <param name="index">The index of the item to get.</param>
+		/// <param name="currentIndex">The index of the current cell.</param>
+		/// <returns>The item at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="index" /> is not a valid index.
+		/// </exception>
+		internal abstract T GetItemImpl(int index, int currentIndex);
+
+		/// <summary>
+		/// Returns the index of the first occurence of the specified item in this list.
+		/// </summary>
+		/// <param name="item">The value to find.</param>
+		/// <param name="currentIndex">The index of the current cell.</param>
+		/// <returns>
+		/// The index of the first occurence of the specified item in this list or
+		/// -1 if this item is not present in this list.
+		/// </returns>
+		internal abstract int IndexOfImpl(T item, int currentIndex);
+
+		/// <summary>
+		/// Always gets <see langword="true" />.
+		/// </summary>
+		bool IList.IsFixedSize => true;
+
+		/// <summary>
+		/// Always gets <see langword="true" />.
+		/// </summary>
+		bool IList.IsReadOnly => true;
+
+		/// <summary>
+		/// Always gets <see langword="true" /> since cons lists are immutable.
+		/// </summary>
+		bool ICollection<T>.IsReadOnly => true;
+
+		/// <summary>
+		/// Always gets <see langword="true" /> since cons lists are immutable.
+		/// </summary>
+		bool ICollection.IsSynchronized => true;
+
+		/// <summary>
+		/// Gets an object which can be used to synchronize access to this list.
+		/// The object is the list itself.
+		/// </summary>
+		/// <remarks>
+		/// Cons lists are immutable, so all operations on them are thread safe
+		/// and a sync root is not needed.
+		/// </remarks>
+		object ICollection.SyncRoot => this;
+
+		/// <summary>
+		/// Gets the value at the specified index.
+		/// </summary>
+		/// <param name="index">The index of the value to get.</param>
+		/// <returns>The value at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="index" /> is not a valid index.
+		/// </exception>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally on an attempt to set a value.
+		/// </exception>
+		object IList.this[int index]
+		{
+			get => this[index];
+			set => throw new NotSupportedException("Cannot set a new value in a cons list.");
+		}
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="item">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void ICollection<T>.Add(T item)
+			=> throw new NotSupportedException("Cannot add an item to a cons list.");
+		
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="value">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		int IList.Add(object value)
+			=> throw new NotSupportedException("Cannot add an item to a cons list.");
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void IList.Clear()
+			=> throw new NotSupportedException("Cannot clear a cons list.");
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void ICollection<T>.Clear()
+			=> throw new NotSupportedException("Cannot clear a cons list.");
+
+		/// <summary>
+		/// Checks whether the specified value is in this list.
+		/// </summary>
+		/// <param name="value">The value to check.</param>
+		/// <returns>
+		/// <see langword="true" />, if this value is of type <typeparamref name="T" />
+		/// and is contained in this list. Otherwise, <see langword="false" />.
+		/// </returns>
+		bool IList.Contains(object value)
+			=> value is T item && this.Contains(item);
+
+		/// <summary>
+		/// Copies the items of this list into a specified array.
+		/// </summary>
+		/// <param name="array">The array into which the items will be copied.</param>
+		/// <param name="index">The start index of the array.</param>
+		/// <remarks>
+		/// <paramref name="array" /> must be of type <typeparamref name="T" />[].
+		/// </remarks>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="array" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="ArgumentException">
+		/// <paramref name="array" /> is multidimensional, or not sufficient to store
+		/// the items from the list, or the type of the items of this list cannot
+		/// be cast to the type of the array.
+		/// </exception>
+		void ICollection.CopyTo(Array array, int index)
+		{
+			if (array == null)
+			{
+				throw new ArgumentNullException(nameof(array));
+			}
+
+			if (array.Rank != 1)
+			{
+				throw new ArgumentException(
+					"Cannot copy into a multidimensional array.", nameof(array));
+			}
+
+			if (array is T[] typedArray)
+			{
+				this.CopyTo(typedArray, index);
+			} else
+			{
+				throw new ArgumentException(
+					"Cannot copy into an array of a different type.", nameof(array));
+			}
+		}
+
+		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
 		/// <returns>
@@ -252,6 +481,79 @@ namespace CSX.Collections
 		/// </returns>
 		IEnumerator IEnumerable.GetEnumerator()
 			=> this.GetEnumerator();
+
+		/// <summary>
+		/// Returns the index of the first occurence of the specified value in this list.
+		/// </summary>
+		/// <param name="value">The value to find.</param>
+		/// <returns>
+		/// The index of the first occurence of the specified value in this list or
+		/// -1 if this value is not present in this list.
+		/// </returns>
+		int IList.IndexOf(object value)
+			=> value is T item ? this.IndexOf(item) : -1;
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="index">Not used.</param>
+		/// <param name="value">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void IList.Insert(int index, object value)
+			=> throw new NotSupportedException("Cannot insert a value into a cons list.");
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="index">Not used.</param>
+		/// <param name="item">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void IList<T>.Insert(int index, T item)
+			=> throw new NotSupportedException("Cannot insert an item into a cons list.");
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="value">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void IList.Remove(object value)
+			=> throw new NotSupportedException("Cannot remove a value from a cons list.");
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="item">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		bool ICollection<T>.Remove(T item)
+			=> throw new NotSupportedException("Cannot remove an item from a cons list.");
+
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="index">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void IList.RemoveAt(int index)
+			=> throw new NotSupportedException("Cannot remove a value from a cons list.");
+		
+		/// <summary>
+		/// Throws a <see cref="NotSupportedException" />.
+		/// </summary>
+		/// <param name="index">Not used.</param>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally.
+		/// </exception>
+		void IList<T>.RemoveAt(int index)
+			=> throw new NotSupportedException("Cannot remove an item from a cons list.");
 
 		/// <summary>
 		/// Concatenates a <paramref name="list" /> to an <paramref name="item" />
