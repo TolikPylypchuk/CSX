@@ -11,12 +11,20 @@ namespace CSX.Exceptions
 	/// </summary>
 	public class ResultFailedException : Exception
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ResultFailedException" /> class.
+		/// </summary>
+		/// <param name="errors">The errors of this exception.</param>
 		internal ResultFailedException(ConsList<string> errors)
 		{
 			this.Messages = errors;
 			this.Exceptions = errors.Map(str => new Exception(str));
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ResultFailedException" /> class.
+		/// </summary>
+		/// <param name="errors">The errors of this exception.</param>
 		internal ResultFailedException(ConsList<Exception> errors)
 		{
 			this.Exceptions = errors;

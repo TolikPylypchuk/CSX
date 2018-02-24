@@ -27,7 +27,7 @@ namespace CSX.Results
 
 		/// <summary>
 		/// Gets the value if it's a success, or an alternative otherwise.
-		/// The alternative may be <c>null</c>.
+		/// The alternative may be <see langword="null" />.
 		/// </summary>
 		/// <param name="alternative">
 		/// The value to provide if this result is a failure.
@@ -55,10 +55,10 @@ namespace CSX.Results
 		/// <c>Success(func(value)</c>) if it's a success and <c>Failure</c> otherwise.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
@@ -74,10 +74,10 @@ namespace CSX.Results
 		/// <c>Failure(func(value))</c> if it's a failure and <c>Success</c> otherwise.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
@@ -93,10 +93,10 @@ namespace CSX.Results
 		/// <c>func(value)</c> if it's a success and <c>Failure</c> otherwise.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
@@ -118,7 +118,7 @@ namespace CSX.Results
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
@@ -143,7 +143,7 @@ namespace CSX.Results
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchSuccess{TResult}(Func{TSuccess, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
@@ -160,7 +160,7 @@ namespace CSX.Results
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchSuccess{TResult}(Func{TSuccess, TResult})" />
 		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
@@ -171,9 +171,9 @@ namespace CSX.Results
 		/// Executes a specified action if it's a success.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		public abstract Result<TSuccess, TError> DoIfSuccess(Action<TSuccess> action);
 
@@ -181,9 +181,9 @@ namespace CSX.Results
 		/// Executes a specified action if it's a failure.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		public abstract Result<TSuccess, TError> DoIfFailure(Action<ConsList<TError>> action);
 
@@ -205,12 +205,12 @@ namespace CSX.Results
 
 		/// <summary>
 		/// Checks whether this value equals another value.
-		/// The other value may be <c>null</c>.
+		/// The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <c>true</c> if this value equals other's value.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if this value equals other's value.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />
 		/// <seealso cref="GetHashCode" />
@@ -218,12 +218,12 @@ namespace CSX.Results
 
 		/// <summary>
 		/// Checks whether this value equals another value.
-		/// The other value may be <c>null</c>.
+		/// The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <c>true</c> if this value equals other's value.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if this value equals other's value.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="GetHashCode" />
@@ -269,7 +269,7 @@ namespace CSX.Results
 		/// <param name="value">The value of the result.</param>
 		/// <returns>A successful result containing the specified value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="value" /> is <c>null</c>.
+		/// <paramref name="value" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Succeed{TSuccess}(TSuccess)" />
 		/// <seealso cref="ToSuccess{TSuccess, TError}(TSuccess)" />
@@ -286,7 +286,7 @@ namespace CSX.Results
 		/// <param name="value">The value of the result.</param>
 		/// <returns>A successful result containing the specified value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="value" /> is <c>null</c>.
+		/// <paramref name="value" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Succeed{TSuccess, TError}(TSuccess)" />
 		/// <seealso cref="ToSuccess{TSuccess, TError}(TSuccess)" />
@@ -302,7 +302,7 @@ namespace CSX.Results
 		/// <param name="value">The value of the result.</param>
 		/// <returns>A successful result containing the specified value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="value" /> is <c>null</c>.
+		/// <paramref name="value" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Succeed{TSuccess, TError}(TSuccess)" />
 		/// <seealso cref="Succeed{TSuccess}(TSuccess)" />
@@ -318,7 +318,7 @@ namespace CSX.Results
 		/// <param name="value">The value of the result.</param>
 		/// <returns>A successful result containing the specified value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="value" /> is <c>null</c>.
+		/// <paramref name="value" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Succeed{TSuccess, TError}(TSuccess)" />
 		/// <seealso cref="Succeed{TSuccess}(TSuccess)" />
@@ -335,7 +335,7 @@ namespace CSX.Results
 		/// <param name="error">The error of the result.</param>
 		/// <returns>A failed result containing the specified error.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="error" /> is <c>null</c>.
+		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess}(string)" />
 		/// <seealso cref="Fail{TSuccess, TError}(ConsList{TError})" />
@@ -360,7 +360,7 @@ namespace CSX.Results
 		/// <param name="error">The error of the result.</param>
 		/// <returns>A failed result containing the specified error.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="error" /> is <c>null</c>.
+		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess, TError}(ConsList{TError})" />
@@ -384,7 +384,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -410,7 +410,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -434,7 +434,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -460,7 +460,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -484,7 +484,7 @@ namespace CSX.Results
 		/// <param name="error">The error of the result.</param>
 		/// <returns>A failed result containing the specified error.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="error" /> is <c>null</c>.
+		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -508,7 +508,7 @@ namespace CSX.Results
 		/// <param name="error">The error of the result.</param>
 		/// <returns>A failed result containing the specified error.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="error" /> is <c>null</c>.
+		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -532,7 +532,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="ToFailure{TSuccess, TError}(TError)" />
 		/// <seealso cref="ToFailure{TSuccess}(string)" />
@@ -556,7 +556,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -581,7 +581,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -605,7 +605,7 @@ namespace CSX.Results
 		/// <param name="errors">The errors of the result.</param>
 		/// <returns>A failed result containing the specified errors.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="errors" /> are <c>null</c>.
+		/// <paramref name="errors" /> are <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fail{TSuccess, TError}(TError)" />
 		/// <seealso cref="Fail{TSuccess}(string)" />
@@ -631,7 +631,7 @@ namespace CSX.Results
 		/// <param name="func">The funciton used during the mapping.</param>
 		/// <returns>A function which when called will map the provided value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
@@ -659,7 +659,7 @@ namespace CSX.Results
 		/// <param name="func">The funciton to lift.</param>
 		/// <returns>A function which when called will map the provided value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
@@ -692,7 +692,7 @@ namespace CSX.Results
 		/// <see cref="Failure{TSuccess, TError}" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="funcResult" /> is <c>null</c>.
+		/// <paramref name="funcResult" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
@@ -741,7 +741,7 @@ namespace CSX.Results
 		/// <see cref="Failure{TSuccess, TError}" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="funcResult" /> is <c>null</c>.
+		/// <paramref name="funcResult" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
@@ -754,7 +754,7 @@ namespace CSX.Results
 		/// <summary>
 		/// Returns a function, which returns a success if there were no exceptions,
 		/// or a failure containing an exception if it is thrown.
-		/// The resulting function can accept <c>null</c>.
+		/// The resulting function can accept <see langword="null" />.
 		/// </summary>
 		/// <typeparam name="TInput">The input type of the function.</typeparam>
 		/// <typeparam name="TSuccess">The output type of the function.</typeparam>
@@ -764,7 +764,7 @@ namespace CSX.Results
 		/// or a failure containing an exception if it is thrown.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public static Func<TInput, Result<TSuccess, Exception>> Catch<TInput, TSuccess>(
 			this Func<TInput, TSuccess> func)

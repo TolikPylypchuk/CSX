@@ -5,7 +5,7 @@ namespace CSX.Exceptions
 {
 	/// <summary>
 	/// Represents an exception which indicates that a value,
-	/// which must not be <c>null</c>, is <c>null</c>.
+	/// which must not be <see langword="null" />, is <see langword="null" />.
 	/// </summary>
 	[Serializable]
 	public class UnacceptableNullException : Exception
@@ -34,7 +34,7 @@ namespace CSX.Exceptions
 		/// </summary>
 		/// <param name="info">The serialization info of this exception.</param>
 		/// <param name="context">The streaming context of this exception.</param>
-		public UnacceptableNullException(SerializationInfo info, StreamingContext context)
+		protected UnacceptableNullException(SerializationInfo info, StreamingContext context)
 			: base(info, context) { }
 	}
 }

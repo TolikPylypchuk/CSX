@@ -30,9 +30,9 @@ namespace CSX.Collections
 		public T Current => throw new InvalidOperationException("The enumerator is empty.");
 
 		/// <summary>
-		/// Does nothing. Always returns <c>false</c>.
+		/// Does nothing. Always returns <see langword="false" />.
 		/// </summary>
-		/// <returns><c>false</c></returns>
+		/// <returns><see langword="false" /></returns>
 		public bool MoveNext() => false;
 
 		/// <summary>

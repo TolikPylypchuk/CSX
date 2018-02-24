@@ -50,7 +50,7 @@ namespace CSX.Options.Matchers
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public TResult MatchNone(Func<TResult> func)
 		{
@@ -73,7 +73,7 @@ namespace CSX.Options.Matchers
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{

@@ -22,7 +22,7 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Returns the alternative value.
-		/// The alternative may be <c>null</c>.
+		/// The alternative may be <see langword="null" />.
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
@@ -49,7 +49,7 @@ namespace CSX.Options
 		/// <param name="func">Not used.</param>
 		/// <returns>An empty option of type <typeparamref name="V" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Bind{V}(Func{T, Option{V}})" />
 		public override Option<V> Map<V>(Func<T, V> func)
@@ -64,7 +64,7 @@ namespace CSX.Options
 		/// <param name="func">Not used.</param>
 		/// <returns>An empty option of type <typeparamref name="V" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <see cref="Map{V}(Func{T, V})" />
 		public override Option<V> Bind<V>(Func<T, Option<V>> func)
@@ -76,9 +76,9 @@ namespace CSX.Options
 		/// Does nothing.
 		/// </summary>
 		/// <param name="action">Not used.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfNone(Action)" />
 		public override Option<T> DoIfSome(Action<T> action)
@@ -88,9 +88,9 @@ namespace CSX.Options
 		/// Executes a specified <paramref name="action" />.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfSome(Action{T})" />
 		public override Option<T> DoIfNone(Action action)
@@ -111,7 +111,7 @@ namespace CSX.Options
 		/// <typeparam name="TError">The type of the error.</typeparam>
 		/// <returns>Failure(<paramref name="error" />)</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="error" /> is <c>null</c>.
+		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="ToResult(string)" />
 		public override Result<T, TError> ToResult<TError>(TError error)
@@ -125,7 +125,7 @@ namespace CSX.Options
 		/// <param name="error">The error to return.</param>
 		/// <returns>Failure(<paramref name="error" />)</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="error" /> is <c>null</c>.
+		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="ToResult{TError}(TError)" />
 		public override Result<T, string> ToResult(string error)
@@ -144,12 +144,12 @@ namespace CSX.Options
 		/// Checks whether this object equals another object, i.e.
 		/// whether the <paramref name="other" /> object also has type
 		/// <see cref="None{T}" />.
-		/// The other object may be <c>null</c>.
+		/// The other object may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// Returns <c>true</c> if the <paramref name="other" /> object also has type
-		/// <see cref="None{T}" />. Otherwise, returns <c>false</c>.
+		/// Returns <see langword="true" /> if the <paramref name="other" /> object also has type
+		/// <see cref="None{T}" />. Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Option{T})" />
 		/// <seealso cref="Equals(None{T})" />
@@ -161,12 +161,12 @@ namespace CSX.Options
 		/// Checks whether this object equals another object, i.e.
 		/// whether the <paramref name="other" /> object also has type
 		/// <see cref="None{T}" />.
-		/// The other object may be <c>null</c>.
+		/// The other object may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// Returns <c>true</c> if the <paramref name="other" /> object also has type
-		/// <see cref="None{T}" />. Otherwise, returns <c>false</c>.
+		/// Returns <see langword="true" /> if the <paramref name="other" /> object also has type
+		/// <see cref="None{T}" />. Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(None{T})" />
@@ -176,12 +176,12 @@ namespace CSX.Options
 
 		/// <summary>
 		/// Checks whether this object equals another object.
-		/// The other object may be <c>null</c>.
+		/// The other object may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <c>true</c> if <paramref name="other" /> isn't <c>null</c>.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if <paramref name="other" /> isn't <see langword="null" />.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Option{T})" />
@@ -190,9 +190,9 @@ namespace CSX.Options
 			=> other != null;
 
 		/// <summary>
-		/// Returns <c>1</c>.
+		/// Returns 1.
 		/// </summary>
-		/// <returns><c>1</c></returns>
+		/// <returns>1</returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Option{T})" />
 		/// <seealso cref="Equals(None{T})" />

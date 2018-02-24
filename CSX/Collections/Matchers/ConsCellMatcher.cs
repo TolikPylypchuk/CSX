@@ -49,7 +49,7 @@ namespace CSX.Collections.Matchers
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public TResult MatchConsCell(Func<TValue, ConsList<TValue>, TResult> func)
 		{
@@ -73,7 +73,7 @@ namespace CSX.Collections.Matchers
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{

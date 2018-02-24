@@ -56,7 +56,7 @@ namespace CSX.Results.Matchers
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public TResult MatchFailure(Func<ConsList<TError>, TResult> func)
 		{
@@ -82,7 +82,7 @@ namespace CSX.Results.Matchers
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{

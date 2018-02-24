@@ -53,10 +53,10 @@ namespace CSX.Results
 		/// <param name="func">The function to apply.</param>
 		/// <returns><c>Success(func(value))</c></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
@@ -82,7 +82,7 @@ namespace CSX.Results
 		/// <param name="func">Not used.</param>
 		/// <returns>A success with type <typeparamref name="VError" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
@@ -99,10 +99,10 @@ namespace CSX.Results
 		/// <param name="func">The function to apply.</param>
 		/// <returns><c>func(value)</c></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
@@ -117,9 +117,9 @@ namespace CSX.Results
 		/// Executes a specified <paramref name="action" /> on this value.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		public override Result<TSuccess, TError> DoIfSuccess(Action<TSuccess> action)
 		{
@@ -136,9 +136,9 @@ namespace CSX.Results
 		/// Does nothing.
 		/// </summary>
 		/// <param name="action">Not used.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		public override Result<TSuccess, TError> DoIfFailure(Action<ConsList<TError>> action)
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
@@ -161,12 +161,12 @@ namespace CSX.Results
 
 		/// <summary>
 		/// Checks whether this value equals another value.
-		/// The other value may be <c>null</c>.
+		/// The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <c>true</c> if this value equals other's value.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if this value equals other's value.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />
 		/// <seealso cref="Equals(Success{TSuccess, TError})" />
@@ -177,12 +177,12 @@ namespace CSX.Results
 
 		/// <summary>
 		/// Checks whether this value equals another value.
-		/// The other value may be <c>null</c>.
+		/// The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <c>true</c> if this value equals other's value.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if this value equals other's value.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Success{TSuccess, TError})" />
@@ -193,12 +193,12 @@ namespace CSX.Results
 
 		/// <summary>
 		/// Checks whether this value equals another value.
-		/// The other value may be <c>null</c>.
+		/// The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <c>true</c> if this value equals other's value.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if this value equals other's value.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />

@@ -28,7 +28,7 @@ namespace CSX.Collections
 		/// <param name="other">The list to add.</param>
 		/// <returns>The <paramref name="other" /> list.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="other" /> is <c>null</c>.
+		/// <paramref name="other" /> is <see langword="null" />.
 		/// </exception>
 		public override ConsList<T> Add(ConsList<T> other)
 			=> other ?? throw new ArgumentNullException(nameof(other));
@@ -40,7 +40,7 @@ namespace CSX.Collections
 		/// <param name="func">Not used.</param>
 		/// <returns>An empty list of type <typeparamref name="V" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
 		public override ConsList<V> Map<V>(Func<T, V> func)
@@ -55,7 +55,7 @@ namespace CSX.Collections
 		/// <param name="func">Not used.</param>
 		/// <returns>An empty list of type <typeparamref name="V" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{V}(Func{T, V})" />
 		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
@@ -67,9 +67,9 @@ namespace CSX.Collections
 		/// Does nothing.
 		/// </summary>
 		/// <param name="action">Not used.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfEmpty(Action)" />
 		public override ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action)
@@ -79,9 +79,9 @@ namespace CSX.Collections
 		/// Executes a specified action.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public override ConsList<T> DoIfEmpty(Action action)
@@ -99,9 +99,9 @@ namespace CSX.Collections
 		/// Does nothing.
 		/// </summary>
 		/// <param name="action">Not used.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		public override ConsList<T> ForEach(Action<T> action)
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
@@ -111,11 +111,11 @@ namespace CSX.Collections
 		/// i.e. just returns the seed.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The return value. May be <c>null</c>.</param>
+		/// <param name="seed">The return value. May be <see langword="null" />.</param>
 		/// <param name="func">Not used.</param>
 		/// <returns><paramref name="seed" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public override V Fold<V>(V seed, Func<V, T, V> func)
@@ -126,11 +126,11 @@ namespace CSX.Collections
 		/// i.e. just returns the seed.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
-		/// <param name="seed">The return value. May be <c>null</c>.</param>
+		/// <param name="seed">The return value. May be <see langword="null" />.</param>
 		/// <param name="func">Not used.</param>
 		/// <returns><paramref name="seed" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public override V FoldBack<V>(V seed, Func<T, V, V> func)
@@ -178,12 +178,12 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether this list equals another list, i.e.
 		/// whether the <paramref name="other" /> list is also empty.
-		/// The other list may be <c>null</c>.
+		/// The other list may be <see langword="null" />.
 		/// </summary>
-		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
+		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// Returns <c>true</c> if the <paramref name="other" /> list also has type
-		/// <see cref="Empty{T}" />. Otherwise, returns <c>false</c>.
+		/// Returns <see langword="true" /> if the <paramref name="other" /> list also has type
+		/// <see cref="Empty{T}" />. Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(ConsList{T})" />
 		/// <seealso cref="Equals(Empty{T})" />
@@ -194,12 +194,12 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether this list equals another list, i.e.
 		/// whether the <paramref name="other" /> list is also empty.
-		/// The other list may be <c>null</c>.
+		/// The other list may be <see langword="null" />.
 		/// </summary>
-		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
+		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// Returns <c>true</c> if the <paramref name="other" /> list also has type
-		/// <see cref="Empty{T}" />. Otherwise, returns <c>false</c>.
+		/// Returns <see langword="true" /> if the <paramref name="other" /> list also has type
+		/// <see cref="Empty{T}" />. Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Empty{T})" />
@@ -209,12 +209,12 @@ namespace CSX.Collections
 
 		/// <summary>
 		/// Checks whether this list equals another list.
-		/// The other list may be <c>null</c>.
+		/// The other list may be <see langword="null" />.
 		/// </summary>
-		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
+		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <c>true</c> if <paramref name="other" /> isn't <c>null</c>.
-		/// Otherwise, <c>false</c>.
+		/// <see langword="true" /> if <paramref name="other" /> isn't <see langword="null" />.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(ConsList{T})" />
@@ -223,9 +223,9 @@ namespace CSX.Collections
 			=> other != null;
 
 		/// <summary>
-		/// Returns <c>1</c>.
+		/// Returns 1.
 		/// </summary>
-		/// <returns><c>1</c></returns>
+		/// <returns>1</returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(ConsList{T})" />
 		/// <seealso cref="Equals(Empty{T})" />

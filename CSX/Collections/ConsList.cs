@@ -54,7 +54,7 @@ namespace CSX.Collections
 		/// <param name="other">The other list.</param>
 		/// <returns>A concatenation of this list with another list.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="other" /> is <c>null</c>.
+		/// <paramref name="other" /> is <see langword="null" />.
 		/// </exception>
 		public abstract ConsList<T> Add(ConsList<T> other);
 
@@ -66,10 +66,10 @@ namespace CSX.Collections
 		/// <param name="func">The function to apply.</param>
 		/// <returns>A list consisting of results of the function application.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="FlatMap{V}(Func{T, ConsList{V}})" />
 		public abstract ConsList<V> Map<V>(Func<T, V> func);
@@ -84,10 +84,10 @@ namespace CSX.Collections
 		/// A flattened list consisting of results of the function application.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="UnacceptableNullException">
-		/// <paramref name="func" /> returns <c>null</c>.
+		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{V}(Func{T, V})" />
 		public abstract ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func);
@@ -106,7 +106,7 @@ namespace CSX.Collections
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchEmpty{TResult}(Func{TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
@@ -130,7 +130,7 @@ namespace CSX.Collections
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchConsCell{TResult}(Func{T, ConsList{T}, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
@@ -146,7 +146,7 @@ namespace CSX.Collections
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>The result of <paramref name="func" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchConsCell{TResult}(Func{T, ConsList{T}, TResult})" />
 		/// <seealso cref="MatchEmpty{TResult}(Func{TResult})" />
@@ -159,9 +159,9 @@ namespace CSX.Collections
 		/// Executes a specified <paramref name="action" /> if this list is a cons cell.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfEmpty(Action)" />
 		public abstract ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action);
@@ -170,9 +170,9 @@ namespace CSX.Collections
 		/// Executes a specified <paramref name="action" /> if this list is empty.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfConsCell(Action{T, ConsList{T}})" />
 		public abstract ConsList<T> DoIfEmpty(Action action);
@@ -181,9 +181,9 @@ namespace CSX.Collections
 		/// Executes a specified <paramref name="action" /> to each element of this list.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
-		/// <returns><c>this</c></returns>
+		/// <returns><see langword="this" /></returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="action" /> is <c>null</c>.
+		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		public abstract ConsList<T> ForEach(Action<T> action);
 
@@ -193,12 +193,12 @@ namespace CSX.Collections
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">
 		/// The first parameter of the chain of calls to <paramref name="func" />.
-		/// May be <c>null</c>.
+		/// May be <see langword="null" />.
 		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="FoldBack{V}(V, Func{T, V, V})" />
 		public abstract V Fold<V>(V seed, Func<V, T, V> func);
@@ -209,12 +209,12 @@ namespace CSX.Collections
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">
 		/// The first parameter of the chain of calls to <paramref name="func" />.
-		/// May be <c>null</c>.
+		/// May be <see langword="null" />.
 		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Fold{V}(V, Func{V, T, V})" />
 		public abstract V FoldBack<V>(V seed, Func<T, V, V> func);
@@ -269,13 +269,13 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
-		/// The other list may be <c>null</c>.
+		/// The other list may be <see langword="null" />.
 		/// </summary>
-		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
+		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <c>true</c> if every element of this list equals equals
+		/// <see langword="true" /> if every element of this list equals equals
 		/// another list's corresponding element.
-		/// Otherwise, <c>false</c>.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(ConsList{T})" />
 		/// <seealso cref="GetHashCode" />
@@ -284,13 +284,13 @@ namespace CSX.Collections
 		/// <summary>
 		/// Checks whether every element of this list equals
 		/// another list's corresponding element.
-		/// The other list may be <c>null</c>.
+		/// The other list may be <see langword="null" />.
 		/// </summary>
-		/// <param name="other">The list to compare to. May be <c>null</c>.</param>
+		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <c>true</c> if every element of this list equals equals
+		/// <see langword="true" /> if every element of this list equals equals
 		/// another list's corresponding element.
-		/// Otherwise, <c>false</c>.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		public abstract bool Equals(ConsList<T> other);
@@ -566,7 +566,7 @@ namespace CSX.Collections
 		/// to the <paramref name="item" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="item" /> or <paramref name="list" /> is <c>null</c>.
+		/// <paramref name="item" /> or <paramref name="list" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> operator +(T item, ConsList<T> list)
 			=> item != null
@@ -586,7 +586,7 @@ namespace CSX.Collections
 		/// to the <paramref name="list" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="list" /> or <paramref name="item" /> is <c>null</c>.
+		/// <paramref name="list" /> or <paramref name="item" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> operator +(ConsList<T> list, T item)
 			=> list != null
@@ -602,7 +602,7 @@ namespace CSX.Collections
 		/// <param name="b">The second list.</param>
 		/// <returns>A concatenation of two lists.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="a" /> or <paramref name="b" /> is <c>null</c>.
+		/// <paramref name="a" /> or <paramref name="b" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> operator +(ConsList<T> a, ConsList<T> b)
 			=> a != null
@@ -627,7 +627,7 @@ namespace CSX.Collections
 		/// A list containing one <paramref name="item" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="item" /> is <c>null</c>.
+		/// <paramref name="item" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> From<T>(T item)
 			=> item != null
@@ -643,7 +643,7 @@ namespace CSX.Collections
 		/// A shallow copy of the specified <paramref name="collection" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="collection" /> is <c>null</c>.
+		/// <paramref name="collection" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> Copy<T>(IEnumerable<T> collection)
 			=> collection != null
@@ -657,7 +657,7 @@ namespace CSX.Collections
 		/// <param name="items">The items of the list.</param>
 		/// <returns>A list from specified <paramref name="items" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="items" /> is <c>null</c>.
+		/// <paramref name="items" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> Construct<T>(params T[] items)
 			=> items != null
@@ -683,7 +683,7 @@ namespace CSX.Collections
 		/// to the <paramref name="item" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="item" /> or <paramref name="list" /> is <c>null</c>.
+		/// <paramref name="item" /> or <paramref name="list" /> is <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> AddTo<T>(this T item, ConsList<T> list)
 			=> item != null
@@ -700,7 +700,7 @@ namespace CSX.Collections
 		/// <param name="func">The funciton to lift.</param>
 		/// <returns>A function which maps the provided list when called.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="func" /> is <c>null</c>.
+		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Apply{T, V}(ConsList{Func{T, V}})" />
 		public static Func<ConsList<T>, ConsList<V>> Lift<T, V>(this Func<T, V> func)
@@ -728,7 +728,7 @@ namespace CSX.Collections
 		/// A function which returns the cartesian product.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="funcList" /> is <c>null</c>.
+		/// <paramref name="funcList" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Lift{T, V}(Func{T, V})" />
 		public static Func<ConsList<T>, ConsList<V>> Apply<T, V>(
