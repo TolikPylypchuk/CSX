@@ -19,7 +19,9 @@ namespace CSX.Collections
 		IEquatable<ConsList<T>>,
 		IEnumerable, IEnumerable<T>,
 		ICollection, ICollection<T>,
-		IList, IList<T>
+		IList, IList<T>,
+		IReadOnlyCollection<T>,
+		IReadOnlyList<T>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConsList{T}" /> class.
