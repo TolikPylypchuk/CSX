@@ -613,7 +613,7 @@ namespace CSX.Collections
 	}
 
 	/// <summary>
-	/// Constains helper and extension methods to work with cons lists.
+	/// Contains helper and extension methods to work with cons lists.
 	/// </summary>
 	/// <seealso cref="ConsList{T}" />
 	public static class ConsList

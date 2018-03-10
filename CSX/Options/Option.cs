@@ -256,7 +256,7 @@ namespace CSX.Options
 	}
 
 	/// <summary>
-	/// Constains helper and extension methods to work with options.
+	/// Contains helper and extension methods to work with options.
 	/// </summary>
 	/// <seealso cref="Option{T}" />
 	public static class Option

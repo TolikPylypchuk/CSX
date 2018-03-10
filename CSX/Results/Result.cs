@@ -256,7 +256,7 @@ namespace CSX.Results
 	}
 
 	/// <summary>
-	/// Constains helper and extension methods to work with results.
+	/// Contains helper and extension methods to work with results.
 	/// </summary>
 	/// <seealso cref="Result{TSuccess, TError}" />
 	public static class Result
