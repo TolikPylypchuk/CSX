@@ -194,6 +194,35 @@ namespace CSX.Results
 		public abstract Option<TSuccess> ToOption();
 
 		/// <summary>
+		/// Combines this result's errors with a provided error.
+		/// </summary>
+		/// <param name="error">The error to add.</param>
+		/// <returns>A failure with the added error.</returns>
+		public abstract Result<TSuccess, TError> CombineErrors(TError error);
+
+		/// <summary>
+		/// Combines this result's errors with provided errors.
+		/// </summary>
+		/// <param name="errors">The errors to add.</param>
+		/// <returns>A failure with the added errors.</returns>
+		public abstract Result<TSuccess, TError> CombineErrors(ConsList<TError> errors);
+
+		/// <summary>
+		/// Combines this result's errors with provided errors.
+		/// </summary>
+		/// <param name="errors">The errors to add.</param>
+		/// <returns>A failure with the added errors.</returns>
+		public abstract Result<TSuccess, TError> CombineErrors(IEnumerable<TError> errors);
+
+		/// <summary>
+		/// Combines this result's errors with a provided result's errors.
+		/// </summary>
+		/// <param name="result">The result whose errors are added.</param>
+		/// <returns>A failure with the added errors.</returns>
+		public abstract Result<TSuccess, TError> CombineErrors(
+			Result<TSuccess, TError> result);
+
+		/// <summary>
 		/// Gets an enumerator which contains this value if it's a success
 		/// or is empty otherwise.
 		/// </summary>

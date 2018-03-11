@@ -158,11 +158,46 @@ namespace CSX.Results
 		}
 
 		/// <summary>
-		/// Returns <c>None</c>.
+		/// Returns an empty option.
 		/// </summary>
 		/// <returns><see cref="None{TSuccess}" />.</returns>
 		public override Option<TSuccess> ToOption()
 			=> Option.Empty<TSuccess>();
+
+		/// <summary>
+		/// Combines this failure's errors with a provided error.
+		/// </summary>
+		/// <param name="error">The error to add.</param>
+		/// <returns>A failure with the added error.</returns>
+		public override Result<TSuccess, TError> CombineErrors(TError error)
+			=> this.Errors.Add(ConsList.From(error)).ToFailure<TSuccess, TError>();
+
+		/// <summary>
+		/// Combines this failure's errors with provided errors.
+		/// </summary>
+		/// <param name="errors">The errors to add.</param>
+		/// <returns>A failure with the added errors.</returns>
+		public override Result<TSuccess, TError> CombineErrors(ConsList<TError> errors)
+			=> this.Errors.Add(errors).ToFailure<TSuccess, TError>();
+
+		/// <summary>
+		/// Combines this failure's errors with provided errors.
+		/// </summary>
+		/// <param name="errors">The errors to add.</param>
+		/// <returns>A failure with the added errors.</returns>
+		public override Result<TSuccess, TError> CombineErrors(IEnumerable<TError> errors)
+			=> this.Errors.Add(ConsList.Copy(errors)).ToFailure<TSuccess, TError>();
+		
+		/// <summary>
+		/// Combines this failure's errors with a provided result's errors.
+		/// </summary>
+		/// <param name="result">The result whose errors are added.</param>
+		/// <returns>A failure with the added errors.</returns>
+		public override Result<TSuccess, TError> CombineErrors(
+			Result<TSuccess, TError> result)
+			=> result
+			   .MatchFailure(this.CombineErrors)
+			   .MatchSuccess(value => this);
 
 		/// <summary>
 		/// Returns an empty enumerator.

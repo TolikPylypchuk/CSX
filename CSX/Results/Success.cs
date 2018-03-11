@@ -151,6 +151,45 @@ namespace CSX.Results
 			=> Option.From(this.Value);
 
 		/// <summary>
+		/// Returns a failure with the specified error.
+		/// </summary>
+		/// <param name="error">The error of the failure.</param>
+		/// <returns>A failure with the specified error.</returns>
+		public override Result<TSuccess, TError> CombineErrors(TError error)
+			=> error.ToFailure<TSuccess, TError>();
+		
+		/// <summary>
+		/// Returns a failure with the specified errors.
+		/// </summary>
+		/// <param name="errors">The errors of the failure.</param>
+		/// <returns>A failure with the specified errors.</returns>
+		public override Result<TSuccess, TError> CombineErrors(ConsList<TError> errors)
+			=> errors.ToFailure<TSuccess, TError>();
+
+		/// <summary>
+		/// Returns a failure with the specified errors.
+		/// </summary>
+		/// <param name="errors">The errors of the failure.</param>
+		/// <returns>A failure with the specified errors.</returns>
+		public override Result<TSuccess, TError> CombineErrors(IEnumerable<TError> errors)
+			=> errors.ToFailure<TSuccess, TError>();
+
+		/// <summary>
+		/// If the provided result is a failure, then returns the result.
+		/// Otherwise, returns <see langword="this" />.
+		/// </summary>
+		/// <param name="result">The result to check.</param>
+		/// <returns>
+		/// If the provided result is a failure, then returns the result.
+		/// Otherwise, returns <see langword="this" />.
+		/// </returns>
+		public override Result<TSuccess, TError> CombineErrors(
+			Result<TSuccess, TError> result)
+			=> result
+				.MatchFailure(errors => result)
+				.MatchSuccess(value => this);
+
+		/// <summary>
 		/// Gets an enumerator which contains this value.
 		/// </summary>
 		/// <returns>An enumerator which contains this value.</returns>
