@@ -79,7 +79,7 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
-		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
+		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public override Result<VSuccess, TError> Map<VSuccess>(
 			Func<TSuccess, VSuccess> func)
@@ -99,13 +99,33 @@ namespace CSX.Results
 		/// <exception cref="UnacceptableNullException">
 		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
+		/// <exception cref="InvalidOperationException">
+		/// <paramref name="func" /> returns an empty list.
+		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public override Result<TSuccess, VError> MapFailure<VError>(
-			Func<TError, VError> func)
-			=> func != null
-				? Result.Fail<TSuccess, VError>(this.Errors.Map(func))
-				: throw new ArgumentNullException(nameof(func));
+			Func<ConsList<TError>, ConsList<VError>> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			var newErrors = func(this.Errors);
+
+			if (newErrors == null)
+			{
+				throw new UnacceptableNullException("Cannot map to null.");
+			}
+
+			if (newErrors.Count == 0)
+			{
+				throw new InvalidOperationException("Cannot map to an empty error list.");
+			}
+
+			return Result.Fail<TSuccess, VError>(newErrors);
+		}
 
 		/// <summary>
 		/// Returns a failure with type <typeparamref name="VSuccess" />.
@@ -117,7 +137,7 @@ namespace CSX.Results
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
-		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
+		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		public override Result<VSuccess, TError> Bind<VSuccess>(
 			Func<TSuccess, Result<VSuccess, TError>> func)
 			=> func != null
@@ -163,42 +183,7 @@ namespace CSX.Results
 		/// <returns><see cref="None{TSuccess}" />.</returns>
 		public override Option<TSuccess> ToOption()
 			=> Option.Empty<TSuccess>();
-
-		/// <summary>
-		/// Combines this failure's errors with a provided error.
-		/// </summary>
-		/// <param name="error">The error to add.</param>
-		/// <returns>A failure with the added error.</returns>
-		public override Result<TSuccess, TError> CombineErrors(TError error)
-			=> this.Errors.Add(ConsList.From(error)).ToFailure<TSuccess, TError>();
-
-		/// <summary>
-		/// Combines this failure's errors with provided errors.
-		/// </summary>
-		/// <param name="errors">The errors to add.</param>
-		/// <returns>A failure with the added errors.</returns>
-		public override Result<TSuccess, TError> CombineErrors(ConsList<TError> errors)
-			=> this.Errors.Add(errors).ToFailure<TSuccess, TError>();
-
-		/// <summary>
-		/// Combines this failure's errors with provided errors.
-		/// </summary>
-		/// <param name="errors">The errors to add.</param>
-		/// <returns>A failure with the added errors.</returns>
-		public override Result<TSuccess, TError> CombineErrors(IEnumerable<TError> errors)
-			=> this.Errors.Add(ConsList.Copy(errors)).ToFailure<TSuccess, TError>();
 		
-		/// <summary>
-		/// Combines this failure's errors with a provided result's errors.
-		/// </summary>
-		/// <param name="result">The result whose errors are added.</param>
-		/// <returns>A failure with the added errors.</returns>
-		public override Result<TSuccess, TError> CombineErrors(
-			Result<TSuccess, TError> result)
-			=> result
-			   .MatchFailure(this.CombineErrors)
-			   .MatchSuccess(value => this);
-
 		/// <summary>
 		/// Returns an empty enumerator.
 		/// </summary>

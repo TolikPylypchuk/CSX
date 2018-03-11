@@ -60,7 +60,7 @@ namespace CSX.Results
 		/// <exception cref="UnacceptableNullException">
 		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
-		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
+		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public abstract Result<VSuccess, TError> Map<VSuccess>(
 			Func<TSuccess, VSuccess> func);
@@ -79,10 +79,13 @@ namespace CSX.Results
 		/// <exception cref="UnacceptableNullException">
 		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
+		/// <exception cref="InvalidOperationException">
+		/// <paramref name="func" /> returns an empty list.
+		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public abstract Result<TSuccess, VError> MapFailure<VError>(
-			Func<TError, VError> func);
+			Func<ConsList<TError>, ConsList<VError>> func);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's a success.
@@ -99,7 +102,7 @@ namespace CSX.Results
 		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
-		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
+		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		public abstract Result<VSuccess, TError> Bind<VSuccess>(
 			Func<TSuccess, Result<VSuccess, TError>> func);
 
@@ -192,36 +195,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <returns><c>Some(value)</c> if it's a success. Otherwise, <c>None</c>.</returns>
 		public abstract Option<TSuccess> ToOption();
-
-		/// <summary>
-		/// Combines this result's errors with a provided error.
-		/// </summary>
-		/// <param name="error">The error to add.</param>
-		/// <returns>A failure with the added error.</returns>
-		public abstract Result<TSuccess, TError> CombineErrors(TError error);
-
-		/// <summary>
-		/// Combines this result's errors with provided errors.
-		/// </summary>
-		/// <param name="errors">The errors to add.</param>
-		/// <returns>A failure with the added errors.</returns>
-		public abstract Result<TSuccess, TError> CombineErrors(ConsList<TError> errors);
-
-		/// <summary>
-		/// Combines this result's errors with provided errors.
-		/// </summary>
-		/// <param name="errors">The errors to add.</param>
-		/// <returns>A failure with the added errors.</returns>
-		public abstract Result<TSuccess, TError> CombineErrors(IEnumerable<TError> errors);
-
-		/// <summary>
-		/// Combines this result's errors with a provided result's errors.
-		/// </summary>
-		/// <param name="result">The result whose errors are added.</param>
-		/// <returns>A failure with the added errors.</returns>
-		public abstract Result<TSuccess, TError> CombineErrors(
-			Result<TSuccess, TError> result);
-
+		
 		/// <summary>
 		/// Gets an enumerator which contains this value if it's a success
 		/// or is empty otherwise.

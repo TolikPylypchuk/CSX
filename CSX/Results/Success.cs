@@ -58,7 +58,7 @@ namespace CSX.Results
 		/// <exception cref="UnacceptableNullException">
 		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
-		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
+		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public override Result<VSuccess, TError> Map<VSuccess>(
 			Func<TSuccess, VSuccess> func)
@@ -87,7 +87,7 @@ namespace CSX.Results
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
 		public override Result<TSuccess, VError> MapFailure<VError>(
-			Func<TError, VError> func)
+			Func<ConsList<TError>, ConsList<VError>> func)
 			=> func != null
 				? Result.Succeed<TSuccess, VError>(this.Value)
 				: throw new ArgumentNullException(nameof(func));
@@ -105,7 +105,7 @@ namespace CSX.Results
 		/// <paramref name="func" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
-		/// <seealso cref="MapFailure{VError}(Func{TError, VError})" />
+		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		public override Result<VSuccess, TError> Bind<VSuccess>(
 			Func<TSuccess, Result<VSuccess, TError>> func)
 			=> func != null
@@ -149,46 +149,7 @@ namespace CSX.Results
 		/// <returns><c>Some(value)</c></returns>
 		public override Option<TSuccess> ToOption()
 			=> Option.From(this.Value);
-
-		/// <summary>
-		/// Returns a failure with the specified error.
-		/// </summary>
-		/// <param name="error">The error of the failure.</param>
-		/// <returns>A failure with the specified error.</returns>
-		public override Result<TSuccess, TError> CombineErrors(TError error)
-			=> error.ToFailure<TSuccess, TError>();
 		
-		/// <summary>
-		/// Returns a failure with the specified errors.
-		/// </summary>
-		/// <param name="errors">The errors of the failure.</param>
-		/// <returns>A failure with the specified errors.</returns>
-		public override Result<TSuccess, TError> CombineErrors(ConsList<TError> errors)
-			=> errors.ToFailure<TSuccess, TError>();
-
-		/// <summary>
-		/// Returns a failure with the specified errors.
-		/// </summary>
-		/// <param name="errors">The errors of the failure.</param>
-		/// <returns>A failure with the specified errors.</returns>
-		public override Result<TSuccess, TError> CombineErrors(IEnumerable<TError> errors)
-			=> errors.ToFailure<TSuccess, TError>();
-
-		/// <summary>
-		/// If the provided result is a failure, then returns the result.
-		/// Otherwise, returns <see langword="this" />.
-		/// </summary>
-		/// <param name="result">The result to check.</param>
-		/// <returns>
-		/// If the provided result is a failure, then returns the result.
-		/// Otherwise, returns <see langword="this" />.
-		/// </returns>
-		public override Result<TSuccess, TError> CombineErrors(
-			Result<TSuccess, TError> result)
-			=> result
-				.MatchFailure(errors => result)
-				.MatchSuccess(value => this);
-
 		/// <summary>
 		/// Gets an enumerator which contains this value.
 		/// </summary>
