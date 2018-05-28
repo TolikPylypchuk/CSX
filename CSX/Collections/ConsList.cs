@@ -405,7 +405,7 @@ namespace CSX.Collections
 		/// Thrown unconditionally.
 		/// </exception>
 		int IList.Add(object value)
-			=> throw new NotSupportedException("Cannot add an item to a cons list.");
+			=> throw new NotSupportedException("Cannot add a value to a cons list.");
 
 		/// <summary>
 		/// Throws a <see cref="NotSupportedException" />.
