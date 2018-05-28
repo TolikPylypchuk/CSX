@@ -112,11 +112,8 @@ namespace CSX.Collections
 		/// </exception>
 		/// <seealso cref="MatchEmpty{TResult}(Func{TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public EmptyMatcher<T, TResult> MatchConsCell<TResult>(
-			Func<T, ConsList<T>, TResult> func)
-			=> func != null
-				? new EmptyMatcher<T, TResult>(this, func)
-				: throw new ArgumentNullException(nameof(func));
+		public abstract EmptyMatcher<T, TResult> MatchConsCell<TResult>(
+			Func<T, ConsList<T>, TResult> func);
 
 		/// <summary>
 		/// Returns the result of the specified function if this list is
@@ -136,10 +133,7 @@ namespace CSX.Collections
 		/// </exception>
 		/// <seealso cref="MatchConsCell{TResult}(Func{T, ConsList{T}, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public ConsCellMatcher<T, TResult> MatchEmpty<TResult>(Func<TResult> func)
-			=> func != null
-				? new ConsCellMatcher<T, TResult>(this, func)
-				: throw new ArgumentNullException(nameof(func));
+		public abstract ConsCellMatcher<T, TResult> MatchEmpty<TResult>(Func<TResult> func);
 
 		/// <summary>
 		/// Returns a result of the specified function.

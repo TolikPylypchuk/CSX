@@ -14,9 +14,14 @@ namespace CSX.Collections.Matchers
 	public class ConsCellMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// The list to match against.
+		/// The cell to provide to the function.
 		/// </summary>
-		private readonly ConsList<TValue> list;
+		private readonly ConsCell<TValue> cell;
+
+		/// <summary>
+		/// Indicates whether the cell is present.
+		/// </summary>
+		private readonly bool isCellPresent;
 
 		/// <summary>
 		/// The function that is executed if this list is empty.
@@ -27,13 +32,28 @@ namespace CSX.Collections.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="ConsCellMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="list">The list to match against.</param>
+		/// <param name="cell">The cell to provide to the function.</param>
 		/// <param name="funcIfEmpty">
 		/// The function that is executed if this list is empty.
 		/// </param>
-		internal ConsCellMatcher(ConsList<TValue> list, Func<TResult> funcIfEmpty)
+		internal ConsCellMatcher(ConsCell<TValue> cell, Func<TResult> funcIfEmpty)
 		{
-			this.list = list;
+			this.cell = cell;
+			this.isCellPresent = true;
+			this.funcIfEmpty = funcIfEmpty;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="ConsCellMatcher{TValue, TResult}" /> class.
+		/// </summary>
+		/// <param name="funcIfEmpty">
+		/// The function that is executed if this list is empty.
+		/// </param>
+		internal ConsCellMatcher(Func<TResult> funcIfEmpty)
+		{
+			this.cell = null;
+			this.isCellPresent = false;
 			this.funcIfEmpty = funcIfEmpty;
 		}
 
@@ -58,13 +78,9 @@ namespace CSX.Collections.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			switch (this.list)
-			{
-				case ConsCell<TValue> cell:
-					return func(cell.Head, cell.Tail);
-			}
-
-			return this.funcIfEmpty();
+			return this.isCellPresent
+				? func(this.cell.Head, this.cell.Tail)
+				: this.funcIfEmpty();
 		}
 
 		/// <summary>
@@ -82,13 +98,9 @@ namespace CSX.Collections.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			switch (this.list)
-			{
-				case ConsCell<TValue> _:
-					return func();
-			}
-
-			return this.funcIfEmpty();
+			return this.isCellPresent
+				? func()
+				: this.funcIfEmpty();
 		}
 	}
 }

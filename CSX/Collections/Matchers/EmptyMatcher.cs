@@ -14,9 +14,14 @@ namespace CSX.Collections.Matchers
 	public class EmptyMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// The list to match against.
+		/// The cell to provide to the function.
 		/// </summary>
-		private readonly ConsList<TValue> list;
+		private readonly ConsCell<TValue> cell;
+
+		/// <summary>
+		/// Indicates whether the cell is present.
+		/// </summary>
+		private readonly bool isCellPresent;
 
 		/// <summary>
 		/// The function that is executed if this list is a cons cell.
@@ -27,15 +32,30 @@ namespace CSX.Collections.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="list">The list to match against.</param>
+		/// <param name="cell">The cell to provide to the function.</param>
 		/// <param name="funcIfConsCell">
 		/// The function that is executed if this list is a cons cell.
 		/// </param>
 		internal EmptyMatcher(
-			ConsList<TValue> list,
+			ConsCell<TValue> cell,
 			Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
 		{
-			this.list = list;
+			this.cell = cell;
+			this.isCellPresent = true;
+			this.funcIfConsCell = funcIfConsCell;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
+		/// </summary>
+		/// <param name="funcIfConsCell">
+		/// The function that is executed if this list is a cons cell.
+		/// </param>
+		internal EmptyMatcher(Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
+		{
+			this.cell = null;
+			this.isCellPresent = default;
 			this.funcIfConsCell = funcIfConsCell;
 		}
 
@@ -60,13 +80,9 @@ namespace CSX.Collections.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			switch (this.list)
-			{
-				case ConsCell<TValue> cell:
-					return this.funcIfConsCell(cell.Head, cell.Tail);
-			}
-
-			return func();
+			return this.isCellPresent
+				? this.funcIfConsCell(this.cell.Head, this.cell.Tail)
+				: func();
 		}
 
 		/// <summary>
@@ -84,13 +100,9 @@ namespace CSX.Collections.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			switch (this.list)
-			{
-				case ConsCell<TValue> cell:
-					return this.funcIfConsCell(cell.Head, cell.Tail);
-			}
-
-			return func();
+			return this.isCellPresent
+				? this.funcIfConsCell(this.cell.Head, this.cell.Tail)
+				: func();
 		}
 	}
 }

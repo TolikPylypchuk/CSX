@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CSX.Collections.Matchers;
 
 namespace CSX.Collections
 {
@@ -61,6 +62,43 @@ namespace CSX.Collections
 		public override ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func)
 			=> func != null
 				? ConsList.Empty<V>()
+				: throw new ArgumentNullException(nameof(func));
+
+		/// <summary>
+		/// Returns the matcher which will return the result of another function.
+		/// </summary>
+		/// <param name="func">Not used.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
+		/// <returns>
+		/// The matcher which will return the result of another function.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="MatchEmpty{TResult}(Func{TResult})" />
+		/// <seealso cref="ConsList{T}.MatchAny{TResult}(Func{TResult})" />
+		public override EmptyMatcher<T, TResult> MatchConsCell<TResult>(
+			Func<T, ConsList<T>, TResult> func)
+			=> func != null
+				? new EmptyMatcher<T, TResult>(func)
+				: throw new ArgumentNullException(nameof(func));
+
+		/// <summary>
+		/// Returns the matcher which will return the result of the specified function.
+		/// </summary>
+		/// <param name="func">The function whose result will be returned.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
+		/// <returns>
+		/// The matcher which will return the result of the specified function.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="MatchConsCell{TResult}(Func{T, ConsList{T}, TResult})" />
+		/// <seealso cref="ConsList{T}.MatchAny{TResult}(Func{TResult})" />
+		public override ConsCellMatcher<T, TResult> MatchEmpty<TResult>(Func<TResult> func)
+			=> func != null
+				? new ConsCellMatcher<T, TResult>(func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
