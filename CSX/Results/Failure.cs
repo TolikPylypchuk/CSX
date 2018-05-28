@@ -5,6 +5,7 @@ using CSX.Collections;
 using CSX.Exceptions;
 using CSX.Options;
 using CSX.Results.Matchers;
+
 using static CSX.Functions.Function;
 
 namespace CSX.Results
