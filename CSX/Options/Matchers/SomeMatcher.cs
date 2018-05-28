@@ -14,9 +14,14 @@ namespace CSX.Options.Matchers
 	public class SomeMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// The option to match against.
+		/// The value, which may be present.
 		/// </summary>
-		private readonly Option<TValue> option;
+		private readonly TValue value;
+
+		/// <summary>
+		/// Indicates whether the value is present.
+		/// </summary>
+		private readonly bool isValuePresent;
 
 		/// <summary>
 		/// The function that is executed when the value is absent.
@@ -27,13 +32,28 @@ namespace CSX.Options.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="SomeMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="option">The option to match against.</param>
+		/// <param name="value">The value to provide to the function.</param>
 		/// <param name="funcIfNone">
 		/// The function that is executed when the value is absent.
 		/// </param>
-		internal SomeMatcher(Option<TValue> option, Func<TResult> funcIfNone)
+		internal SomeMatcher(TValue value, Func<TResult> funcIfNone)
 		{
-			this.option = option;
+			this.value = value;
+			this.isValuePresent = true;
+			this.funcIfNone = funcIfNone;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="SomeMatcher{TValue, TResult}" /> class.
+		/// </summary>
+		/// <param name="funcIfNone">
+		/// The function that is executed when the value is absent.
+		/// </param>
+		internal SomeMatcher(Func<TResult> funcIfNone)
+		{
+			this.value = default;
+			this.isValuePresent = false;
 			this.funcIfNone = funcIfNone;
 		}
 
@@ -59,12 +79,9 @@ namespace CSX.Options.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			foreach (var value in this.option)
-			{
-				return func(value);
-			}
-
-			return this.funcIfNone();
+			return this.isValuePresent
+				? func(this.value)
+				: this.funcIfNone();
 		}
 
 		/// <summary>
@@ -82,12 +99,9 @@ namespace CSX.Options.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			foreach (var _ in this.option)
-			{
-				return func();
-			}
-
-			return this.funcIfNone();
+			return this.isValuePresent
+				? func()
+				: this.funcIfNone();
 		}
 	}
 }

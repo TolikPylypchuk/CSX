@@ -14,9 +14,14 @@ namespace CSX.Options.Matchers
 	public class NoneMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// The option to match against.
+		/// The value to provide to the function.
 		/// </summary>
-		private readonly Option<TValue> option;
+		private readonly TValue value;
+
+		/// <summary>
+		/// Indicates whether the value is present.
+		/// </summary>
+		private readonly bool isValuePresent;
 
 		/// <summary>
 		/// The function that is executed when the value is present.
@@ -27,13 +32,28 @@ namespace CSX.Options.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="NoneMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="option">The option to match against.</param>
+		/// <param name="value">The value to provide to the function.</param>
 		/// <param name="funcIfSome">
 		/// The function that is executed when the value is present.
 		/// </param>
-		internal NoneMatcher(Option<TValue> option, Func<TValue, TResult> funcIfSome)
+		internal NoneMatcher(TValue value, Func<TValue, TResult> funcIfSome)
 		{
-			this.option = option;
+			this.value = value;
+			this.isValuePresent = true;
+			this.funcIfSome = funcIfSome;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="NoneMatcher{TValue, TResult}" /> class.
+		/// </summary>
+		/// <param name="funcIfSome">
+		/// The function that is executed when the value is present.
+		/// </param>
+		internal NoneMatcher(Func<TValue, TResult> funcIfSome)
+		{
+			this.value = default;
+			this.isValuePresent = false;
 			this.funcIfSome = funcIfSome;
 		}
 
@@ -59,12 +79,9 @@ namespace CSX.Options.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			foreach (var value in this.option)
-			{
-				return this.funcIfSome(value);
-			}
-
-			return func();
+			return this.isValuePresent
+				? this.funcIfSome(this.value)
+				: func();
 		}
 
 		/// <summary>
@@ -82,7 +99,9 @@ namespace CSX.Options.Matchers
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			return this.MatchNone(func);
+			return this.isValuePresent
+				? this.funcIfSome(this.value)
+				: func();
 		}
 	}
 }

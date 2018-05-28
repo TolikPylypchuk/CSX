@@ -96,10 +96,7 @@ namespace CSX.Options
 		/// </exception>
 		/// <seealso cref="MatchNone{TResult}(Func{TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public NoneMatcher<T, TResult> MatchSome<TResult>(Func<T, TResult> func)
-			=> func != null
-				? new NoneMatcher<T, TResult>(this, func)
-				: throw new ArgumentNullException(nameof(func));
+		public abstract NoneMatcher<T, TResult> MatchSome<TResult>(Func<T, TResult> func);
 
 		/// <summary>
 		/// Returns the result of the specified function if this option is
@@ -119,10 +116,7 @@ namespace CSX.Options
 		/// </exception>
 		/// <seealso cref="MatchSome{TResult}(Func{T, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public SomeMatcher<T, TResult> MatchNone<TResult>(Func<TResult> func)
-			=> func != null
-				? new SomeMatcher<T, TResult>(this, func)
-				: throw new ArgumentNullException(nameof(func));
+		public abstract SomeMatcher<T, TResult> MatchNone<TResult>(Func<TResult> func);
 
 		/// <summary>
 		/// Returns a result of the specified function.

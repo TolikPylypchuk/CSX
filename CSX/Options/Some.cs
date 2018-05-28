@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CSX.Exceptions;
+using CSX.Options.Matchers;
 using CSX.Results;
 
 namespace CSX.Options
@@ -89,6 +90,42 @@ namespace CSX.Options
 			=> func != null
 				? func(this.Value)
 					?? throw new UnacceptableNullException("Cannot bind to null.")
+				: throw new ArgumentNullException(nameof(func));
+
+		/// <summary>
+		/// Returns the matcher which will return the result of the specified function.
+		/// </summary>
+		/// <param name="func">The function whose result will be returned.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
+		/// <returns>
+		/// The matcher which will return the result of the specified function.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="MatchNone{TResult}(Func{TResult})" />
+		/// <seealso cref="Option{T}.MatchAny{TResult}(Func{TResult})" />
+		public override NoneMatcher<T, TResult> MatchSome<TResult>(Func<T, TResult> func)
+			=> func != null
+				? new NoneMatcher<T, TResult>(this.Value, func)
+				: throw new ArgumentNullException(nameof(func));
+
+		/// <summary>
+		/// Returns the matcher which will return the result of another function.
+		/// </summary>
+		/// <param name="func">Not used.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
+		/// <returns>
+		/// The matcher which will return the result of another function.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="MatchSome{TResult}(Func{T, TResult})" />
+		/// <seealso cref="Option{T}.MatchAny{TResult}(Func{TResult})" />
+		public override SomeMatcher<T, TResult> MatchNone<TResult>(Func<TResult> func)
+			=> func != null
+				? new SomeMatcher<T, TResult>(this.Value, func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
