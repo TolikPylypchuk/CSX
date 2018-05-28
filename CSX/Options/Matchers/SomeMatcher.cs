@@ -14,7 +14,7 @@ namespace CSX.Options.Matchers
 	public class SomeMatcher<TValue, TResult>
 	{
 		/// <summary>
-		/// The value, which may be present.
+		/// The value to provide to the function.
 		/// </summary>
 		private readonly TValue value;
 
