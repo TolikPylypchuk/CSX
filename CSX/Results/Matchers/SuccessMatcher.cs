@@ -18,9 +18,19 @@ namespace CSX.Results.Matchers
 	public class SuccessMatcher<TSuccess, TError, TResult>
 	{
 		/// <summary>
-		/// The result to match against.
+		/// The value to provide to the function.
 		/// </summary>
-		private readonly Result<TSuccess, TError> result;
+		private readonly TSuccess value;
+		
+		/// <summary>
+		/// The errors to provide to the function.
+		/// </summary>
+		private readonly ConsList<TError> errors;
+
+		/// <summary>
+		/// Indicates whether the result is a success.
+		/// </summary>
+		private readonly bool isSuccess;
 
 		/// <summary>
 		/// The function that is executed when the result is a failure.
@@ -31,13 +41,35 @@ namespace CSX.Results.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="SuccessMatcher{TSuccess, TError, TResult}" /> class.
 		/// </summary>
-		/// <param name="result"></param>
-		/// <param name="funcIfFailure"></param>
+		/// <param name="value">The value to provide to the function.</param>
+		/// <param name="funcIfFailure">
+		/// The function that is executed when the result is a failure.
+		/// </param>
 		internal SuccessMatcher(
-			Result<TSuccess, TError> result,
+			TSuccess value,
 			Func<ConsList<TError>, TResult> funcIfFailure)
 		{
-			this.result = result;
+			this.value = value;
+			this.errors = null;
+			this.isSuccess = true;
+			this.funcIfFailure = funcIfFailure;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="SuccessMatcher{TSuccess, TError, TResult}" /> class.
+		/// </summary>
+		/// <param name="errors">The errors to provide to the function.</param>
+		/// <param name="funcIfFailure">
+		/// The function that is executed when the result is a failure.
+		/// </param>
+		internal SuccessMatcher(
+			ConsList<TError> errors,
+			Func<ConsList<TError>, TResult> funcIfFailure)
+		{
+			this.value = default;
+			this.errors = errors;
+			this.isSuccess = false;
 			this.funcIfFailure = funcIfFailure;
 		}
 
@@ -54,17 +86,19 @@ namespace CSX.Results.Matchers
 		/// <see cref="Failure{TSuccess, TError}" /> matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
 		public TResult MatchSuccess(Func<TSuccess, TResult> func)
 		{
-			switch (this.result)
+			if (func == null)
 			{
-				case Success<TSuccess, TError> success:
-					return func(success.Value);
-				case Failure<TSuccess, TError> failure:
-					return this.funcIfFailure(failure.Errors);
+				throw new ArgumentNullException(nameof(func));
 			}
 
-			return default;
+			return this.isSuccess
+				? func(this.value)
+				: this.funcIfFailure(this.errors);
 		}
 
 		/// <summary>
@@ -72,15 +106,19 @@ namespace CSX.Results.Matchers
 		/// </summary>
 		/// <param name="func">The function that provides the match result.</param>
 		/// <returns>The result of <paramref name="func" />.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
 		public TResult MatchAny(Func<TResult> func)
 		{
-			switch (this.result)
+			if (func == null)
 			{
-				case Failure<TSuccess, TError> failure:
-					return this.funcIfFailure(failure.Errors);
+				throw new ArgumentNullException(nameof(func));
 			}
 
-			return func();
+			return this.isSuccess
+				? func()
+				: this.funcIfFailure(this.errors);
 		}
 	}
 }

@@ -125,11 +125,8 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(
-			Func<TSuccess, TResult> func)
-			=> func != null
-				? new FailureMatcher<TSuccess, TError, TResult>(this, func)
-				: throw new ArgumentNullException(nameof(func));
+		public abstract FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(
+			Func<TSuccess, TResult> func);
 
 		/// <summary>
 		/// Returns the result of the specified function if this result is
@@ -150,11 +147,8 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="MatchSuccess{TResult}(Func{TSuccess, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public SuccessMatcher<TSuccess, TError, TResult> MatchFailure<TResult>(
-			Func<ConsList<TError>, TResult> func)
-			=> func != null
-				? new SuccessMatcher<TSuccess, TError, TResult>(this, func)
-				: throw new ArgumentNullException(nameof(func));
+		public abstract SuccessMatcher<TSuccess, TError, TResult> MatchFailure<TResult>(
+			Func<ConsList<TError>, TResult> func);
 
 		/// <summary>
 		/// Returns a result of the specified function.

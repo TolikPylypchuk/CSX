@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using CSX.Collections;
 using CSX.Exceptions;
 using CSX.Options;
-
+using CSX.Results.Matchers;
 using static CSX.Functions.Function;
 
 namespace CSX.Results
@@ -142,6 +142,44 @@ namespace CSX.Results
 			Func<TSuccess, Result<VSuccess, TError>> func)
 			=> func != null
 				? Result.Fail<VSuccess, TError>(this.Errors)
+				: throw new ArgumentNullException(nameof(func));
+
+		/// <summary>
+		/// Returns the matcher which will return the result of another function.
+		/// </summary>
+		/// <param name="func">Not used.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
+		/// <returns>
+		/// The matcher which will return the result of another function.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
+		/// <seealso cref="Result{TSuccess, TError}.MatchAny{TResult}(Func{TResult})" />
+		public override FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(
+			Func<TSuccess, TResult> func)
+			=> func != null
+				? new FailureMatcher<TSuccess, TError, TResult>(this.Errors, func)
+				: throw new ArgumentNullException(nameof(func));
+
+		/// <summary>
+		/// Returns the matcher which will return the result of the specified function.
+		/// </summary>
+		/// <param name="func">The function whose result will be returned.</param>
+		/// <typeparam name="TResult">The type of the match result.</typeparam>
+		/// <returns>
+		/// The matcher which will return the result of the specified function.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="MatchSuccess{TResult}(Func{TSuccess, TResult})" />
+		/// <seealso cref="Result{TSuccess, TError}.MatchAny{TResult}(Func{TResult})" />
+		public override SuccessMatcher<TSuccess, TError, TResult> MatchFailure<TResult>(
+			Func<ConsList<TError>, TResult> func)
+			=> func != null
+				? new SuccessMatcher<TSuccess, TError, TResult>(this.Errors, func)
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
