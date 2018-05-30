@@ -55,6 +55,32 @@ namespace CSX.Functions
 			Assert.Null(UnsafeCast<object, string>(1));
 		}
 
+		[Fact(DisplayName = "IsNull returns false for non-null objects")]
+		public void TestIsNullFalse()
+		{
+			Assert.False(new object().IsNull());
+		}
+
+		[Fact(DisplayName = "IsNull returns true for nulls")]
+		public void TestIsNullTrue()
+		{
+			object obj = null;
+			Assert.True(obj.IsNull());
+		}
+
+		[Fact(DisplayName = "IsNotNull returns true for non-null objects")]
+		public void TestIsNotNullTrue()
+		{
+			Assert.True(new object().IsNotNull());
+		}
+
+		[Fact(DisplayName = "IsNotNull returns false for nulls")]
+		public void TestIsNotNullFalse()
+		{
+			object obj = null;
+			Assert.False(obj.IsNotNull());
+		}
+
 		[Fact(DisplayName = "Curried<TResult> returns the function")]
 		public void TestCurriedFunc0()
 		{

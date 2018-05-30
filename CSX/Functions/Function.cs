@@ -47,6 +47,28 @@ namespace CSX.Functions
 			=> value as TTo;
 
 		/// <summary>
+		/// Determines whether this object is <see langword="null" />.
+		/// </summary>
+		/// <param name="obj">The object to check.</param>
+		/// <returns>
+		/// <see langword="true" />, if this object is <see langword="null" />.
+		/// Otherwise, <see langword="false" />.
+		/// </returns>
+		public static bool IsNull(this object obj)
+			=> obj == null;
+
+		/// <summary>
+		/// Determines whether this object is not <see langword="null" />.
+		/// </summary>
+		/// <param name="obj">The object to check.</param>
+		/// <returns>
+		/// <see langword="true" />, if this object is not <see langword="null" />.
+		/// Otherwise, <see langword="false" />.
+		/// </returns>
+		public static bool IsNotNull(this object obj)
+			=> obj != null;
+
+		/// <summary>
 		/// Creates a curried version of the specified function.
 		/// </summary>
 		/// <typeparam name="TResult">The type of the result.</typeparam>
