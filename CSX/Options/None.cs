@@ -22,26 +22,59 @@ namespace CSX.Options
 		internal None() { }
 
 		/// <summary>
-		/// Returns the alternative value.
-		/// The alternative may be <see langword="null" />.
+		/// Returns the alternative value, which may be <see langword="null" />.
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
-		/// <seealso cref="GetOrThrow(string)" />
+		/// <seealso cref="GetOrElse(Func{T})" />
+		/// <seealso cref="GetOrThrow(Func{Exception})" />
 		public override T GetOrElse(T alternative)
 			=> alternative;
 
 		/// <summary>
-		/// Throws an <see cref="InvalidOperationException" />.
+		/// Returns the alternative value, which may be <see langword="null" />.
 		/// </summary>
-		/// <param name="message">The message of the exception.</param>
-		/// <returns>Nothing.</returns>
-		/// <exception cref="OptionAbsentException">
-		/// Thrown unconditionally.
+		/// <param name="alternativeProvider">
+		/// The function which provides the alternative value.
+		/// </param>
+		/// <returns>The provided alternative value.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(T)" />
-		public override T GetOrThrow(string message = "The value is not present.")
-			=> throw new OptionAbsentException(message);
+		/// <seealso cref="GetOrThrow(Func{Exception})" />
+		public override T GetOrElse(Func<T> alternativeProvider)
+			=> alternativeProvider != null
+				? alternativeProvider()
+				: throw new ArgumentNullException(nameof(alternativeProvider));
+
+		/// <summary>
+		/// Throws a provided exception.
+		/// </summary>
+		/// <param name="exceptionProvider">
+		/// The function which provides an exception to throw.
+		/// </param>
+		/// <returns>Nothing.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="exceptionProvider" /> returns <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="GetOrElse(T)" />
+		/// <seealso cref="GetOrElse(Func{T})" />
+		public override T GetOrThrow(Func<Exception> exceptionProvider)
+		{
+			if (exceptionProvider == null)
+			{
+				throw new ArgumentNullException(nameof(exceptionProvider));
+			}
+
+			var exception = exceptionProvider()
+				?? throw new UnacceptableNullException("Cannot throw null.");
+
+			throw exception;
+		}
 
 		/// <summary>
 		/// Returns an empty option of type <typeparamref name="V" />.

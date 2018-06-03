@@ -23,6 +23,14 @@ namespace CSX.Options
 			Assert.Equal(expected, option.GetOrElse(expected));
 		}
 
+		[Fact(DisplayName = "GetOrElse returns the provided alternative")]
+		public void TestGetOrElseFunc()
+		{
+			const int expected = 1;
+			var option = Empty<int>();
+			Assert.Equal(expected, option.GetOrElse(() => expected));
+		}
+
 		[Fact(DisplayName = "GetOrElse returns the alternative when it's null")]
 		public void TestGetOrElseNull()
 		{
@@ -31,11 +39,33 @@ namespace CSX.Options
 			Assert.Equal(expected, option.GetOrElse(expected));
 		}
 
-		[Fact(DisplayName = "GetOrThrow throws an exception")]
+		[Fact(DisplayName = "GetOrElse returns the provided alternative when it's null")]
+		public void TestGetOrElseFuncNull()
+		{
+			const string expected = null;
+			var option = Empty<string>();
+			Assert.Equal(expected, option.GetOrElse(() => expected));
+		}
+
+		[Fact(DisplayName = "GetOrThrow throws a provided exception")]
 		public void TestGetOrThrow()
 		{
 			var option = Empty<int>();
-			Assert.Throws<OptionAbsentException>(() => option.GetOrThrow());
+			Assert.Throws<Exception>(() => option.GetOrThrow(() => new Exception()));
+		}
+
+		[Fact(DisplayName = "GetOrThrow throws an exception if the provider is null")]
+		public void TestGetOrThrowNull()
+		{
+			var option = Empty<int>();
+			Assert.Throws<ArgumentNullException>(() => option.GetOrThrow(null));
+		}
+
+		[Fact(DisplayName = "GetOrThrow throws an exception if the provider returns null")]
+		public void TestGetOrThrowNullException()
+		{
+			var option = Empty<int>();
+			Assert.Throws<UnacceptableNullException>(() => option.GetOrThrow(() => null));
 		}
 
 		[Fact(DisplayName = "Map does nothing")]

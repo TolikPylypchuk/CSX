@@ -32,18 +32,40 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="alternative">Not used.</param>
 		/// <returns>The value of this option.</returns>
-		/// <seealso cref="GetOrThrow(string)" />
+		/// <seealso cref="GetOrElse(Func{T})" />
+		/// <seealso cref="GetOrThrow(Func{Exception})" />
 		public override T GetOrElse(T alternative)
 			=> this.Value;
 
 		/// <summary>
 		/// Returns the value of this option.
 		/// </summary>
-		/// <param name="message">Not used.</param>
+		/// <param name="alternativeProvider">Not used.</param>
 		/// <returns>The value of this option.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
+		/// </exception>
 		/// <seealso cref="GetOrElse(T)" />
-		public override T GetOrThrow(string message = "The value is not present.")
-			=> this.Value;
+		/// <seealso cref="GetOrThrow(Func{Exception})" />
+		public override T GetOrElse(Func<T> alternativeProvider)
+			=> alternativeProvider != null
+				? this.Value
+				: throw new ArgumentNullException(nameof(alternativeProvider));
+
+		/// <summary>
+		/// Returns the value of this option.
+		/// </summary>
+		/// <param name="exceptionProvider">Not used.</param>
+		/// <returns>The value of this option.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="GetOrElse(T)" />
+		/// <seealso cref="GetOrElse(Func{T})" />
+		public override T GetOrThrow(Func<Exception> exceptionProvider)
+			=> exceptionProvider != null
+				? this.Value
+				: throw new ArgumentNullException(nameof(exceptionProvider));
 
 		/// <summary>
 		/// Applies a specified function to this value.

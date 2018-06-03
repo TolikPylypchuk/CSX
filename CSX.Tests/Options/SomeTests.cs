@@ -22,12 +22,20 @@ namespace CSX.Options
 			Assert.Equal(expected, option.GetOrElse(0));
 		}
 
+		[Fact(DisplayName = "GetOrElse returns the provided value")]
+		public void TestGetOrElseFunc()
+		{
+			const int expected = 1;
+			var option = expected.ToOption();
+			Assert.Equal(expected, option.GetOrElse(() => 0));
+		}
+
 		[Fact(DisplayName = "GetOrThrow returns the value")]
 		public void TestGetOrThrow()
 		{
 			const int expected = 1;
 			var option = expected.ToOption();
-			Assert.Equal(expected, option.GetOrThrow());
+			Assert.Equal(expected, option.GetOrThrow(() => new Exception()));
 		}
 
 		[Fact(DisplayName = "Map maps the value")]

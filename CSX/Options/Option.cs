@@ -23,26 +23,48 @@ namespace CSX.Options
 		private protected Option() { }
 
 		/// <summary>
-		/// Gets the value if it's present, or an alternative otherwise.
-		/// The alternative may be <see langword="null" />.
+		/// Gets the value if it's present, or an alternative value otherwise.
+		/// The alternative value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="alternative">
 		/// The value to provide if this option doesn't have one.
 		/// </param>
 		/// <returns>The value if it's present, or an alternative otherwise.</returns>
-		/// <seealso cref="GetOrThrow(string)" />
+		/// <seealso cref="GetOrElse(Func{T})" />
+		/// <seealso cref="GetOrThrow(Func{Exception})" />
 		public abstract T GetOrElse(T alternative);
+
+		/// <summary>
+		/// Gets the value if it's present, or an alternative value otherwise.
+		/// The alternative value may be <see langword="null" />.
+		/// </summary>
+		/// <param name="alternativeProvider">
+		/// The function which provides the alternative value if this option doesn't have one.
+		/// </param>
+		/// <returns>The value if it's present, or an alternative value otherwise.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="GetOrElse(T)" />
+		/// <seealso cref="GetOrThrow(Func{Exception})" />
+		public abstract T GetOrElse(Func<T> alternativeProvider);
 
 		/// <summary>
 		/// Gets the value if it's present, or throws an exception otherwise.
 		/// </summary>
-		/// <param name="message">The message of the exception.</param>
+		/// <param name="exceptionProvider">
+		/// The function which provides an exception to throw.
+		/// </param>
 		/// <returns>The value if it's present.</returns>
-		/// <exception cref="OptionAbsentException">
-		/// The value is not present.
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="exceptionProvider" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(T)" />
-		public abstract T GetOrThrow(string message = "The value is not present.");
+		/// <seealso cref="GetOrElse(Func{T})" />
+		public abstract T GetOrThrow(Func<Exception> exceptionProvider);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's present.
