@@ -6,8 +6,6 @@ using CSX.Exceptions;
 using CSX.Options;
 using CSX.Results.Matchers;
 
-using static CSX.Functions.Function;
-
 namespace CSX.Results
 {
 	/// <summary>
@@ -42,33 +40,58 @@ namespace CSX.Results
 		public ConsList<TError> Errors { get; }
 
 		/// <summary>
-		/// Returns the <paramref name="alternative" /> value.
+		/// Returns the alternative value.
 		/// </summary>
 		/// <param name="alternative">The value to return.</param>
 		/// <returns>The <paramref name="alternative" /> value.</returns>
-		/// <seealso cref="GetOrThrow" />
+		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
 		public override TSuccess GetOrElse(TSuccess alternative)
 			=> alternative;
 
 		/// <summary>
-		/// Throws a <see cref="ResultFailedException" />.
+		/// Returns the alternative value.
 		/// </summary>
-		/// <returns>Nothing.</returns>
-		/// <exception cref="ResultFailedException">
-		/// Thrown unconditionally.
+		/// <param name="alternativeProvider">
+		/// The function which provides the alternative value.
+		/// </param>
+		/// <returns>The alternative value.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
-		public override TSuccess GetOrThrow()
+		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
+		public override TSuccess GetOrElse(
+			Func<ConsList<TError>, TSuccess> alternativeProvider)
+			=> alternativeProvider != null
+				? alternativeProvider(this.Errors)
+				: throw new ArgumentNullException(nameof(alternativeProvider));
+
+		/// <summary>
+		/// Throws a provided exception.
+		/// </summary>
+		/// <param name="exceptionProvider">
+		/// The function which provides an exception to throw.
+		/// </param>
+		/// <returns>Nothing.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="exceptionProvider" /> returns <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="GetOrElse(TSuccess)" />
+		public override TSuccess GetOrThrow(
+			Func<ConsList<TError>, Exception> exceptionProvider)
 		{
-			if (typeof(TError) == typeof(Exception) ||
-				typeof(TError).IsSubclassOf(typeof(Exception)))
+			if (exceptionProvider == null)
 			{
-				throw new ResultFailedException(
-					this.Errors.Map(UnsafeCast<TError, Exception>));
+				throw new ArgumentNullException(nameof(exceptionProvider));
 			}
 
-			throw new ResultFailedException(
-				this.Errors.Map(error => error.ToString()));
+			var exception = exceptionProvider(this.Errors)
+				?? throw new UnacceptableNullException("Cannot throw null.");
+
+			throw exception;
 		}
 
 		/// <summary>

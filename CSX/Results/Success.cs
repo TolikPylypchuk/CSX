@@ -36,16 +36,42 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="alternative">Not used.</param>
 		/// <returns>The value of this result.</returns>
-		/// <seealso cref="GetOrThrow" />
-		public override TSuccess GetOrElse(TSuccess alternative) => this.Value;
+		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
+		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
+		public override TSuccess GetOrElse(TSuccess alternative)
+			=> this.Value;
 
 		/// <summary>
 		/// Returns the value of this result.
 		/// </summary>
+		/// <param name="alternativeProvider">Not used.</param>
 		/// <returns>The value of this result.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
+		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
-		public override TSuccess GetOrThrow()
-			=> this.Value;
+		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
+		public override TSuccess GetOrElse(
+			Func<ConsList<TError>, TSuccess> alternativeProvider)
+			=> alternativeProvider != null
+				? this.Value
+				: throw new ArgumentNullException(nameof(alternativeProvider));
+
+		/// <summary>
+		/// Returns the value of this result.
+		/// </summary>
+		/// <param name="exceptionProvider">Not used.</param>
+		/// <returns>The value of this result.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="GetOrElse(TSuccess)" />
+		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
+		public override TSuccess GetOrThrow(
+			Func<ConsList<TError>, Exception> exceptionProvider)
+			=> exceptionProvider != null
+				? this.Value
+				: throw new ArgumentNullException(nameof(exceptionProvider));
 
 		/// <summary>
 		/// Applies a specified function to the value of this result.

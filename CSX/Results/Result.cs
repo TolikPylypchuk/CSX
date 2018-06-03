@@ -26,25 +26,54 @@ namespace CSX.Results
 		private protected Result() { }
 
 		/// <summary>
-		/// Gets the value if it's a success, or an alternative otherwise.
-		/// The alternative may be <see langword="null" />.
+		/// Gets the value if it's a success, or an alternative value otherwise.
+		/// The alternative value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="alternative">
 		/// The value to provide if this result is a failure.
 		/// </param>
-		/// <returns>The value if it's a succcess, or an alternative otherwise.</returns>
-		/// <seealso cref="GetOrThrow" />
+		/// <returns>
+		/// The value if it's a succcess, or an alternative value otherwise.
+		/// </returns>
+		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
+		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
 		public abstract TSuccess GetOrElse(TSuccess alternative);
 
 		/// <summary>
-		/// Gets the result if it's a success, or throws an exception otherwise.
+		/// Gets the value if it's a success, or an alternative value otherwise.
+		/// The alternative value may be <see langword="null" />.
 		/// </summary>
-		/// <returns>The result if it's a success.</returns>
-		/// <exception cref="ResultFailedException">
-		/// The result is a failure.
+		/// <param name="alternativeProvider">
+		/// The function which provides the alternative value if this result is a failure.
+		/// </param>
+		/// <returns>
+		/// The value if it's a succcess, or an alternative value otherwise.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
-		public abstract TSuccess GetOrThrow();
+		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
+		public abstract TSuccess GetOrElse(
+			Func<ConsList<TError>, TSuccess> alternativeProvider);
+
+		/// <summary>
+		/// Gets the value if it's a success, or throws a provided exception otherwise.
+		/// </summary>
+		/// <param name="exceptionProvider">
+		/// The function which provides an exception to throw.
+		/// </param>
+		/// <returns>The result if it's a success.</returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
+		/// </exception>
+		/// <exception cref="UnacceptableNullException">
+		/// <paramref name="exceptionProvider" /> returns <see langword="null" />.
+		/// </exception>
+		/// <seealso cref="GetOrElse(TSuccess)" />
+		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
+		public abstract TSuccess GetOrThrow(
+			Func<ConsList<TError>, Exception> exceptionProvider);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's a success.
