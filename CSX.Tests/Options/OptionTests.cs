@@ -184,8 +184,8 @@ namespace CSX.Options
 		}
 
 		[Fact(DisplayName =
-			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator")]
-		public void TestIEnumerableGetEnumerator()
+			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for Some")]
+		public void TestIEnumerableGetEnumeratorSome()
 		{
 			var some = 1.ToOption();
 
@@ -195,12 +195,17 @@ namespace CSX.Options
 			Assert.True(genericEnumerator.MoveNext());
 			Assert.True(nonGenericEnumerator.MoveNext());
 			Assert.Equal(genericEnumerator.Current, nonGenericEnumerator.Current);
+		}
 
+		[Fact(DisplayName =
+			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for None")]
+		public void TestIEnumerableGetEnumeratorNone()
+		{
 			var none = Empty<int>();
 
-			genericEnumerator = none.GetEnumerator();
-			nonGenericEnumerator = ((IEnumerable)none).GetEnumerator();
-
+			var genericEnumerator = none.GetEnumerator();
+			var nonGenericEnumerator = ((IEnumerable)none).GetEnumerator();
+			
 			Assert.False(genericEnumerator.MoveNext());
 			Assert.False(nonGenericEnumerator.MoveNext());
 		}

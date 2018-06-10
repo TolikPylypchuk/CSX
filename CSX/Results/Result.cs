@@ -711,11 +711,13 @@ namespace CSX.Results
 		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
 		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
 		/// <typeparam name="TError">The type of the failure value.</typeparam>
-		/// <param name="funcResult">The function to apply, if it's a success.</param>
+		/// <param name="funcResult">
+		/// The function to apply, if it's a success.
+		/// It must not return a <see langword="null" />.
+		/// </param>
 		/// <returns>
 		/// A lifted version of the specified function, if it's a success.
-		/// Otherwise, a function which always returns
-		/// <see cref="Failure{TSuccess, TError}" />.
+		/// Otherwise, a function which always returns a failure.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="funcResult" /> is <see langword="null" />.
@@ -745,7 +747,18 @@ namespace CSX.Results
 				return funcResult
 					.MatchSuccess(func =>
 						valueResult
-							.MatchSuccess(value => Succeed<VSuccess, TError>(func(value)))
+							.MatchSuccess(value =>
+							{
+								var result = func(value);
+
+								if (result == null)
+								{
+									throw new UnacceptableNullException(
+										"The result must not be null.");
+								}
+
+								return Succeed<VSuccess, TError>(result);
+							})
 							.MatchFailure(valueErrors => fail(valueErrors)))
 					.MatchFailure(funcErrors =>
 						valueResult
@@ -784,7 +797,10 @@ namespace CSX.Results
 		/// </summary>
 		/// <typeparam name="TInput">The input type of the function.</typeparam>
 		/// <typeparam name="TSuccess">The output type of the function.</typeparam>
-		/// <param name="func">The function which may throw an exception.</param>
+		/// <param name="func">
+		/// The function which may throw an exception.
+		/// It must not return a <see langword="null" />.
+		/// </param>
 		/// <returns>
 		/// A funciton, which returns a success if there were no exceptions,
 		/// or a failure containing an exception if it is thrown.
@@ -802,13 +818,23 @@ namespace CSX.Results
 
 			return value =>
 			{
+				TSuccess result;
+
 				try
 				{
-					return Succeed<TSuccess, Exception>(func(value));
+					result = func(value);
 				} catch (Exception e)
 				{
 					return Fail<TSuccess, Exception>(e);
 				}
+
+				if (result == null)
+				{
+					throw new UnacceptableNullException(
+						"The result must not be null.");
+				}
+
+				return Succeed<TSuccess, Exception>(result);
 			};
 		}
 	}
