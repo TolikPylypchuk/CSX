@@ -41,14 +41,8 @@ namespace CSX.Collections
 		/// <exception cref="ArgumentOutOfRangeException">
 		/// <paramref name="index" /> is not a valid index.
 		/// </exception>
-		/// <exception cref="NotSupportedException">
-		/// Thrown unconditionally on an attempt to set an item.
-		/// </exception>
 		public T this[int index]
-		{
-			get => this.GetItemImpl(index, 0);
-			set => throw new NotSupportedException("Cannot set a new item in a cons list.");
-		}
+			=> this.GetItemImpl(index, 0);
 
 		/// <summary>
 		/// Returns a concatenation of this list with another list.
@@ -333,6 +327,23 @@ namespace CSX.Collections
 		/// -1 if this item is not present in this list.
 		/// </returns>
 		internal abstract int IndexOfImpl(T item, int currentIndex);
+		
+		/// <summary>
+		/// Gets the item at the specified index.
+		/// </summary>
+		/// <param name="index">The index of the item to get.</param>
+		/// <returns>The item at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		/// <paramref name="index" /> is not a valid index.
+		/// </exception>
+		/// <exception cref="NotSupportedException">
+		/// Thrown unconditionally on an attempt to set an item.
+		/// </exception>
+		T IList<T>.this[int index]
+		{
+			get => this[index];
+			set => throw new NotSupportedException("Cannot set a new item in a cons list.");
+		}
 
 		/// <summary>
 		/// Always gets <see langword="true" />.
@@ -639,7 +650,8 @@ namespace CSX.Collections
 		/// A shallow copy of the specified <paramref name="collection" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="collection" /> is <see langword="null" />.
+		/// <paramref name="collection" /> is <see langword="null" />
+		/// or contains a <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> Copy<T>(IEnumerable<T> collection)
 			=> collection != null
@@ -653,7 +665,8 @@ namespace CSX.Collections
 		/// <param name="items">The items of the list.</param>
 		/// <returns>A list from specified <paramref name="items" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="items" /> is <see langword="null" />.
+		/// <paramref name="items" /> is <see langword="null" />
+		/// or contains a <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> Construct<T>(params T[] items)
 			=> items != null
