@@ -2,8 +2,6 @@
 
 using Xunit;
 
-using static CSX.Options.Option;
-
 namespace CSX.Options
 {
 	public class MatcherTests
@@ -25,7 +23,7 @@ namespace CSX.Options
 		public void TestMatchForNone1()
 		{
 			const int expected = 0;
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
 			int actual = option
 				.MatchNone(() => expected)
@@ -51,7 +49,7 @@ namespace CSX.Options
 		public void TestMatchForNone2()
 		{
 			const int expected = 0;
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
 			int actual = option
 				.MatchSome(value => value)
@@ -64,7 +62,7 @@ namespace CSX.Options
 		public void TestMatchForAnyAfterSome()
 		{
 			const int expected = 0;
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
 			int actual = option
 				.MatchSome(value => value)
@@ -105,7 +103,7 @@ namespace CSX.Options
 		public void TestMatchForAnyBeforeNone()
 		{
 			const int expected = 0;
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
 			int actual = option
 			    .MatchNone(() => expected)

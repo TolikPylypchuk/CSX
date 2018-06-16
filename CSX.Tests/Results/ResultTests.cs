@@ -7,8 +7,6 @@ using Xunit;
 
 using CSX.Collections;
 
-using static CSX.Results.Result;
-
 namespace CSX.Results
 {
 	[SuppressMessage("ReSharper", "GenericEnumeratorNotDisposed")]
@@ -18,7 +16,7 @@ namespace CSX.Results
 		public void TestSucceed()
 		{
 			const int value = 1;
-			var result = Succeed<int, int>(value);
+			var result = Result.Succeed<int, int>(value);
 			Assert.True(result is Success<int, int> success && value == success.Value);
 		}
 
@@ -26,7 +24,7 @@ namespace CSX.Results
 		public void TestSucceedString()
 		{
 			const int value = 1;
-			var result = Succeed(value);
+			var result = Result.Succeed(value);
 			Assert.True(result is Success<int, string> success && value == success.Value);
 		}
 
@@ -51,13 +49,13 @@ namespace CSX.Results
 			"Succeed<TSuccess, TError> throws an exception if the value is null")]
 		public void TestSucceedNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => Succeed<string, int>(null));
+			Assert.Throws<ArgumentNullException>(() => Result.Succeed<string, int>(null));
 		}
 
 		[Fact(DisplayName = "Succeed<TSuccess> throws an exception if the value is null")]
 		public void TestSucceedStringNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => Succeed<string>(null));
+			Assert.Throws<ArgumentNullException>(() => Result.Succeed<string>(null));
 		}
 
 		[Fact(DisplayName =
@@ -78,7 +76,7 @@ namespace CSX.Results
 		public void TestFail()
 		{
 			const int error = 1;
-			var result = Fail<int, int>(error);
+			var result = Result.Fail<int, int>(error);
 			Assert.True(
 				result is Failure<int, int> failure &&
 				failure.Errors.Count == 1 &&
@@ -89,7 +87,7 @@ namespace CSX.Results
 		public void TestFailString()
 		{
 			const string error = "error";
-			var result = Fail<int>(error);
+			var result = Result.Fail<int>(error);
 			Assert.True(
 				result is Failure<int, string> failure &&
 				failure.Errors.Count == 1 &&
@@ -101,7 +99,7 @@ namespace CSX.Results
 		public void TestFailConsList()
 		{
 			var errors = ConsList.Construct(1, 2);
-			var result = Fail<int, int>(errors);
+			var result = Result.Fail<int, int>(errors);
 			Assert.True(
 				result is Failure<int, int> failure &&
 				failure.Errors.Count == 2 &&
@@ -112,7 +110,7 @@ namespace CSX.Results
 		public void TestFailConsListString()
 		{
 			var errors = ConsList.Construct("1", "2");
-			var result = Fail<int>(errors);
+			var result = Result.Fail<int>(errors);
 			Assert.True(
 				result is Failure<int, string> failure &&
 				failure.Errors.Count == 2 &&
@@ -124,7 +122,7 @@ namespace CSX.Results
 		public void TestFailIEnumerable()
 		{
 			IEnumerable<int> errors = ConsList.Construct(1, 2);
-			var result = Fail<int, int>(errors);
+			var result = Result.Fail<int, int>(errors);
 			Assert.True(
 				result is Failure<int, int> failure &&
 				failure.Errors.Count == 2 &&
@@ -135,7 +133,7 @@ namespace CSX.Results
 		public void TestFailIEnumerableString()
 		{
 			IEnumerable<string> errors = ConsList.Construct("1", "2");
-			var result = Fail<int>(errors);
+			var result = Result.Fail<int>(errors);
 			Assert.True(
 				result is Failure<int, string> failure &&
 				failure.Errors.Count == 2 &&
@@ -215,26 +213,26 @@ namespace CSX.Results
 		[Fact(DisplayName = "Fail<TSuccess, TError> throws an exception if the error is null")]
 		public void TestFailNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => Fail<int, object>(null));
+			Assert.Throws<ArgumentNullException>(() => Result.Fail<int, object>(null));
 		}
 
 		[Fact(DisplayName = "Fail<TSuccess> throws an exception if the error is null")]
 		public void TestFailStringNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => Fail<int>((string)null));
+			Assert.Throws<ArgumentNullException>(() => Result.Fail<int>((string)null));
 		}
 
 		[Fact(DisplayName =
 			"Fail<TSuccess, TError> throws an exception if the errors list is null")]
 		public void TestFailConsListNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => Fail<int, int>(null));
+			Assert.Throws<ArgumentNullException>(() => Result.Fail<int, int>(null));
 		}
 
 		[Fact(DisplayName = "Fail<TSuccess> throws an exception if the errors list is null")]
 		public void TestFailConsListStringNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => Fail<int>((ConsList<string>)null));
+			Assert.Throws<ArgumentNullException>(() => Result.Fail<int>((ConsList<string>)null));
 		}
 
 		[Fact(DisplayName =
@@ -242,14 +240,14 @@ namespace CSX.Results
 		public void TestFailIEnumerableNull()
 		{
 			Assert.Throws<ArgumentNullException>(
-				() => Fail<int, int>((IEnumerable<int>)null));
+				() => Result.Fail<int, int>((IEnumerable<int>)null));
 		}
 
 		[Fact(DisplayName = "Fail<TSuccess> throws an exception if the errors are null")]
 		public void TestFailIEnumerableStringNull()
 		{
 			Assert.Throws<ArgumentNullException>(
-				() => Fail<int>((IEnumerable<string>)null));
+				() => Result.Fail<int>((IEnumerable<string>)null));
 		}
 
 		[Fact(DisplayName =
@@ -332,7 +330,7 @@ namespace CSX.Results
 		[Fact(DisplayName = "Lift<TSuccess, VSuccess, TError> for Failure does nothing")]
 		public void TestLiftFailure()
 		{
-			var result = Fail<int, int>(2);
+			var result = Result.Fail<int, int>(2);
 
 			Func<int, string> toString = x => x.ToString();
 			var liftedToString = toString.Lift<int, string, int>();
@@ -343,7 +341,7 @@ namespace CSX.Results
 		[Fact(DisplayName = "Lift<TSuccess, VSuccess> for Failure does nothing")]
 		public void TestLiftFailureString()
 		{
-			var result = Fail<int>("failure");
+			var result = Result.Fail<int>("failure");
 
 			Func<int, string> toString = x => x.ToString();
 			var liftedToString = toString.Lift();
@@ -383,7 +381,7 @@ namespace CSX.Results
 			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for Failure")]
 		public void TestIEnumerableGetEnumeratorNone()
 		{
-			var failure = Fail<int>("failure");
+			var failure = Result.Fail<int>("failure");
 
 			var genericEnumerator = failure.GetEnumerator();
 			var nonGenericEnumerator = ((IEnumerable)failure).GetEnumerator();

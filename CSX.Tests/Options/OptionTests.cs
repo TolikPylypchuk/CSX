@@ -4,8 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using Xunit;
 
-using static CSX.Options.Option;
-
 namespace CSX.Options
 {
 	[SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
@@ -16,14 +14,14 @@ namespace CSX.Options
 		public void TestFrom()
 		{
 			const int value = 1;
-			var option = From(value);
+			var option = Option.From(value);
 			Assert.True(option is Some<int> some && value == some.Value);
 		}
 
 		[Fact(DisplayName = "From returns None for null")]
 		public void TestFromNull()
 		{
-			var option = From<string>(null);
+			var option = Option.From<string>(null);
 			Assert.IsType<None<string>>(option);
 		}
 
@@ -31,21 +29,21 @@ namespace CSX.Options
 		public void TestFromNullable()
 		{
 			int? value = 1;
-			var option = From(value);
+			var option = Option.From(value);
 			Assert.True(option is Some<int> some && value.Value == some.Value);
 		}
 
 		[Fact(DisplayName = "From returns None when a nullable is null")]
 		public void TestFromNullableNull()
 		{
-			var option = From<int>(null);
+			var option = Option.From<int>(null);
 			Assert.IsType<None<int>>(option);
 		}
 
 		[Fact(DisplayName = "Empty returns None")]
 		public void TestEmpty()
 		{
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 			Assert.IsType<None<int>>(option);
 		}
 
@@ -98,7 +96,7 @@ namespace CSX.Options
 		[Fact(DisplayName = "Lift for None does nothing")]
 		public void TestLiftNone()
 		{
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
 			Func<int, string> toString = x => x.ToString();
 			var liftedToString = toString.Lift();
@@ -129,7 +127,7 @@ namespace CSX.Options
 
 			var option = expected.ToOption();
 
-			var add1 = From<Func<int, int>>(x => x + 1);
+			var add1 = Option.From<Func<int, int>>(x => x + 1);
 			var appliedAdd1 = add1.Apply();
 
 			Assert.True(appliedAdd1(option) is Some<int> some && some.Value == actual);
@@ -138,9 +136,9 @@ namespace CSX.Options
 		[Fact(DisplayName = "Apply for Some function and for None value does nothing")]
 		public void TestApplySomeNone()
 		{
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
-			var toString = From<Func<int, string>>(x => x.ToString());
+			var toString = Option.From<Func<int, string>>(x => x.ToString());
 			var appliedToString = toString.Apply();
 
 			Assert.IsType<None<string>>(appliedToString(option));
@@ -151,7 +149,7 @@ namespace CSX.Options
 		{
 			var option = 1.ToOption();
 
-			var toString = Empty<Func<int, string>>();
+			var toString = Option.Empty<Func<int, string>>();
 			var appliedToString = toString.Apply();
 
 			Assert.IsType<None<string>>(appliedToString(option));
@@ -160,9 +158,9 @@ namespace CSX.Options
 		[Fact(DisplayName = "Apply for None function and for None value does nothing")]
 		public void TestApplyNoneNone()
 		{
-			var option = Empty<int>();
+			var option = Option.Empty<int>();
 
-			var toString = Empty<Func<int, string>>();
+			var toString = Option.Empty<Func<int, string>>();
 			var appliedToString = toString.Apply();
 
 			Assert.IsType<None<string>>(appliedToString(option));
@@ -178,7 +176,7 @@ namespace CSX.Options
 		[Fact(DisplayName = "Applied function throws an exception for null")]
 		public void TestAppliedFuncNull()
 		{
-			var func = From<Func<int, int>>(x => x);
+			var func = Option.From<Func<int, int>>(x => x);
 			var appliedFunc = func.Apply();
 			Assert.Throws<ArgumentNullException>(() => appliedFunc(null));
 		}
@@ -201,7 +199,7 @@ namespace CSX.Options
 			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for None")]
 		public void TestIEnumerableGetEnumeratorNone()
 		{
-			var none = Empty<int>();
+			var none = Option.Empty<int>();
 
 			var genericEnumerator = none.GetEnumerator();
 			var nonGenericEnumerator = ((IEnumerable)none).GetEnumerator();

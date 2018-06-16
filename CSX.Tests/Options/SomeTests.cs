@@ -6,8 +6,6 @@ using Xunit;
 using CSX.Exceptions;
 using CSX.Results;
 
-using static CSX.Options.Option;
-
 namespace CSX.Options
 {
 	[SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
@@ -64,7 +62,8 @@ namespace CSX.Options
 		{
 			var option = 1.ToOption();
 			Assert.True(
-				option.Bind(value => From(value + 1)) is Some<int> some && some.Value == 2);
+				option.Bind(value =>
+					Option.From(value + 1)) is Some<int> some && some.Value == 2);
 		}
 
 		[Fact(DisplayName = "Bind throws an exception for null")]
@@ -225,7 +224,7 @@ namespace CSX.Options
 		{
 			const int value = 1;
 			var option1 = value.ToOption();
-			var option2 = Empty<int>();
+			var option2 = Option.Empty<int>();
 			Assert.False(option1.Equals(option2));
 		}
 
