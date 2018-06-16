@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 using CSX.Collections;
+using CSX.Exceptions;
 
 namespace CSX.Results
 {
@@ -79,8 +80,7 @@ namespace CSX.Results
 			var result = Result.Fail<int, int>(error);
 			Assert.True(
 				result is Failure<int, int> failure &&
-				failure.Errors.Count == 1 &&
-				error == failure.Errors[0]);
+				failure.Errors.Equals(ConsList.From(error)));
 		}
 
 		[Fact(DisplayName = "Fail<TSuccess> returns a Failure which contains the error")]
@@ -90,8 +90,7 @@ namespace CSX.Results
 			var result = Result.Fail<int>(error);
 			Assert.True(
 				result is Failure<int, string> failure &&
-				failure.Errors.Count == 1 &&
-				error == failure.Errors[0]);
+				failure.Errors.Equals(ConsList.From(error)));
 		}
 
 		[Fact(DisplayName =
@@ -102,7 +101,6 @@ namespace CSX.Results
 			var result = Result.Fail<int, int>(errors);
 			Assert.True(
 				result is Failure<int, int> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -113,7 +111,6 @@ namespace CSX.Results
 			var result = Result.Fail<int>(errors);
 			Assert.True(
 				result is Failure<int, string> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -125,7 +122,6 @@ namespace CSX.Results
 			var result = Result.Fail<int, int>(errors);
 			Assert.True(
 				result is Failure<int, int> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -136,7 +132,6 @@ namespace CSX.Results
 			var result = Result.Fail<int>(errors);
 			Assert.True(
 				result is Failure<int, string> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -148,8 +143,7 @@ namespace CSX.Results
 			var result = error.ToFailure<int, int>();
 			Assert.True(
 				result is Failure<int, int> failure &&
-				failure.Errors.Count == 1 &&
-				error == failure.Errors[0]);
+				failure.Errors.Equals(ConsList.From(error)));
 		}
 
 		[Fact(DisplayName = "ToFailure<TSuccess> returns a Failure which contains the error")]
@@ -159,8 +153,7 @@ namespace CSX.Results
 			var result = error.ToFailure<int>();
 			Assert.True(
 				result is Failure<int, string> failure &&
-				failure.Errors.Count == 1 &&
-				error == failure.Errors[0]);
+				failure.Errors.Equals(ConsList.From(error)));
 		}
 
 		[Fact(DisplayName =
@@ -171,7 +164,6 @@ namespace CSX.Results
 			var result = errors.ToFailure<int, int>();
 			Assert.True(
 				result is Failure<int, int> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -183,7 +175,6 @@ namespace CSX.Results
 			var result = errors.ToFailure<int>();
 			Assert.True(
 				result is Failure<int, string> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -195,7 +186,6 @@ namespace CSX.Results
 			var result = errors.ToFailure<int, int>();
 			Assert.True(
 				result is Failure<int, int> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -206,7 +196,6 @@ namespace CSX.Results
 			var result = errors.ToFailure<int>();
 			Assert.True(
 				result is Failure<int, string> failure &&
-				failure.Errors.Count == 2 &&
 				errors.Equals(failure.Errors));
 		}
 
@@ -297,7 +286,7 @@ namespace CSX.Results
 				() => ((IEnumerable<string>)null).ToFailure<int>());
 		}
 
-		[Fact(DisplayName = "Lift<TResult, VResult, TError> for Success maps the value")]
+		[Fact(DisplayName = "Lift<TSuccess, VSuccess, TError> for Success maps the value")]
 		public void TestLiftSuccess()
 		{
 			const int expected = 1;
@@ -308,8 +297,9 @@ namespace CSX.Results
 			Func<int, int> add1 = x => x + 1;
 			var liftedAdd1 = add1.Lift<int, int, int>();
 
-			Assert.True(liftedAdd1(result) is Success<int, int> success &&
-			            success.Value == actual);
+			Assert.True(
+				liftedAdd1(result) is Success<int, int> success &&
+				success.Value == actual);
 		}
 
 		[Fact(DisplayName = "Lift<TSuccess, VSuccess> for Success maps the value")]
@@ -323,8 +313,9 @@ namespace CSX.Results
 			Func<int, int> add1 = x => x + 1;
 			var liftedAdd1 = add1.Lift();
 
-			Assert.True(liftedAdd1(result) is Success<int, string> success &&
-			            success.Value == actual);
+			Assert.True(
+				liftedAdd1(result) is Success<int, string> success &&
+				success.Value == actual);
 		}
 
 		[Fact(DisplayName = "Lift<TSuccess, VSuccess, TError> for Failure does nothing")]
@@ -349,14 +340,14 @@ namespace CSX.Results
 			Assert.IsType<Failure<string, string>>(liftedToString(result));
 		}
 
-		[Fact(DisplayName = "Lift<TResult, VResult, TError> throws an exception for null")]
+		[Fact(DisplayName = "Lift<TSuccess, VSuccess, TError> throws an exception for null")]
 		public void TestLiftNull()
 		{
 			Func<int, string> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Lift<int, string, int>());
 		}
 
-		[Fact(DisplayName = "Lift<TResult, VResult> throws an exception for null")]
+		[Fact(DisplayName = "Lift<TSuccess, VSuccess> throws an exception for null")]
 		public void TestLiftNullString()
 		{
 			Func<int, string> func = null;
@@ -364,7 +355,198 @@ namespace CSX.Results
 		}
 
 		[Fact(DisplayName =
-			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for success")]
+			"Apply<TSuccess, VSuccess, TError> for a successful function and " +
+			"a successful value maps the value")]
+		public void TestApplySuccessSuccess()
+		{
+			const int expected = 1;
+			const int actual = 2;
+
+			var result = expected.ToSuccess<int, int>();
+
+			var add1 = Result.Succeed<Func<int, int>, int>(x => x + 1);
+			var appliedAdd1 = add1.Apply();
+
+			Assert.True(
+				appliedAdd1(result) is Success<int, int> success &&
+				success.Value == actual);
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess> for a successful function and " +
+			"a successful value maps the value")]
+		public void TestApplySuccessSuccessString()
+		{
+			const int expected = 1;
+			const int actual = 2;
+
+			var result = expected.ToSuccess();
+
+			var add1 = Result.Succeed<Func<int, int>>(x => x + 1);
+			var appliedAdd1 = add1.Apply();
+
+			Assert.True(
+				appliedAdd1(result) is Success<int, string> success &&
+				success.Value == actual);
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess, TError> for a successful function and " +
+			"a failed value returns the value's error")]
+		public void TestApplySuccessFailure()
+		{
+			const int expected = 1;
+
+			var result = Result.Fail<int, int>(expected);
+
+			var toString = Result.Succeed<Func<int, string>, int>(x => x.ToString());
+			var appliedToString = toString.Apply();
+
+			Assert.True(
+				appliedToString(result) is Failure<string, int> failure &&
+				failure.Errors.Equals(ConsList.From(expected)));
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess> for a successful function and " +
+			"a failed value returns the value's error")]
+		public void TestApplySuccessFailureString()
+		{
+			const string expected = "failure";
+
+			var result = Result.Fail<int>(expected);
+
+			var toString = Result.Succeed<Func<int, string>>(x => x.ToString());
+			var appliedToString = toString.Apply();
+
+			Assert.True(
+				appliedToString(result) is Failure<string, string> failure &&
+				failure.Errors.Equals(ConsList.From(expected)));
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess, TError> for a failed function and " +
+			"a successful value returns the functions's error")]
+		public void TestApplyFailureSuccess()
+		{
+			const int expected = 1;
+
+			var result = 1.ToSuccess<int, int>();
+
+			var toString = Result.Fail<Func<int, string>, int>(expected);
+			var appliedToString = toString.Apply();
+
+			Assert.True(
+				appliedToString(result) is Failure<string, int> failure &&
+				failure.Errors.Equals(ConsList.From(expected)));
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess> for a failed function and " +
+			"a successful value returns the functions's error")]
+		public void TestApplyFailureSuccessString()
+		{
+			const string expected = "failure";
+
+			var result = 1.ToSuccess();
+
+			var toString = Result.Fail<Func<int, string>, string>(expected);
+			var appliedToString = toString.Apply();
+
+			Assert.True(
+				appliedToString(result) is Failure<string, string> failure &&
+				failure.Errors.Equals(ConsList.From(expected)));
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess, TError> for a failed function and " +
+			"a failed value returns joined errors")]
+		public void TestApplyFailureFailure()
+		{
+			const int expectedValue = 1;
+			const int expectedFunc = 2;
+
+			var result = Result.Fail<int, int>(expectedValue);
+
+			var toString = Result.Fail<Func<int, string>, int>(expectedFunc);
+			var appliedToString = toString.Apply();
+
+			Assert.True(
+				appliedToString(result) is Failure<string, int> failure &&
+				failure.Errors.Equals(ConsList.Construct(expectedFunc, expectedValue)));
+		}
+
+		[Fact(DisplayName =
+			"Apply<TSuccess, VSuccess, TError> for a failed function and " +
+			"a failed value returns joined errors")]
+		public void TestApplyFailureFailureString()
+		{
+			const string expectedValue = "failure1";
+			const string expectedFunc = "failure2";
+
+			var result = Result.Fail<int>(expectedValue);
+
+			var toString = Result.Fail<Func<int, string>>(expectedFunc);
+			var appliedToString = toString.Apply();
+
+			Assert.True(
+				appliedToString(result) is Failure<string, string> failure &&
+				failure.Errors.Equals(ConsList.Construct(expectedFunc, expectedValue)));
+		}
+
+		[Fact(DisplayName = "Apply<TSuccess, VSuccess, TError> throws an exception for null")]
+		public void TestApplyNull()
+		{
+			Result<Func<int, string>, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Apply());
+		}
+
+		[Fact(DisplayName = "Apply<TSuccess, VSuccess> throws an exception for null")]
+		public void TestApplyNullString()
+		{
+			Result<Func<int, string>, string> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Apply());
+		}
+
+		[Fact(DisplayName = "Applied function throws an exception for null")]
+		public void TestAppliedFuncNull()
+		{
+			var func = Result.Succeed<Func<int, int>, int>(x => x);
+			var appliedFunc = func.Apply();
+			Assert.Throws<ArgumentNullException>(() => appliedFunc(null));
+		}
+
+		[Fact(DisplayName = "Applied function throws an exception for null (string)")]
+		public void TestAppliedFuncNullString()
+		{
+			var func = Result.Succeed<Func<int, int>, string>(x => x);
+			var appliedFunc = func.Apply();
+			Assert.Throws<ArgumentNullException>(() => appliedFunc(null));
+		}
+
+		[Fact(DisplayName =
+			"Applied function throws an exception if its internal function returns null")]
+		public void TestAppliedFuncReturnNull()
+		{
+			var func = Result.Succeed<Func<int, string>, int>(x => null);
+			var appliedFunc = func.Apply();
+			Assert.Throws<UnacceptableNullException>(
+				() => appliedFunc(1.ToSuccess<int, int>()));
+		}
+
+		[Fact(DisplayName =
+			"Applied function throws an exception " +
+			"if its internal function returns null (string)")]
+		public void TestAppliedFuncReturnNullString()
+		{
+			var func = Result.Succeed<Func<int, string>, string>(x => null);
+			var appliedFunc = func.Apply();
+			Assert.Throws<UnacceptableNullException>(() => appliedFunc(1.ToSuccess()));
+		}
+
+		[Fact(DisplayName =
+			"IEnumerable.GetEnumerator returns an equal enumerator " +
+			"as GetEnumerator for success")]
 		public void TestIEnumerableGetEnumeratorSome()
 		{
 			var success = 1.ToSuccess();

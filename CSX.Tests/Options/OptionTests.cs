@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 using Xunit;
 
+using CSX.Exceptions;
+
 namespace CSX.Options
 {
 	[SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
@@ -181,6 +183,15 @@ namespace CSX.Options
 			Assert.Throws<ArgumentNullException>(() => appliedFunc(null));
 		}
 
+		[Fact(DisplayName =
+			"Applied function throws an exception if its internal function returns null")]
+		public void TestAppliedFuncReturnNull()
+		{
+			var func = Option.From<Func<int, string>>(x => null);
+			var appliedFunc = func.Apply();
+			Assert.Throws<UnacceptableNullException>(() => appliedFunc(1.ToOption()));
+		}
+		
 		[Fact(DisplayName =
 			"IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for Some")]
 		public void TestIEnumerableGetEnumeratorSome()
