@@ -33,9 +33,7 @@ namespace CSX.Collections.Matchers
 		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="cell">The cell to provide to the function.</param>
-		/// <param name="funcIfConsCell">
-		/// The function that is executed if this list is a cons cell.
-		/// </param>
+		/// <param name="funcIfConsCell">The function that is executed if this list is a cons cell.</param>
 		internal EmptyMatcher(
 			ConsCell<TValue> cell,
 			Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
@@ -49,9 +47,7 @@ namespace CSX.Collections.Matchers
 		/// Initializes a new instance of the
 		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="funcIfConsCell">
-		/// The function that is executed if this list is a cons cell.
-		/// </param>
+		/// <param name="funcIfConsCell">The function that is executed if this list is a cons cell.</param>
 		internal EmptyMatcher(Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
 		{
 			this.cell = null;
@@ -66,9 +62,8 @@ namespace CSX.Collections.Matchers
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <returns>
-		/// If this list is <see cref="ConsCell{T}" />, then the result of the function,
-		/// provided to the <see cref="ConsCell{T}" /> matcher.
-		/// Otherwise, the result of <paramref name="func" />.
+		/// If this list is <see cref="ConsCell{T}" />, then the result of the function, provided to the
+		/// <see cref="ConsCell{T}" /> matcher. Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.

@@ -55,8 +55,7 @@ namespace CSX.Collections
 		public abstract ConsList<T> Add(ConsList<T> other);
 
 		/// <summary>
-		/// Applies a specified function to every element of this list
-		/// and returns a list consisting of results.
+		/// Applies a specified function to every element of this list and returns a list consisting of results.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
@@ -71,8 +70,8 @@ namespace CSX.Collections
 		public abstract ConsList<V> Map<V>(Func<T, V> func);
 
 		/// <summary>
-		/// Applies a specified function to every element of this list
-		/// and returns a flattened list consisting of results.
+		/// Applies a specified function to every element of this list and returns a flattened list
+		/// consisting of results.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
@@ -89,16 +88,14 @@ namespace CSX.Collections
 		public abstract ConsList<V> FlatMap<V>(Func<T, ConsList<V>> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this list is a
-		/// <see cref="ConsCell{T}" />.
+		/// Returns the result of the specified function if this list is a cons cell.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this list is <see cref="Empty{T}" />, then the result of the function,
-		/// provided to the <see cref="Empty{T}" /> matcher.
+		/// If this list is empty, then the result of the function, provided to the empty matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
@@ -110,16 +107,14 @@ namespace CSX.Collections
 			Func<T, ConsList<T>, TResult> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this list is
-		/// <see cref="Empty{T}" />.
+		/// Returns the result of the specified function if this list is empty.
 		/// </summary>
 		/// <param name="func">
 		/// The function whose result is returned if this match succeeds.
 		/// </param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this list is a <see cref="ConsCell{T}" />, then the result of the function,
-		/// provided to the <see cref="ConsCell{T}" /> matcher.
+		/// If this list is a cons cell, then the result of the function, provided to the cons cell matcher.
 		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
@@ -146,7 +141,7 @@ namespace CSX.Collections
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
-		/// Executes a specified <paramref name="action" /> if this list is a cons cell.
+		/// Executes a specified action if this list is a cons cell.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -157,7 +152,7 @@ namespace CSX.Collections
 		public abstract ConsList<T> DoIfConsCell(Action<T, ConsList<T>> action);
 
 		/// <summary>
-		/// Executes a specified <paramref name="action" /> if this list is empty.
+		/// Executes a specified action if this list is empty.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -182,8 +177,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">
-		/// The first parameter of the chain of calls to <paramref name="func" />.
-		/// May be <see langword="null" />.
+		/// The first parameter of the chain of calls to <paramref name="func" />. May be <see langword="null" />.
 		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
@@ -198,8 +192,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">
-		/// The first parameter of the chain of calls to <paramref name="func" />.
-		/// May be <see langword="null" />.
+		/// The first parameter of the chain of calls to <paramref name="func" />. May be <see langword="null" />.
 		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
@@ -214,8 +207,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="item">The item to check.</param>
 		/// <returns>
-		/// <see langword="true" />, if this item is contained in this list.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" />, if this item is contained in this list. Otherwise, <see langword="false" />.
 		/// </returns>
 		public abstract bool Contains(T item);
 
@@ -238,9 +230,7 @@ namespace CSX.Collections
 		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
-		/// <returns>
-		/// An enumerator that enumerates every element of this list.
-		/// </returns>
+		/// <returns>An enumerator that enumerates every element of this list.</returns>
 		public abstract IEnumerator<T> GetEnumerator();
 
 		/// <summary>
@@ -248,8 +238,8 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="item">The value to find.</param>
 		/// <returns>
-		/// The index of the first occurence of the specified item in this list or
-		/// -1 if this item is not present in this list.
+		/// The index of the first occurence of the specified item in this list
+		/// or -1 if this item is not present in this list.
 		/// </returns>
 		public int IndexOf(T item)
 			=> item != null
@@ -257,14 +247,12 @@ namespace CSX.Collections
 				: -1;
 
 		/// <summary>
-		/// Checks whether every element of this list equals
-		/// another list's corresponding element.
+		/// Checks whether every element of this list equals another list's corresponding element.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <see langword="true" /> if every element of this list equals equals
-		/// another list's corresponding element.
+		/// <see langword="true" /> if every element of this list equals another list's corresponding element.
 		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(ConsList{T})" />
@@ -272,14 +260,12 @@ namespace CSX.Collections
 		public abstract override bool Equals(object other);
 
 		/// <summary>
-		/// Checks whether every element of this list equals
-		/// another list's corresponding element.
+		/// Checks whether every element of this list equals another list's corresponding element.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <see langword="true" /> if every element of this list equals equals
-		/// another list's corresponding element.
+		/// <see langword="true" /> if every element of this list equals another list's corresponding element.
 		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
@@ -323,8 +309,8 @@ namespace CSX.Collections
 		/// <param name="item">The value to find.</param>
 		/// <param name="currentIndex">The index of the current cell.</param>
 		/// <returns>
-		/// The index of the first occurence of the specified item in this list or
-		/// -1 if this item is not present in this list.
+		/// The index of the first occurence of the specified item in this list
+		/// or -1 if this item is not present in this list.
 		/// </returns>
 		internal abstract int IndexOfImpl(T item, int currentIndex);
 		
@@ -356,22 +342,20 @@ namespace CSX.Collections
 		bool IList.IsReadOnly => true;
 
 		/// <summary>
-		/// Always gets <see langword="true" /> since cons lists are immutable.
+		/// Always gets <see langword="true" />.
 		/// </summary>
 		bool ICollection<T>.IsReadOnly => true;
 
 		/// <summary>
-		/// Always gets <see langword="true" /> since cons lists are immutable.
+		/// Always gets <see langword="true" />.
 		/// </summary>
 		bool ICollection.IsSynchronized => true;
 
 		/// <summary>
-		/// Gets an object which can be used to synchronize access to this list.
-		/// The object is the list itself.
+		/// Gets an object which can be used to synchronize access to this list. The object is the list itself.
 		/// </summary>
 		/// <remarks>
-		/// Cons lists are immutable, so all operations on them are thread safe
-		/// and a sync root is not needed.
+		/// Cons lists are immutable, so all operations on them are thread safe and a sync root is not needed.
 		/// </remarks>
 		object ICollection.SyncRoot => this;
 
@@ -435,8 +419,8 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="value">The value to check.</param>
 		/// <returns>
-		/// <see langword="true" />, if this value is of type <typeparamref name="T" />
-		/// and is contained in this list. Otherwise, <see langword="false" />.
+		/// <see langword="true" />, if this value is of type <typeparamref name="T" /> and is contained in this list.
+		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		bool IList.Contains(object value)
 			=> value is T item && this.Contains(item);
@@ -446,16 +430,13 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="array">The array into which the items will be copied.</param>
 		/// <param name="index">The start index of the array.</param>
-		/// <remarks>
-		/// <paramref name="array" /> must be of type <typeparamref name="T" />[].
-		/// </remarks>
+		/// <remarks><paramref name="array" /> must be of type <typeparamref name="T" />[].</remarks>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="array" /> is <see langword="null" />.
 		/// </exception>
 		/// <exception cref="ArgumentException">
-		/// <paramref name="array" /> is multidimensional, or not sufficient to store
-		/// the items from the list, or the type of the items of this list cannot
-		/// be cast to the type of the array.
+		/// <paramref name="array" /> is multidimensional, or not sufficient to store the items from the list,
+		/// or the type of the items of this list cannot be cast to the type of the array.
 		/// </exception>
 		void ICollection.CopyTo(Array array, int index)
 		{
@@ -483,9 +464,7 @@ namespace CSX.Collections
 		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
-		/// <returns>
-		/// An enumerator that enumerates every element of this list.
-		/// </returns>
+		/// <returns>An enumerator that enumerates every element of this list.</returns>
 		IEnumerator IEnumerable.GetEnumerator()
 			=> this.GetEnumerator();
 
@@ -494,8 +473,8 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="value">The value to find.</param>
 		/// <returns>
-		/// The index of the first occurence of the specified value in this list or
-		/// -1 if this value is not present in this list.
+		/// The index of the first occurence of the specified value in this list
+		/// or -1 if this value is not present in this list.
 		/// </returns>
 		int IList.IndexOf(object value)
 			=> value is T item ? this.IndexOf(item) : -1;
@@ -563,14 +542,12 @@ namespace CSX.Collections
 			=> throw new NotSupportedException("Cannot remove an item from a cons list.");
 
 		/// <summary>
-		/// Concatenates a <paramref name="list" /> to an <paramref name="item" />
-		/// and returns the result.
+		/// Concatenates a <paramref name="list" /> to an <paramref name="item" /> and returns the result.
 		/// </summary>
 		/// <param name="item">The first element of a new list.</param>
 		/// <param name="list">The other elements of a new list.</param>
 		/// <returns>
-		/// A result of concatenation of the <paramref name="list" />
-		/// to the <paramref name="item" />.
+		/// A result of concatenation of the <paramref name="list" /> to the <paramref name="item" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="item" /> or <paramref name="list" /> is <see langword="null" />.
@@ -583,14 +560,12 @@ namespace CSX.Collections
 				: throw new ArgumentNullException(nameof(item));
 
 		/// <summary>
-		/// Concatenates an <paramref name="item" /> to a <paramref name="list" />
-		/// and returns the result.
+		/// Concatenates an <paramref name="item" /> to a <paramref name="list" /> and returns the result.
 		/// </summary>
 		/// <param name="list">The first elements of a new list.</param>
 		/// <param name="item">The last element of a new list.</param>
 		/// <returns>
-		/// A result of concatenation of the <paramref name="item" />
-		/// to the <paramref name="list" />.
+		/// A result of concatenation of the <paramref name="item" /> to the <paramref name="list" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="list" /> or <paramref name="item" /> is <see langword="null" />.
@@ -630,9 +605,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <typeparam name="T">The type of the item.</typeparam>
 		/// <param name="item">The item of the list.</param>
-		/// <returns>
-		/// A list containing one <paramref name="item" />.
-		/// </returns>
+		/// <returns>A list containing one <paramref name="item" />.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="item" /> is <see langword="null" />.
 		/// </exception>
@@ -646,12 +619,9 @@ namespace CSX.Collections
 		/// </summary>
 		/// <typeparam name="T">The type of elements of the collection.</typeparam>
 		/// <param name="collection">The collection to copy.</param>
-		/// <returns>
-		/// A shallow copy of the specified <paramref name="collection" />.
-		/// </returns>
+		/// <returns>A shallow copy of the specified <paramref name="collection" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="collection" /> is <see langword="null" />
-		/// or contains a <see langword="null" />.
+		/// <paramref name="collection" /> is <see langword="null" /> or contains a <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> Copy<T>(IEnumerable<T> collection)
 			=> collection != null
@@ -665,8 +635,7 @@ namespace CSX.Collections
 		/// <param name="items">The items of the list.</param>
 		/// <returns>A list from specified <paramref name="items" />.</returns>
 		/// <exception cref="ArgumentNullException">
-		/// <paramref name="items" /> is <see langword="null" />
-		/// or contains a <see langword="null" />.
+		/// <paramref name="items" /> is <see langword="null" /> or contains a <see langword="null" />.
 		/// </exception>
 		public static ConsList<T> Construct<T>(params T[] items)
 			=> items != null
@@ -682,14 +651,12 @@ namespace CSX.Collections
 			=> new Empty<T>();
 
 		/// <summary>
-		/// Concatenates a <paramref name="list" /> to an <paramref name="item" />
-		/// and returns the result.
+		/// Concatenates a <paramref name="list" /> to an <paramref name="item" /> and returns the result.
 		/// </summary>
 		/// <param name="item">The first element of a new list.</param>
 		/// <param name="list">The other elements of a new list.</param>
 		/// <returns>
-		/// A result of concatenation of the <paramref name="list" />
-		/// to the <paramref name="item" />.
+		/// A result of concatenation of the <paramref name="list" />to the <paramref name="item" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="item" /> or <paramref name="list" /> is <see langword="null" />.
@@ -726,16 +693,13 @@ namespace CSX.Collections
 		}
 
 		/// <summary>
-		/// Creates a cartesian product of two lists, which consists
-		/// of results of function application to elements of the
-		/// second list.
+		/// Creates a cartesian product of two lists, which consists of results of function application
+		/// to elements of the second list.
 		/// </summary>
 		/// <typeparam name="T">The input type of the functions.</typeparam>
 		/// <typeparam name="V">The output type of the functions.</typeparam>
 		/// <param name="funcList">The list of functions to apply.</param>
-		/// <returns>
-		/// A function which returns the cartesian product.
-		/// </returns>
+		/// <returns>A function which returns the cartesian product.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="funcList" /> is <see langword="null" />.
 		/// </exception>

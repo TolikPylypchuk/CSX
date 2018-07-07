@@ -27,13 +27,15 @@ namespace CSX.Collections
 		/// <exception cref="InvalidOperationException">
 		/// Thrown unconditionally.
 		/// </exception>
-		public T Current => throw new InvalidOperationException("The enumerator is empty.");
+		public T Current
+			=> throw new InvalidOperationException("The enumerator is empty.");
 
 		/// <summary>
 		/// Does nothing. Always returns <see langword="false" />.
 		/// </summary>
 		/// <returns><see langword="false" /></returns>
-		public bool MoveNext() => false;
+		public bool MoveNext()
+			=> false;
 
 		/// <summary>
 		/// Does nothing.
@@ -46,7 +48,8 @@ namespace CSX.Collections
 		/// <exception cref="InvalidOperationException">
 		/// Thrown unconditionally.
 		/// </exception>
-		object IEnumerator.Current => this.Current;
+		object IEnumerator.Current
+			=> this.Current;
 
 		/// <summary>
 		/// Does nothing.

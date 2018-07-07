@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using CSX.Collections.Matchers;
 using CSX.Exceptions;
 
 namespace CSX.Collections
 {
 	/// <summary>
-	/// Represents cons cell - a case of <see cref="ConsList{T}" />
-	/// which contains a value.
+	/// Represents cons cell - a case of <see cref="ConsList{T}" /> which contains a value.
 	/// </summary>
 	/// <typeparam name="T">The type of the value.</typeparam>
 	/// <seealso cref="ConsList{T}" />
@@ -40,7 +40,8 @@ namespace CSX.Collections
 		/// <summary>
 		/// Gets the number of items in this list.
 		/// </summary>
-		public override int Count => 1 + this.Tail.Count;
+		public override int Count
+			=> 1 + this.Tail.Count;
 
 		/// <summary>
 		/// Returns a concatenation of this list with another list.
@@ -56,8 +57,8 @@ namespace CSX.Collections
 				: throw new ArgumentNullException(nameof(other));
 
 		/// <summary>
-		/// Applies a specified function to the value of this cell
-		/// and to the rest of the list and returns a list consisting of results.
+		/// Applies a specified function to the value of this cell and to the rest of the list
+		/// and returns a list consisting of results.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
@@ -84,8 +85,8 @@ namespace CSX.Collections
 		}
 
 		/// <summary>
-		/// Applies a specified function to the value of this cell
-		/// and to the rest of the list and returns a list consisting of results.
+		/// Applies a specified function to the value of this cell and to the rest of the list
+		/// and returns a list consisting of results.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">The function to apply.</param>
@@ -116,9 +117,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="func">The function whose result will be returned.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of the specified function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of the specified function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -135,9 +134,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="func">Not used.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of another function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of another function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -181,8 +178,7 @@ namespace CSX.Collections
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
-		/// Executes a specified <paramref name="action" /> for this cell's value and for
-		/// the rest of the list.
+		/// Executes a specified action for this cell's value and for the rest of the list.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -206,8 +202,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">
-		/// The first parameter of the chain of calls to <paramref name="func" />.
-		/// May be <see langword="null" />.
+		/// The first parameter of the chain of calls to <paramref name="func" />. May be <see langword="null" />.
 		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
@@ -225,8 +220,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">
-		/// The first parameter of the chain of calls to <paramref name="func" />.
-		/// May be <see langword="null" />.
+		/// The first parameter of the chain of calls to <paramref name="func" />. May be <see langword="null" />.
 		/// </param>
 		/// <param name="func">The folder function.</param>
 		/// <returns>The folded value.</returns>
@@ -244,8 +238,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="item">The item to check.</param>
 		/// <returns>
-		/// <see langword="true" />, if this item is contained in this list.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" />, if this item is contained in this list. Otherwise, <see langword="false" />.
 		/// </returns>
 		public override bool Contains(T item)
 			=> item != null && (item.Equals(this.Head) || this.Tail.Contains(item));
@@ -288,9 +281,7 @@ namespace CSX.Collections
 		/// <summary>
 		/// Gets an enumerator that enumerates every element of this list.
 		/// </summary>
-		/// <returns>
-		/// An enumerator that enumerates every element of this list.
-		/// </returns>
+		/// <returns>An enumerator that enumerates every element of this list.</returns>
 		public override IEnumerator<T> GetEnumerator()
 		{
 			yield return this.Head;
@@ -302,14 +293,12 @@ namespace CSX.Collections
 		}
 		
 		/// <summary>
-		/// Checks whether every element of this list equals
-		/// another list's corresponding element.
+		/// Checks whether every element of this list equals another list's corresponding element.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <see langword="true" /> if every element of this list equals equals
-		/// another list's corresponding element.
+		/// <see langword="true" /> if every element of this list equals another list's corresponding element.
 		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(ConsList{T})" />
@@ -319,14 +308,12 @@ namespace CSX.Collections
 			=> other is ConsCell<T> otherCell && this.Equals(otherCell);
 
 		/// <summary>
-		/// Checks whether every element of this list equals
-		/// another list's corresponding element.
+		/// Checks whether every element of this list equals another list's corresponding element.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <see langword="true" /> if every element of this list equals equals
-		/// another list's corresponding element.
+		/// <see langword="true" /> if every element of this list equals equals another list's corresponding element.
 		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
@@ -336,14 +323,12 @@ namespace CSX.Collections
 			=> other is ConsCell<T> otherCell && this.Equals(otherCell);
 
 		/// <summary>
-		/// Checks whether every element of this list equals
-		/// another list's corresponding element.
+		/// Checks whether every element of this list equals another list's corresponding element.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be null.</param>
 		/// <returns>
-		/// <see langword="true" /> if every element of this list equals equals
-		/// another list's corresponding element.
+		/// <see langword="true" /> if every element of this list equals equals another list's corresponding element.
 		/// Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
@@ -402,8 +387,8 @@ namespace CSX.Collections
 		/// <param name="item">The value to find.</param>
 		/// <param name="currentIndex">The index of the current cell.</param>
 		/// <returns>
-		/// The index of the first occurence of the specified item in this list or
-		/// -1 if this item is not present in this list.
+		/// The index of the first occurence of the specified item in this list
+		/// or -1 if this item is not present in this list.
 		/// </returns>
 		internal override int IndexOfImpl(T item, int currentIndex)
 			=> this.Head.Equals(item)

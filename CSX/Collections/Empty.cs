@@ -24,10 +24,10 @@ namespace CSX.Collections
 			=> 0;
 
 		/// <summary>
-		/// Returns the <paramref name="other" /> list.
+		/// Returns the other list.
 		/// </summary>
 		/// <param name="other">The list to add.</param>
-		/// <returns>The <paramref name="other" /> list.</returns>
+		/// <returns>The other list.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="other" /> is <see langword="null" />.
 		/// </exception>
@@ -69,9 +69,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="func">Not used.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of another function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of another function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -88,9 +86,7 @@ namespace CSX.Collections
 		/// </summary>
 		/// <param name="func">The function whose result will be returned.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of the specified function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of the specified function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -145,8 +141,7 @@ namespace CSX.Collections
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
-		/// Folds this list to a single value from left to right,
-		/// i.e. just returns the seed.
+		/// Folds this list to a single value from left to right, i.e. just returns the seed.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">The return value. May be <see langword="null" />.</param>
@@ -160,8 +155,7 @@ namespace CSX.Collections
 			=> func != null ? seed : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
-		/// Folds this list to a single value from right to left,
-		/// i.e. just returns the seed.
+		/// Folds this list to a single value from right to left, i.e. just returns the seed.
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="seed">The return value. May be <see langword="null" />.</param>
@@ -214,14 +208,13 @@ namespace CSX.Collections
 			=> EmptyEnumerator<T>.Instance;
 
 		/// <summary>
-		/// Checks whether this list equals another list, i.e.
-		/// whether the <paramref name="other" /> list is also empty.
+		/// Checks whether this list equals another list, i.e. whether the other list is also empty.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// Returns <see langword="true" /> if the <paramref name="other" /> list also has type
-		/// <see cref="Empty{T}" />. Otherwise, returns <see langword="false" />.
+		/// Returns <see langword="true" /> if the other list is also empty.
+		/// Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(ConsList{T})" />
 		/// <seealso cref="Equals(Empty{T})" />
@@ -230,14 +223,13 @@ namespace CSX.Collections
 			=> other is Empty<T>;
 
 		/// <summary>
-		/// Checks whether this list equals another list, i.e.
-		/// whether the <paramref name="other" /> list is also empty.
+		/// Checks whether this list equals another list, i.e. whether the other list is also empty.
 		/// The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// Returns <see langword="true" /> if the <paramref name="other" /> list also has type
-		/// <see cref="Empty{T}" />. Otherwise, returns <see langword="false" />.
+		/// Returns <see langword="true" /> if the other list is also empty.
+		/// Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Empty{T})" />
@@ -246,13 +238,12 @@ namespace CSX.Collections
 			=> other is Empty<T>;
 
 		/// <summary>
-		/// Checks whether this list equals another list.
-		/// The other list may be <see langword="null" />.
+		/// Checks whether this list equals another list. The other list may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The list to compare to. May be <see langword="null" />.</param>
 		/// <returns>
-		/// <see langword="true" /> if <paramref name="other" /> isn't <see langword="null" />.
-		/// Otherwise, <see langword="false" />.
+		/// Returns <see langword="true" /> if the other list is not <see langword="null" />.
+		/// Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(ConsList{T})" />
