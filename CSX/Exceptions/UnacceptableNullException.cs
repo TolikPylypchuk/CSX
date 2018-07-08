@@ -4,8 +4,8 @@ using System.Runtime.Serialization;
 namespace CSX.Exceptions
 {
 	/// <summary>
-	/// Represents an exception which indicates that a value,
-	/// which must not be <see langword="null" />, is <see langword="null" />.
+	/// Represents an exception which indicates that a value, which must not be <see langword="null" />,
+	/// is <see langword="null" />.
 	/// </summary>
 	[Serializable]
 	public class UnacceptableNullException : Exception
