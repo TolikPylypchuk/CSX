@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using CSX.Collections.Matchers;
 
 namespace CSX.Collections
@@ -35,7 +36,7 @@ namespace CSX.Collections
 			=> other ?? throw new ArgumentNullException(nameof(other));
 
 		/// <summary>
-		/// Does nothing.
+		/// Returns an empty list of type <typeparamref name="V" />.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">Not used.</param>
@@ -50,7 +51,7 @@ namespace CSX.Collections
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
-		/// Does nothing.
+		/// Returns an empty list of type <typeparamref name="V" />.
 		/// </summary>
 		/// <typeparam name="V">The type of results.</typeparam>
 		/// <param name="func">Not used.</param>

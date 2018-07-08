@@ -3,7 +3,7 @@
 namespace CSX.Collections.Matchers
 {
 	/// <summary>
-	/// Represents a matcher that is used when <see cref="Empty{T}" /> is already matched.
+	/// Represents a matcher that is used when and empty list is already matched.
 	/// </summary>
 	/// <typeparam name="TValue">The type of the value of the list.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>
@@ -42,8 +42,7 @@ namespace CSX.Collections.Matchers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="ConsCellMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="ConsCellMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="funcIfEmpty">The function that is executed if this list is empty.</param>
 		internal ConsCellMatcher(Func<TResult> funcIfEmpty)
@@ -58,8 +57,8 @@ namespace CSX.Collections.Matchers
 		/// </summary>
 		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <returns>
-		/// If this list is <see cref="Empty{T}" />, then the result of the function, provided to the
-		/// <see cref="Empty{T}" /> matcher. Otherwise, the result of <paramref name="func" />.
+		/// If this list is empty, then the result of the function, provided to the empty matcher.
+		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.

@@ -3,7 +3,7 @@
 namespace CSX.Options.Matchers
 {
 	/// <summary>
-	/// Represents a matcher that is used when <see cref="None{T}" /> is already matched.
+	/// Represents a matcher that is used when none is already matched.
 	/// </summary>
 	/// <typeparam name="TValue">The type of the value of the option.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>
@@ -29,13 +29,10 @@ namespace CSX.Options.Matchers
 		private readonly Func<TResult> funcIfNone;
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="SomeMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="SomeMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="value">The value to provide to the function.</param>
-		/// <param name="funcIfNone">
-		/// The function that is executed when the value is absent.
-		/// </param>
+		/// <param name="funcIfNone">The function that is executed when the value is absent.</param>
 		internal SomeMatcher(TValue value, Func<TResult> funcIfNone)
 		{
 			this.value = value;
@@ -44,12 +41,9 @@ namespace CSX.Options.Matchers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="SomeMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="SomeMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="funcIfNone">
-		/// The function that is executed when the value is absent.
-		/// </param>
+		/// <param name="funcIfNone">The function that is executed when the value is absent.</param>
 		internal SomeMatcher(Func<TResult> funcIfNone)
 		{
 			this.value = default;
@@ -58,15 +52,11 @@ namespace CSX.Options.Matchers
 		}
 
 		/// <summary>
-		/// Returns the result of the specified function if this option is
-		/// <see cref="Some{T}" />.
+		/// Returns the result of the specified function if this option is present.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <returns>
-		/// If this option is <see cref="None{T}" />, then the result of the function,
-		/// provided to the <see cref="None{T}" /> matcher.
+		/// If this option is absent, then the result of the function, provided to the none matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">

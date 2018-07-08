@@ -72,9 +72,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>Some(func(value))</c>.
-		/// </returns>
+		/// <returns>An option which contains the mapped value.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -101,9 +99,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>func(value)</c>.
-		/// </returns>
+		/// <returns>A binded option.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -119,9 +115,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="func">The function whose result will be returned.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of the specified function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of the specified function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -137,9 +131,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="func">Not used.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of another function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of another function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -187,7 +179,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="error">Not used.</param>
 		/// <typeparam name="TError">The type of the error.</typeparam>
-		/// <returns><c>Success(value)</c></returns>
+		/// <returns>A success which contains this option's value.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
@@ -201,7 +193,7 @@ namespace CSX.Options
 		/// Converts this option to a success.
 		/// </summary>
 		/// <param name="error">Not used.</param>
-		/// <returns><c>Success(value)</c></returns>
+		/// <returns>A success which contains this option's value.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
@@ -221,13 +213,11 @@ namespace CSX.Options
 		}
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Option{T})" />
 		/// <seealso cref="Equals(Some{T})" />
@@ -236,13 +226,11 @@ namespace CSX.Options
 			=> other is Some<T> otherSome && this.Equals(otherSome);
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Some{T})" />
@@ -251,13 +239,11 @@ namespace CSX.Options
 			=> other is Some<T> otherSome && this.Equals(otherSome);
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Option{T})" />

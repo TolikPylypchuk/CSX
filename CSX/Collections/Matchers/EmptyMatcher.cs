@@ -3,7 +3,7 @@
 namespace CSX.Collections.Matchers
 {
 	/// <summary>
-	/// Represents a matcher that is used when <see cref="ConsCell{T}" /> is already matched.
+	/// Represents a matcher that is used when a cons cell is already matched.
 	/// </summary>
 	/// <typeparam name="TValue">The type of the value of the list.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>
@@ -29,14 +29,11 @@ namespace CSX.Collections.Matchers
 		private readonly Func<TValue, ConsList<TValue>, TResult> funcIfConsCell;
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="EmptyMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="cell">The cell to provide to the function.</param>
 		/// <param name="funcIfConsCell">The function that is executed if this list is a cons cell.</param>
-		internal EmptyMatcher(
-			ConsCell<TValue> cell,
-			Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
+		internal EmptyMatcher(ConsCell<TValue> cell, Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
 		{
 			this.cell = cell;
 			this.isCellPresent = true;
@@ -44,8 +41,7 @@ namespace CSX.Collections.Matchers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="EmptyMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="EmptyMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="funcIfConsCell">The function that is executed if this list is a cons cell.</param>
 		internal EmptyMatcher(Func<TValue, ConsList<TValue>, TResult> funcIfConsCell)
@@ -58,12 +54,10 @@ namespace CSX.Collections.Matchers
 		/// <summary>
 		/// Returns the result of the specified function if this list is empty.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <returns>
-		/// If this list is <see cref="ConsCell{T}" />, then the result of the function, provided to the
-		/// <see cref="ConsCell{T}" /> matcher. Otherwise, the result of <paramref name="func" />.
+		/// If this list is a cons cell, then the result of the function, provided to the cons cell matcher.
+		/// Otherwise, the result of <paramref name="func" />.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.

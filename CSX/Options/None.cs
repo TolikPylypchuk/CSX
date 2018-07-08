@@ -34,9 +34,7 @@ namespace CSX.Options
 		/// <summary>
 		/// Returns the alternative value, which may be <see langword="null" />.
 		/// </summary>
-		/// <param name="alternativeProvider">
-		/// The function which provides the alternative value.
-		/// </param>
+		/// <param name="alternativeProvider">The function which provides the alternative value.</param>
 		/// <returns>The provided alternative value.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
@@ -49,11 +47,9 @@ namespace CSX.Options
 				: throw new ArgumentNullException(nameof(alternativeProvider));
 
 		/// <summary>
-		/// Throws a provided exception.
+		/// Throws the provided exception.
 		/// </summary>
-		/// <param name="exceptionProvider">
-		/// The function which provides an exception to throw.
-		/// </param>
+		/// <param name="exceptionProvider">The function which provides an exception to throw.</param>
 		/// <returns>Nothing.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
@@ -111,9 +107,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="func">Not used.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of another function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of another function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -129,9 +123,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="func">The function whose result will be returned.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of the specified function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of the specified function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -179,7 +171,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <param name="error">The error to return.</param>
 		/// <typeparam name="TError">The type of the error.</typeparam>
-		/// <returns>Failure(<paramref name="error" />)</returns>
+		/// <returns>A failure with a specified error.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
@@ -193,7 +185,7 @@ namespace CSX.Options
 		/// Converts this option to a failure.
 		/// </summary>
 		/// <param name="error">The error to return.</param>
-		/// <returns>Failure(<paramref name="error" />)</returns>
+		/// <returns>A failure with a specified error.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="error" /> is <see langword="null" />.
 		/// </exception>
@@ -211,15 +203,13 @@ namespace CSX.Options
 			=> EmptyEnumerator<T>.Instance;
 
 		/// <summary>
-		/// Checks whether this object equals another object, i.e.
-		/// whether the <paramref name="other" /> object also has type
-		/// <see cref="None{T}" />.
+		/// Checks whether this object equals another object, i.e. whether the other object is also and empty option.
 		/// The other object may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// Returns <see langword="true" /> if the <paramref name="other" /> object also has type
-		/// <see cref="None{T}" />. Otherwise, returns <see langword="false" />.
+		/// <see langword="true" /> if <paramref name="other" /> is also and empty option.
+		/// Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Option{T})" />
 		/// <seealso cref="Equals(None{T})" />
@@ -228,15 +218,13 @@ namespace CSX.Options
 			=> other is None<T>;
 
 		/// <summary>
-		/// Checks whether this object equals another object, i.e.
-		/// whether the <paramref name="other" /> object also has type
-		/// <see cref="None{T}" />.
+		/// Checks whether this object equals another object, i.e. whether the other object is also and empty option.
 		/// The other object may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// Returns <see langword="true" /> if the <paramref name="other" /> object also has type
-		/// <see cref="None{T}" />. Otherwise, returns <see langword="false" />.
+		/// <see langword="true" /> if <paramref name="other" /> is also and empty option.
+		/// Otherwise, returns <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(None{T})" />
@@ -245,7 +233,7 @@ namespace CSX.Options
 			=> other is None<T>;
 
 		/// <summary>
-		/// Checks whether this object equals another object.
+		/// Checks whether this object equals another object, i.e. whether the other object is also and empty option.
 		/// The other object may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>

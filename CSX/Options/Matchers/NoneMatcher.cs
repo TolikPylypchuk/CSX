@@ -29,13 +29,10 @@ namespace CSX.Options.Matchers
 		private readonly Func<TValue, TResult> funcIfSome;
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="NoneMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="NoneMatcher{TValue, TResult}" /> class.
 		/// </summary>
 		/// <param name="value">The value to provide to the function.</param>
-		/// <param name="funcIfSome">
-		/// The function that is executed when the value is present.
-		/// </param>
+		/// <param name="funcIfSome">The function that is executed when the value is present.</param>
 		internal NoneMatcher(TValue value, Func<TValue, TResult> funcIfSome)
 		{
 			this.value = value;
@@ -44,12 +41,9 @@ namespace CSX.Options.Matchers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="NoneMatcher{TValue, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="NoneMatcher{TValue, TResult}" /> class.
 		/// </summary>
-		/// <param name="funcIfSome">
-		/// The function that is executed when the value is present.
-		/// </param>
+		/// <param name="funcIfSome">The function that is executed when the value is present.</param>
 		internal NoneMatcher(Func<TValue, TResult> funcIfSome)
 		{
 			this.value = default;
@@ -58,15 +52,11 @@ namespace CSX.Options.Matchers
 		}
 
 		/// <summary>
-		/// Returns the result of the specified function if this option is
-		/// <see cref="None{T}" />.
+		/// Returns the result of the specified function if this option is empty.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <returns>
-		/// If this option is <see cref="Some{T}" />, then the result of the function,
-		/// provided to the <see cref="Some{T}" /> matcher.
+		/// If this option is present, then the result of the function, provided to the some matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">

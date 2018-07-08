@@ -26,9 +26,7 @@ namespace CSX.Options
 		/// Gets the value if it's present, or an alternative value otherwise.
 		/// The alternative value may be <see langword="null" />.
 		/// </summary>
-		/// <param name="alternative">
-		/// The value to provide if this option doesn't have one.
-		/// </param>
+		/// <param name="alternative">The value to provide if this option doesn't have one.</param>
 		/// <returns>The value if it's present, or an alternative otherwise.</returns>
 		/// <seealso cref="GetOrElse(Func{T})" />
 		/// <seealso cref="GetOrThrow(Func{Exception})" />
@@ -52,9 +50,7 @@ namespace CSX.Options
 		/// <summary>
 		/// Gets the value if it's present, or throws an exception otherwise.
 		/// </summary>
-		/// <param name="exceptionProvider">
-		/// The function which provides an exception to throw.
-		/// </param>
+		/// <param name="exceptionProvider">The function which provides an exception to throw.</param>
 		/// <returns>The value if it's present.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
@@ -71,9 +67,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>Some(func(value))</c> if the value is present and <c>None</c> otherwise.
-		/// </returns>
+		/// <returns>An option which contains the mapped value or is empty.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -88,9 +82,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>func(value)</c> if the value is present and None otherwise.
-		/// </returns>
+		/// <returns>An option which is binded or is empty.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -101,16 +93,12 @@ namespace CSX.Options
 		public abstract Option<V> Bind<V>(Func<T, Option<V>> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this option is
-		/// <see cref="Some{T}" />.
+		/// Returns the result of the specified function if this option is present.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this option is <see cref="None{T}" />, then the result of the function,
-		/// provided to the <see cref="None{T}" /> matcher.
+		/// If this option is empty, then the result of the function, provided to the none matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
@@ -121,16 +109,12 @@ namespace CSX.Options
 		public abstract NoneMatcher<T, TResult> MatchSome<TResult>(Func<T, TResult> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this option is
-		/// <see cref="None{T}" />.
+		/// Returns the result of the specified function if this option is empty.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this option is <see cref="Some{T}" />, then the result of the function,
-		/// provided to the <see cref="Some{T}" /> matcher.
+		/// If this option is not empty, then the result of the function, provided to the some matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
@@ -155,7 +139,7 @@ namespace CSX.Options
 			=> func != null ? func() : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
-		/// Executes a specified <paramref name="action" /> if the value is present.
+		/// Executes a specified action if the value is present.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -179,13 +163,11 @@ namespace CSX.Options
 		/// <summary>
 		/// Converts this option to a result.
 		/// </summary>
-		/// <param name="error">
-		/// The error to return if the value is absent.
-		/// </param>
+		/// <param name="error">The error to return if the value is absent.</param>
 		/// <typeparam name="TError">The type of the error.</typeparam>
 		/// <returns>
-		/// <c>Success(value)</c> if the value is present.
-		/// Otherwise, <c>Failure(error)</c>.
+		/// A success, which contains the value, if the value is present.
+		/// Otherwise, a faliure, which contains the error.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="error" /> is <see langword="null" />.
@@ -196,12 +178,10 @@ namespace CSX.Options
 		/// <summary>
 		/// Converts this option to a result.
 		/// </summary>
-		/// <param name="error">
-		/// The error to return if the value is absent.
-		/// </param>
+		/// <param name="error">The error to return if the value is absent.</param>
 		/// <returns>
-		/// <c>Success(value)</c> if the value is present.
-		/// Otherwise, <c>Failure(error)</c>.
+		/// A success, which contains the value, if the value is present.
+		/// Otherwise, a faliure, which contains the error.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="error" /> is <see langword="null" />.
@@ -210,36 +190,30 @@ namespace CSX.Options
 		public abstract Result<T, string> ToResult(string error);
 
 		/// <summary>
-		/// Gets an enumerator which contains this value if it's present
-		/// or is empty otherwise.
+		/// Gets an enumerator which contains this value if it's present or is empty otherwise.
 		/// </summary>
 		/// <returns>
-		/// An enumerator which contains this value if it's present
-		/// or is empty otherwise.
+		/// An enumerator which contains this value if it's present or is empty otherwise.
 		/// </returns>
 		public abstract IEnumerator<T> GetEnumerator();
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Option{T})" />
 		/// <seealso cref="GetHashCode" />
 		public abstract override bool Equals(object other);
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="GetHashCode" />
@@ -260,12 +234,10 @@ namespace CSX.Options
 		public abstract override string ToString();
 
 		/// <summary>
-		/// Gets an enumerator which contains this value if it's present
-		/// or is empty otherwise.
+		/// Gets an enumerator which contains this value if it's present or is empty otherwise.
 		/// </summary>
 		/// <returns>
-		/// An enumerator which contains this value if it's present
-		/// or is empty otherwise.
+		/// An enumerator which contains this value if it's present or is empty otherwise.
 		/// </returns>
 		IEnumerator IEnumerable.GetEnumerator()
 			=> this.GetEnumerator();
@@ -278,17 +250,13 @@ namespace CSX.Options
 	public static class Option
 	{
 		/// <summary>
-		/// Constructs an option from a <paramref name="value" />.
-		/// If the <paramref name="value" /> is <see langword="null" />,
-		/// returns <see cref="None{T}" />.
+		/// Constructs an option from a specified value.
+		/// If the value is <see langword="null" />, returns an empty option.
 		/// </summary>
 		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
-		/// <param name="value">
-		/// The value that the constructed option will contain.
-		/// </param>
+		/// <param name="value">The value that the constructed option will contain.</param>
 		/// <returns>
-		/// An option which contains the <paramref name="value" />
-		/// or <see cref="None{T}" /> if the value is <see langword="null" />.
+		/// An option which contains the value or an empty option if the value is <see langword="null" />.
 		/// </returns>
 		/// <seealso cref="From{T}(T?)" />
 		/// <seealso cref="ToOption{T}(T)" />
@@ -297,17 +265,13 @@ namespace CSX.Options
 			=> value != null ? new Some<T>(value) : Empty<T>();
 
 		/// <summary>
-		/// Constructs an option from a nullable <paramref name="value" />.
-		/// If the <paramref name="value" /> is <see langword="null" />,
-		/// returns <see cref="None{T}" />.
+		/// Constructs an option from a specified nullable value. If the value is <see langword="null" />,
+		/// returns an empty option.
 		/// </summary>
 		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
-		/// <param name="value">
-		/// The value that the constructed option will contain.
-		/// </param>
+		/// <param name="value">The value that the constructed option will contain.</param>
 		/// <returns>
-		/// An option which contains the <paramref name="value" />
-		/// or <see cref="None{T}" /> if the value is <see langword="null" />.
+		/// An option which contains the value or an empty option if the value is <see langword="null" />.
 		/// </returns>
 		/// <seealso cref="From{T}(T)" />
 		/// <seealso cref="ToOption{T}(T)" />
@@ -317,27 +281,21 @@ namespace CSX.Options
 			=> value.HasValue ? From(value.Value) : Empty<T>();
 
 		/// <summary>
-		/// Constructs an empty option, i.e. <see cref="None{T}" />.
+		/// Constructs an empty option.
 		/// </summary>
-		/// <typeparam name="T">
-		/// The type of the value this option doesn't contain.
-		/// </typeparam>
+		/// <typeparam name="T">The type of the value this option doesn't contain.</typeparam>
 		/// <returns><see cref="None{T}" /></returns>
 		public static Option<T> Empty<T>()
 			=> new None<T>();
 
 		/// <summary>
-		/// Constructs an option from a <paramref name="value" />.
-		/// If the <paramref name="value" /> is <see langword="null" />,
-		/// returns <see cref="None{T}" />.
+		/// Constructs an option from specified value. If the value is <see langword="null" />,
+		/// returns an empty option.
 		/// </summary>
 		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
-		/// <param name="value">
-		/// The value that the constructed option will contain.
-		/// </param>
+		/// <param name="value">The value that the constructed option will contain.</param>
 		/// <returns>
-		/// An option which contains the <paramref name="value" />
-		/// or <see cref="None{T}" /> if the value is <see langword="null" />.
+		/// An option which contains the value or an empty option if the value is <see langword="null" />.
 		/// </returns>
 		/// <seealso cref="From{T}(T)" />
 		/// <seealso cref="From{T}(T?)" />
@@ -346,17 +304,13 @@ namespace CSX.Options
 			=> From(value);
 
 		/// <summary>
-		/// Constructs an option from a nullable <paramref name="value" />.
-		/// If the <paramref name="value" /> is <see langword="null" />,
-		/// returns <see cref="None{T}" />.
+		/// Constructs an option from a specified nullable value. If the value is <see langword="null" />,
+		/// returns an empty option.
 		/// </summary>
 		/// <typeparam name="T">The type of the <paramref name="value" />.</typeparam>
-		/// <param name="value">
-		/// The value that the constructed option will contain.
-		/// </param>
+		/// <param name="value">The value that the constructed option will contain.</param>
 		/// <returns>
-		/// An option which contains the <paramref name="value" />
-		/// or <see cref="None{T}" /> if the value is <see langword="null" />.
+		/// An option which contains the value or an empty option if the value is <see langword="null" />.
 		/// </returns>
 		/// <seealso cref="From{T}(T)" />
 		/// <seealso cref="From{T}(T?)" />
@@ -390,15 +344,14 @@ namespace CSX.Options
 		}
 
 		/// <summary>
-		/// Applies a specified function, if it's present, to a value,
-		/// if it's present.
+		/// Applies a specified function, if it's present, to a value, if it's present.
 		/// </summary>
 		/// <typeparam name="T">The input type of the function.</typeparam>
 		/// <typeparam name="V">The output type of the function.</typeparam>
 		/// <param name="func">The function to apply, if it's present.</param>
 		/// <returns>
-		/// A lifted version of the specified function, if it's present.
-		/// Otherwise, a function which always returns <see cref="None{T}" />.
+		/// A lifted version of the specified function, if it's present. Otherwise, a function
+		/// which always returns an empty option.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
