@@ -29,12 +29,8 @@ namespace CSX.Results
 		/// Gets the value if it's a success, or an alternative value otherwise.
 		/// The alternative value may be <see langword="null" />.
 		/// </summary>
-		/// <param name="alternative">
-		/// The value to provide if this result is a failure.
-		/// </param>
-		/// <returns>
-		/// The value if it's a succcess, or an alternative value otherwise.
-		/// </returns>
+		/// <param name="alternative">The value to provide if this result is a failure.</param>
+		/// <returns>The value if it's a succcess, or an alternative value otherwise.</returns>
 		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
 		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
 		public abstract TSuccess GetOrElse(TSuccess alternative);
@@ -46,23 +42,18 @@ namespace CSX.Results
 		/// <param name="alternativeProvider">
 		/// The function which provides the alternative value if this result is a failure.
 		/// </param>
-		/// <returns>
-		/// The value if it's a succcess, or an alternative value otherwise.
-		/// </returns>
+		/// <returns>The value if it's a succcess, or an alternative value otherwise.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
 		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
-		public abstract TSuccess GetOrElse(
-			Func<ConsList<TError>, TSuccess> alternativeProvider);
+		public abstract TSuccess GetOrElse(Func<ConsList<TError>, TSuccess> alternativeProvider);
 
 		/// <summary>
 		/// Gets the value if it's a success, or throws a provided exception otherwise.
 		/// </summary>
-		/// <param name="exceptionProvider">
-		/// The function which provides an exception to throw.
-		/// </param>
+		/// <param name="exceptionProvider">The function which provides an exception to throw.</param>
 		/// <returns>The result if it's a success.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
@@ -72,17 +63,14 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
 		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
-		public abstract TSuccess GetOrThrow(
-			Func<ConsList<TError>, Exception> exceptionProvider);
+		public abstract TSuccess GetOrThrow(Func<ConsList<TError>, Exception> exceptionProvider);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's a success.
 		/// </summary>
 		/// <typeparam name="VSuccess">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>Success(func(value)</c>) if it's a success and <c>Failure</c> otherwise.
-		/// </returns>
+		/// <returns>A mapped success or a failure.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -91,17 +79,14 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
-		public abstract Result<VSuccess, TError> Map<VSuccess>(
-			Func<TSuccess, VSuccess> func);
+		public abstract Result<VSuccess, TError> Map<VSuccess>(Func<TSuccess, VSuccess> func);
 
 		/// <summary>
-		/// Applies a specified function to this error if it's a failure.
+		/// Applies a specified function to the errors if it's a failure.
 		/// </summary>
-		/// <typeparam name="VError">The type of the returned value.</typeparam>
+		/// <typeparam name="VError">The type of the returned errors.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>Failure(func(value))</c> if it's a failure and <c>Success</c> otherwise.
-		/// </returns>
+		/// <returns>A mapped failure or a success.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -113,17 +98,14 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
-		public abstract Result<TSuccess, VError> MapFailure<VError>(
-			Func<ConsList<TError>, ConsList<VError>> func);
+		public abstract Result<TSuccess, VError> MapFailure<VError>(Func<ConsList<TError>, ConsList<VError>> func);
 
 		/// <summary>
 		/// Applies a specified function to this value if it's a success.
 		/// </summary>
 		/// <typeparam name="VSuccess">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>
-		/// <c>func(value)</c> if it's a success and <c>Failure</c> otherwise.
-		/// </returns>
+		/// <returns>A bound success or a failure.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -136,17 +118,12 @@ namespace CSX.Results
 			Func<TSuccess, Result<VSuccess, TError>> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this result is
-		/// a <see cref="Success{TSuccess, TError}" />.
+		/// Returns the result of the specified function if this result is a success.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this result is a <see cref="Failure{TSuccess, TError}" />,
-		/// then the result of the function, provided to the
-		/// <see cref="Failure{TSuccess, TError}" /> matcher.
+		/// If this result is a success, then the result of the function, provided to the failure matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
@@ -154,21 +131,15 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
 		/// <seealso cref="MatchAny{TResult}(Func{TResult})" />
-		public abstract FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(
-			Func<TSuccess, TResult> func);
+		public abstract FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(Func<TSuccess, TResult> func);
 
 		/// <summary>
-		/// Returns the result of the specified function if this result is
-		/// a <see cref="Failure{TSuccess, TError}" />.
+		/// Returns the result of the specified function if this result is a failure.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
 		/// <returns>
-		/// If this result is a <see cref="Success{TSuccess, TError}" />,
-		/// then the result of the function, provided to the
-		/// <see cref="Success{TSuccess, TError}" /> matcher.
+		/// If this result is a success, then the result of the function, provided to the success matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
@@ -194,7 +165,7 @@ namespace CSX.Results
 			=> func != null ? func() : throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
-		/// Executes a specified action if it's a success.
+		/// Executes a specified action if this result is a success.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -204,7 +175,7 @@ namespace CSX.Results
 		public abstract Result<TSuccess, TError> DoIfSuccess(Action<TSuccess> action);
 
 		/// <summary>
-		/// Executes a specified action if it's a failure.
+		/// Executes a specified action if this result is a failure.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -216,49 +187,41 @@ namespace CSX.Results
 		/// <summary>
 		/// Converts this result to an option.
 		/// </summary>
-		/// <returns><c>Some(value)</c> if it's a success. Otherwise, <c>None</c>.</returns>
+		/// <returns>An option containing the value if this result is a success. Otherwise, an empty option.</returns>
 		public abstract Option<TSuccess> ToOption();
 		
 		/// <summary>
-		/// Gets an enumerator which contains this value if it's a success
-		/// or is empty otherwise.
+		/// Gets an enumerator which contains this value if it's a success, or is empty otherwise.
 		/// </summary>
-		/// <returns>
-		/// An enumerator which contains this value if it's a success
-		/// or is empty otherwise.
-		/// </returns>
+		/// <returns>An enumerator which contains this value if it's a success, or is empty otherwise.</returns>
 		public abstract IEnumerator<TSuccess> GetEnumerator();
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />
 		/// <seealso cref="GetHashCode" />
 		public abstract override bool Equals(object other);
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="GetHashCode" />
 		public abstract bool Equals(Result<TSuccess, TError> other);
 
 		/// <summary>
-		/// Gets the hash code of this value or error.
+		/// Gets the hash code of this value or errors.
 		/// </summary>
-		/// <returns>The hash code of this value or error.</returns>
+		/// <returns>The hash code of this value or errors.</returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />
 		public abstract override int GetHashCode();
@@ -270,13 +233,9 @@ namespace CSX.Results
 		public abstract override string ToString();
 
 		/// <summary>
-		/// Gets an enumerator which contains this value if it's a success
-		/// or is empty otherwise.
+		/// Gets an enumerator which contains this value if it's a success, or is empty otherwise.
 		/// </summary>
-		/// <returns>
-		/// An enumerator which contains this value if it's a success
-		/// or is empty otherwise.
-		/// </returns>
+		/// <returns>An enumerator which contains this value if it's a success, or is empty otherwise.</returns>
 		IEnumerator IEnumerable.GetEnumerator()
 			=> this.GetEnumerator();
 	}
@@ -333,8 +292,7 @@ namespace CSX.Results
 		/// <seealso cref="Succeed{TSuccess, TError}(TSuccess)" />
 		/// <seealso cref="Succeed{TSuccess}(TSuccess)" />
 		/// <seealso cref="ToSuccess{TSuccess}(TSuccess)" />
-		public static Result<TSuccess, TError> ToSuccess<TSuccess, TError>(
-			this TSuccess value)
+		public static Result<TSuccess, TError> ToSuccess<TSuccess, TError>(this TSuccess value)
 			=> Succeed<TSuccess, TError>(value);
 
 		/// <summary>
@@ -349,8 +307,7 @@ namespace CSX.Results
 		/// <seealso cref="Succeed{TSuccess, TError}(TSuccess)" />
 		/// <seealso cref="Succeed{TSuccess}(TSuccess)" />
 		/// <seealso cref="ToSuccess{TSuccess, TError}(TSuccess)" />
-		public static Result<TSuccess, string> ToSuccess<TSuccess>(
-			this TSuccess value)
+		public static Result<TSuccess, string> ToSuccess<TSuccess>(this TSuccess value)
 			=> Succeed<TSuccess, string>(value);
 
 		/// <summary>
@@ -423,8 +380,7 @@ namespace CSX.Results
 		/// <seealso cref="ToFailure{TSuccess}(ConsList{string})" />
 		/// <seealso cref="ToFailure{TSuccess, TError}(IEnumerable{TError})" />
 		/// <seealso cref="ToFailure{TSuccess}(IEnumerable{string})" />
-		public static Result<TSuccess, TError> Fail<TSuccess, TError>(
-			ConsList<TError> errors)
+		public static Result<TSuccess, TError> Fail<TSuccess, TError>(ConsList<TError> errors)
 			=> errors != null
 				? new Failure<TSuccess, TError>(errors)
 				: throw new ArgumentNullException(nameof(errors));
@@ -473,8 +429,7 @@ namespace CSX.Results
 		/// <seealso cref="ToFailure{TSuccess}(ConsList{string})" />
 		/// <seealso cref="ToFailure{TSuccess, TError}(IEnumerable{TError})" />
 		/// <seealso cref="ToFailure{TSuccess}(IEnumerable{string})" />
-		public static Result<TSuccess, TError> Fail<TSuccess, TError>(
-			IEnumerable<TError> errors)
+		public static Result<TSuccess, TError> Fail<TSuccess, TError>(IEnumerable<TError> errors)
 			=> errors != null
 				? Fail<TSuccess, TError>(ConsList.Copy(errors))
 				: throw new ArgumentNullException(nameof(errors));
@@ -523,8 +478,7 @@ namespace CSX.Results
 		/// <seealso cref="ToFailure{TSuccess}(ConsList{string})" />
 		/// <seealso cref="ToFailure{TSuccess, TError}(IEnumerable{TError})" />
 		/// <seealso cref="ToFailure{TSuccess}(IEnumerable{string})" />
-		public static Result<TSuccess, TError> ToFailure<TSuccess, TError>(
-			this TError error)
+		public static Result<TSuccess, TError> ToFailure<TSuccess, TError>(this TError error)
 			=> Fail<TSuccess, TError>(error);
 
 		/// <summary>
@@ -571,8 +525,7 @@ namespace CSX.Results
 		/// <seealso cref="Fail{TSuccess}(ConsList{string})" />
 		/// <seealso cref="Fail{TSuccess, TError}(IEnumerable{TError})" />
 		/// <seealso cref="Fail{TSuccess}(IEnumerable{string})" />
-		public static Result<TSuccess, TError> ToFailure<TSuccess, TError>(
-			this ConsList<TError> errors)
+		public static Result<TSuccess, TError> ToFailure<TSuccess, TError>(this ConsList<TError> errors)
 			=> Fail<TSuccess, TError>(errors);
 
 		/// <summary>
@@ -595,8 +548,7 @@ namespace CSX.Results
 		/// <seealso cref="ToFailure{TSuccess, TError}(ConsList{TError})" />
 		/// <seealso cref="ToFailure{TSuccess, TError}(IEnumerable{TError})" />
 		/// <seealso cref="ToFailure{TSuccess}(IEnumerable{string})" />
-		public static Result<TSuccess, string> ToFailure<TSuccess>(
-			this ConsList<string> errors)
+		public static Result<TSuccess, string> ToFailure<TSuccess>(this ConsList<string> errors)
 			=> Fail<TSuccess, string>(errors);
 
 		/// <summary>
@@ -620,8 +572,7 @@ namespace CSX.Results
 		/// <seealso cref="ToFailure{TSuccess, TError}(ConsList{TError})" />
 		/// <seealso cref="ToFailure{TSuccess}(ConsList{string})" />
 		/// <seealso cref="ToFailure{TSuccess}(IEnumerable{string})" />
-		public static Result<TSuccess, TError> ToFailure<TSuccess, TError>(
-			this IEnumerable<TError> errors)
+		public static Result<TSuccess, TError> ToFailure<TSuccess, TError>(this IEnumerable<TError> errors)
 			=> Fail<TSuccess, TError>(errors);
 
 		/// <summary>
@@ -644,12 +595,11 @@ namespace CSX.Results
 		/// <seealso cref="ToFailure{TSuccess, TError}(ConsList{TError})" />
 		/// <seealso cref="ToFailure{TSuccess}(ConsList{string})" />
 		/// <seealso cref="ToFailure{TSuccess, TError}(IEnumerable{TError})" />
-		public static Result<TSuccess, string> ToFailure<TSuccess>(
-			this IEnumerable<string> errors)
+		public static Result<TSuccess, string> ToFailure<TSuccess>(this IEnumerable<string> errors)
 			=> Fail<TSuccess, string>(errors);
 
 		/// <summary>
-		/// Returns a function which when called will map the provided value.
+		/// Returns a function which maps the provided result when called.
 		/// </summary>
 		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
 		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
@@ -662,8 +612,7 @@ namespace CSX.Results
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess}(Result{Func{TSuccess, VSuccess}, string})" />
-		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>>
-			Lift<TSuccess, VSuccess, TError>(
+		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>> Lift<TSuccess, VSuccess, TError>(
 				this Func<TSuccess, VSuccess> func)
 		{
 			if (func == null)
@@ -690,8 +639,8 @@ namespace CSX.Results
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess}(Result{Func{TSuccess, VSuccess}, string})" />
-		public static Func<Result<TSuccess, string>, Result<VSuccess, string>>
-			Lift<TSuccess, VSuccess>(this Func<TSuccess, VSuccess> func)
+		public static Func<Result<TSuccess, string>, Result<VSuccess, string>> Lift<TSuccess, VSuccess>(
+			this Func<TSuccess, VSuccess> func)
 		{
 			if (func == null)
 			{
@@ -705,15 +654,13 @@ namespace CSX.Results
 		}
 
 		/// <summary>
-		/// Applies a specified function, if it's a success, to a value,
-		/// if it's a success.
+		/// Applies a specified function, if it's a success, to a value, if it's a success.
 		/// </summary>
 		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
 		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
 		/// <typeparam name="TError">The type of the failure value.</typeparam>
 		/// <param name="funcResult">
-		/// The function to apply, if it's a success.
-		/// It must not return a <see langword="null" />.
+		/// The function to apply, if it's a success. It must not return a <see langword="null" />.
 		/// </param>
 		/// <returns>
 		/// A lifted version of the specified function, if it's a success.
@@ -725,8 +672,7 @@ namespace CSX.Results
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess}(Result{Func{TSuccess, VSuccess}, string})" />
-		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>>
-			Apply<TSuccess, VSuccess, TError>(
+		public static Func<Result<TSuccess, TError>, Result<VSuccess, TError>> Apply<TSuccess, VSuccess, TError>(
 				this Result<Func<TSuccess, VSuccess>, TError> funcResult)
 		{
 			if (funcResult == null)
@@ -741,8 +687,7 @@ namespace CSX.Results
 					throw new ArgumentNullException(nameof(valueResult));
 				}
 
-				Func<ConsList<TError>, Result<VSuccess, TError>> fail =
-					Fail<VSuccess, TError>;
+				Func<ConsList<TError>, Result<VSuccess, TError>> fail = Fail<VSuccess, TError>;
 
 				return funcResult
 					.MatchSuccess(func =>
@@ -753,8 +698,7 @@ namespace CSX.Results
 
 								if (result == null)
 								{
-									throw new UnacceptableNullException(
-										"The result must not be null.");
+									throw new UnacceptableNullException("The result must not be null.");
 								}
 
 								return Succeed<VSuccess, TError>(result);
@@ -768,16 +712,16 @@ namespace CSX.Results
 		}
 
 		/// <summary>
-		/// Applies a specified function, if it's a success, to a value,
-		/// if it's a success.
+		/// Applies a specified function, if it's a success, to a value, if it's a success.
 		/// </summary>
 		/// <typeparam name="TSuccess">The input type of the function.</typeparam>
 		/// <typeparam name="VSuccess">The output type of the function.</typeparam>
-		/// <param name="funcResult">The function to apply, if it's a success.</param>
+		/// <param name="funcResult">
+		/// The function to apply, if it's a success. It must not return a <see langword="null" />.
+		/// </param>
 		/// <returns>
 		/// A lifted version of the specified function, if it's a success.
-		/// Otherwise, a function which always returns
-		/// <see cref="Failure{TSuccess, TError}" />.
+		/// Otherwise, a function which always returns a failure.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="funcResult" /> is <see langword="null" />.
@@ -785,25 +729,22 @@ namespace CSX.Results
 		/// <seealso cref="Lift{TSuccess, VSuccess, TError}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Lift{TSuccess, VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Apply{TSuccess, VSuccess, TError}(Result{Func{TSuccess, VSuccess}, TError})" />
-		public static Func<Result<TSuccess, string>, Result<VSuccess, string>>
-			Apply<TSuccess, VSuccess>(
+		public static Func<Result<TSuccess, string>, Result<VSuccess, string>> Apply<TSuccess, VSuccess>(
 				this Result<Func<TSuccess, VSuccess>, string> funcResult)
 			=> funcResult.Apply<TSuccess, VSuccess, string>();
 
 		/// <summary>
-		/// Returns a function, which returns a success if there were no exceptions,
-		/// or a failure containing an exception if it is thrown.
-		/// The resulting function can accept <see langword="null" />.
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
 		/// </summary>
 		/// <typeparam name="TInput">The input type of the function.</typeparam>
 		/// <typeparam name="TSuccess">The output type of the function.</typeparam>
 		/// <param name="func">
-		/// The function which may throw an exception.
-		/// It must not return a <see langword="null" />.
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
 		/// </param>
 		/// <returns>
-		/// A funciton, which returns a success if there were no exceptions,
-		/// or a failure containing an exception if it is thrown.
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
@@ -830,8 +771,7 @@ namespace CSX.Results
 
 				if (result == null)
 				{
-					throw new UnacceptableNullException(
-						"The result must not be null.");
+					throw new UnacceptableNullException("The result must not be null.");
 				}
 
 				return Succeed<TSuccess, Exception>(result);

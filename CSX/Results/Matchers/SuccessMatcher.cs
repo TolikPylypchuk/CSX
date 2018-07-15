@@ -5,8 +5,7 @@ using CSX.Collections;
 namespace CSX.Results.Matchers
 {
 	/// <summary>
-	/// Represents a matcher that is used when <see cref="Failure{TSuccess, TError}" />
-	/// is already matched.
+	/// Represents a matcher that is used when a failure is already matched.
 	/// </summary>
 	/// <typeparam name="TSuccess">The type of the successful result.</typeparam>
 	/// <typeparam name="TError">The type of the failed result.</typeparam>
@@ -38,16 +37,11 @@ namespace CSX.Results.Matchers
 		private readonly Func<ConsList<TError>, TResult> funcIfFailure;
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="SuccessMatcher{TSuccess, TError, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="SuccessMatcher{TSuccess, TError, TResult}" /> class.
 		/// </summary>
 		/// <param name="value">The value to provide to the function.</param>
-		/// <param name="funcIfFailure">
-		/// The function that is executed when the result is a failure.
-		/// </param>
-		internal SuccessMatcher(
-			TSuccess value,
-			Func<ConsList<TError>, TResult> funcIfFailure)
+		/// <param name="funcIfFailure">The function that is executed when the result is a failure.</param>
+		internal SuccessMatcher(TSuccess value, Func<ConsList<TError>, TResult> funcIfFailure)
 		{
 			this.value = value;
 			this.errors = null;
@@ -56,16 +50,11 @@ namespace CSX.Results.Matchers
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="SuccessMatcher{TSuccess, TError, TResult}" /> class.
+		/// Initializes a new instance of the <see cref="SuccessMatcher{TSuccess, TError, TResult}" /> class.
 		/// </summary>
 		/// <param name="errors">The errors to provide to the function.</param>
-		/// <param name="funcIfFailure">
-		/// The function that is executed when the result is a failure.
-		/// </param>
-		internal SuccessMatcher(
-			ConsList<TError> errors,
-			Func<ConsList<TError>, TResult> funcIfFailure)
+		/// <param name="funcIfFailure">The function that is executed when the result is a failure.</param>
+		internal SuccessMatcher(ConsList<TError> errors, Func<ConsList<TError>, TResult> funcIfFailure)
 		{
 			this.value = default;
 			this.errors = errors;
@@ -74,16 +63,11 @@ namespace CSX.Results.Matchers
 		}
 
 		/// <summary>
-		/// Returns the result of the specified function if this result is
-		/// a <see cref="Success{TSuccess, TError}" />.
+		/// Returns the result of the specified function if this result is a success.
 		/// </summary>
-		/// <param name="func">
-		/// The function whose result is returned if this match succeeds.
-		/// </param>
+		/// <param name="func">The function whose result is returned if this match succeeds.</param>
 		/// <returns>
-		/// If this result is a <see cref="Failure{TSuccess, TError}" />,
-		/// then the result of the function, provided to the
-		/// <see cref="Failure{TSuccess, TError}" /> matcher.
+		/// If this result is a failure, then the result of the function, provided to the failure matcher.
 		/// Otherwise, the result of the specified function.
 		/// </returns>
 		/// <exception cref="ArgumentNullException">

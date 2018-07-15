@@ -3,7 +3,7 @@
 namespace CSX.Options.Matchers
 {
 	/// <summary>
-	/// Represents a matcher that is used when <see cref="Some{T}" /> is already matched.
+	/// Represents a matcher that is used when some is already matched.
 	/// </summary>
 	/// <typeparam name="TValue">The type of the value of the option.</typeparam>
 	/// <typeparam name="TResult">The type of the match result.</typeparam>

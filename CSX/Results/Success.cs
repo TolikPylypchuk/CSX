@@ -19,8 +19,7 @@ namespace CSX.Results
 		Result<TSuccess, TError>, IEquatable<Success<TSuccess, TError>>
 	{
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="Success{TSuccess, TError}" /> class.
+		/// Initializes a new instance of the <see cref="Success{TSuccess, TError}" /> class.
 		/// </summary>
 		/// <param name="value">The value of the result.</param>
 		internal Success(TSuccess value)
@@ -51,8 +50,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
 		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
-		public override TSuccess GetOrElse(
-			Func<ConsList<TError>, TSuccess> alternativeProvider)
+		public override TSuccess GetOrElse(Func<ConsList<TError>, TSuccess> alternativeProvider)
 			=> alternativeProvider != null
 				? this.Value
 				: throw new ArgumentNullException(nameof(alternativeProvider));
@@ -67,8 +65,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
 		/// <seealso cref="GetOrElse(Func{ConsList{TError}, TSuccess})" />
-		public override TSuccess GetOrThrow(
-			Func<ConsList<TError>, Exception> exceptionProvider)
+		public override TSuccess GetOrThrow(Func<ConsList<TError>, Exception> exceptionProvider)
 			=> exceptionProvider != null
 				? this.Value
 				: throw new ArgumentNullException(nameof(exceptionProvider));
@@ -78,7 +75,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <typeparam name="VSuccess">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns><c>Success(func(value))</c></returns>
+		/// <returns>A success which contains the mapped value.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -87,8 +84,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
-		public override Result<VSuccess, TError> Map<VSuccess>(
-			Func<TSuccess, VSuccess> func)
+		public override Result<VSuccess, TError> Map<VSuccess>(Func<TSuccess, VSuccess> func)
 		{
 			if (func == null)
 			{
@@ -113,8 +109,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
-		public override Result<TSuccess, VError> MapFailure<VError>(
-			Func<ConsList<TError>, ConsList<VError>> func)
+		public override Result<TSuccess, VError> MapFailure<VError>(Func<ConsList<TError>, ConsList<VError>> func)
 			=> func != null
 				? Result.Succeed<TSuccess, VError>(this.Value)
 				: throw new ArgumentNullException(nameof(func));
@@ -124,7 +119,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <typeparam name="VSuccess">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns><c>func(value)</c></returns>
+		/// <returns>A bound result.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -133,11 +128,9 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
-		public override Result<VSuccess, TError> Bind<VSuccess>(
-			Func<TSuccess, Result<VSuccess, TError>> func)
+		public override Result<VSuccess, TError> Bind<VSuccess>(Func<TSuccess, Result<VSuccess, TError>> func)
 			=> func != null
-				? func(this.Value)
-					?? throw new UnacceptableNullException("Cannot bind to null.")
+				? func(this.Value) ?? throw new UnacceptableNullException("Cannot bind to null.")
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
@@ -145,16 +138,13 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="func">The function whose result will be returned.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of the specified function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of the specified function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
 		/// <seealso cref="Result{TSuccess, TError}.MatchAny{TResult}(Func{TResult})" />
-		public override FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(
-			Func<TSuccess, TResult> func)
+		public override FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(Func<TSuccess, TResult> func)
 			=> func != null
 				? new FailureMatcher<TSuccess, TError, TResult>(this.Value, func)
 				: throw new ArgumentNullException(nameof(func));
@@ -164,9 +154,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="func">Not used.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of another function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of another function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -179,7 +167,7 @@ namespace CSX.Results
 				: throw new ArgumentNullException(nameof(func));
 
 		/// <summary>
-		/// Executes a specified <paramref name="action" /> on this value.
+		/// Executes a specified action on this value.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -209,9 +197,9 @@ namespace CSX.Results
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
-		/// Returns <c>Some(value)</c>.
+		/// Returns an option which contains this result's value.
 		/// </summary>
-		/// <returns><c>Some(value)</c></returns>
+		/// <returns>An option which contains this result's value.</returns>
 		public override Option<TSuccess> ToOption()
 			=> Option.From(this.Value);
 		
@@ -225,13 +213,11 @@ namespace CSX.Results
 		}
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />
 		/// <seealso cref="Equals(Success{TSuccess, TError})" />
@@ -241,13 +227,11 @@ namespace CSX.Results
 			   this.Equals(otherSuccess);
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Success{TSuccess, TError})" />
@@ -257,13 +241,11 @@ namespace CSX.Results
 			   this.Equals(otherSuccess);
 
 		/// <summary>
-		/// Checks whether this value equals another value.
-		/// The other value may be <see langword="null" />.
+		/// Checks whether this value equals another value. The other value may be <see langword="null" />.
 		/// </summary>
 		/// <param name="other">The object to compare to.</param>
 		/// <returns>
-		/// <see langword="true" /> if this value equals other's value.
-		/// Otherwise, <see langword="false" />.
+		/// <see langword="true" /> if this value equals other's value. Otherwise, <see langword="false" />.
 		/// </returns>
 		/// <seealso cref="Equals(object)" />
 		/// <seealso cref="Equals(Result{TSuccess, TError})" />

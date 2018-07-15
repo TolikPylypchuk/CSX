@@ -19,8 +19,7 @@ namespace CSX.Results
 		Result<TSuccess, TError>, IEquatable<Failure<TSuccess, TError>>
 	{
 		/// <summary>
-		/// Initializes a new instance of the
-		/// <see cref="Failure{TSuccess, TError}" /> class.
+		/// Initializes a new instance of the <see cref="Failure{TSuccess, TError}" /> class.
 		/// </summary>
 		/// <param name="error">The error of this result.</param>
 		internal Failure(TError error)
@@ -51,17 +50,14 @@ namespace CSX.Results
 		/// <summary>
 		/// Returns the alternative value.
 		/// </summary>
-		/// <param name="alternativeProvider">
-		/// The function which provides the alternative value.
-		/// </param>
+		/// <param name="alternativeProvider">The function which provides the alternative value.</param>
 		/// <returns>The alternative value.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="alternativeProvider" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
 		/// <seealso cref="GetOrThrow(Func{ConsList{TError}, Exception})" />
-		public override TSuccess GetOrElse(
-			Func<ConsList<TError>, TSuccess> alternativeProvider)
+		public override TSuccess GetOrElse(Func<ConsList<TError>, TSuccess> alternativeProvider)
 			=> alternativeProvider != null
 				? alternativeProvider(this.Errors)
 				: throw new ArgumentNullException(nameof(alternativeProvider));
@@ -69,9 +65,7 @@ namespace CSX.Results
 		/// <summary>
 		/// Throws a provided exception.
 		/// </summary>
-		/// <param name="exceptionProvider">
-		/// The function which provides an exception to throw.
-		/// </param>
+		/// <param name="exceptionProvider">The function which provides an exception to throw.</param>
 		/// <returns>Nothing.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="exceptionProvider" /> is <see langword="null" />.
@@ -80,8 +74,7 @@ namespace CSX.Results
 		/// <paramref name="exceptionProvider" /> returns <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="GetOrElse(TSuccess)" />
-		public override TSuccess GetOrThrow(
-			Func<ConsList<TError>, Exception> exceptionProvider)
+		public override TSuccess GetOrThrow(Func<ConsList<TError>, Exception> exceptionProvider)
 		{
 			if (exceptionProvider == null)
 			{
@@ -105,8 +98,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
-		public override Result<VSuccess, TError> Map<VSuccess>(
-			Func<TSuccess, VSuccess> func)
+		public override Result<VSuccess, TError> Map<VSuccess>(Func<TSuccess, VSuccess> func)
 			=> func != null
 				? Result.Fail<VSuccess, TError>(this.Errors)
 				: throw new ArgumentNullException(nameof(func));
@@ -116,7 +108,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <typeparam name="VError">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>Failure(func(value)).</returns>
+		/// <returns>A result which contains the mapped errors.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -128,8 +120,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="Bind{VSuccess}(Func{TSuccess, Result{VSuccess, TError}})" />
-		public override Result<TSuccess, VError> MapFailure<VError>(
-			Func<ConsList<TError>, ConsList<VError>> func)
+		public override Result<TSuccess, VError> MapFailure<VError>(Func<ConsList<TError>, ConsList<VError>> func)
 		{
 			if (func == null)
 			{
@@ -162,8 +153,7 @@ namespace CSX.Results
 		/// </exception>
 		/// <seealso cref="Map{VSuccess}(Func{TSuccess, VSuccess})" />
 		/// <seealso cref="MapFailure{VError}(Func{ConsList{TError}, ConsList{VError}})" />
-		public override Result<VSuccess, TError> Bind<VSuccess>(
-			Func<TSuccess, Result<VSuccess, TError>> func)
+		public override Result<VSuccess, TError> Bind<VSuccess>(Func<TSuccess, Result<VSuccess, TError>> func)
 			=> func != null
 				? Result.Fail<VSuccess, TError>(this.Errors)
 				: throw new ArgumentNullException(nameof(func));
@@ -173,16 +163,13 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="func">Not used.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of another function.
-		/// </returns>
+		/// <returns> The matcher which will return the result of another function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="MatchFailure{TResult}(Func{ConsList{TError}, TResult})" />
 		/// <seealso cref="Result{TSuccess, TError}.MatchAny{TResult}(Func{TResult})" />
-		public override FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(
-			Func<TSuccess, TResult> func)
+		public override FailureMatcher<TSuccess, TError, TResult> MatchSuccess<TResult>(Func<TSuccess, TResult> func)
 			=> func != null
 				? new FailureMatcher<TSuccess, TError, TResult>(this.Errors, func)
 				: throw new ArgumentNullException(nameof(func));
@@ -192,9 +179,7 @@ namespace CSX.Results
 		/// </summary>
 		/// <param name="func">The function whose result will be returned.</param>
 		/// <typeparam name="TResult">The type of the match result.</typeparam>
-		/// <returns>
-		/// The matcher which will return the result of the specified function.
-		/// </returns>
+		/// <returns>The matcher which will return the result of the specified function.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
@@ -219,7 +204,7 @@ namespace CSX.Results
 			=> action != null ? this : throw new ArgumentNullException(nameof(action));
 
 		/// <summary>
-		/// Executes a specified <paramref name="action" /> on the errors of this result.
+		/// Executes a specified action on the errors of this result.
 		/// </summary>
 		/// <param name="action">The action to execute.</param>
 		/// <returns><see langword="this" /></returns>
@@ -227,8 +212,7 @@ namespace CSX.Results
 		/// <paramref name="action" /> is <see langword="null" />.
 		/// </exception>
 		/// <seealso cref="DoIfSuccess(Action{TSuccess})" />
-		public override Result<TSuccess, TError> DoIfFailure(
-			Action<ConsList<TError>> action)
+		public override Result<TSuccess, TError> DoIfFailure(Action<ConsList<TError>> action)
 		{
 			if (action == null)
 			{

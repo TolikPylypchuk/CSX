@@ -82,7 +82,7 @@ namespace CSX.Options
 		/// </summary>
 		/// <typeparam name="V">The type of the returned value.</typeparam>
 		/// <param name="func">The function to apply.</param>
-		/// <returns>An option which is binded or is empty.</returns>
+		/// <returns>An option which is bound or is empty.</returns>
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
