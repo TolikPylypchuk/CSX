@@ -138,18 +138,20 @@ namespace CSX.Options
 			Assert.True(
 				option.ToResult(expected) is Failure<int, Exception> result &&
 				result.Errors is ConsCell<Exception> cell &&
-				cell.Head == expected && cell.Tail is Empty<Exception>);
+				cell.Head == expected &&
+				cell.Tail is Empty<Exception>);
 		}
 
 		[Fact(DisplayName = "ToResult(string) returns a failed result")]
 		public void TestToResultString()
 		{
-			var expected = String.Empty;
+			string expected = String.Empty;
 			var option = Option.Empty<int>();
 			Assert.True(
 				option.ToResult(expected) is Failure<int, string> result &&
 				result.Errors is ConsCell<string> cell &&
-				cell.Head == expected && cell.Tail is Empty<string>);
+				cell.Head == expected &&
+				cell.Tail is Empty<string>);
 		}
 
 		[Fact(DisplayName = "ToResult throws an exception for null")]

@@ -124,8 +124,7 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T4, TResult> returns the curried function")]
 		public void TestCurriedFunc4()
 		{
-			Func<int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4) => arg1 + arg2 + arg3 + arg4;
+			Func<int, int, int, int, int> func = (arg1, arg2, arg3, arg4) => arg1 + arg2 + arg3 + arg4;
 
 			var curried = func.Curried();
 
@@ -147,8 +146,7 @@ namespace CSX.Functions
 		public void TestCurriedFunc6()
 		{
 			Func<int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6;
+				(arg1, arg2, arg3, arg4, arg5, arg6) => arg1 + arg2 + arg3 + arg4 + arg5 + arg6;
 
 			var curried = func.Curried();
 
@@ -159,8 +157,7 @@ namespace CSX.Functions
 		public void TestCurriedFunc7()
 		{
 			Func<int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7) => arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7;
 
 			var curried = func.Curried();
 
@@ -171,8 +168,8 @@ namespace CSX.Functions
 		public void TestCurriedFunc8()
 		{
 			Func<int, int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8;
 
 			var curried = func.Curried();
 
@@ -183,68 +180,56 @@ namespace CSX.Functions
 		public void TestCurriedFunc9()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9;
 
 			var curried = func.Curried();
 
-			Assert.Equal(
-				func(1, 2, 3, 4, 5, 6, 7, 8, 9),
-				curried(1)(2)(3)(4)(5)(6)(7)(8)(9));
+			Assert.Equal(func(1, 2, 3, 4, 5, 6, 7, 8, 9), curried(1)(2)(3)(4)(5)(6)(7)(8)(9));
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T10, TResult> returns the curried function")]
 		public void TestCurriedFunc10()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10;
 
 			var curried = func.Curried();
 
-			Assert.Equal(
-				func(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-				curried(1)(2)(3)(4)(5)(6)(7)(8)(9)(10));
+			Assert.Equal(func(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), curried(1)(2)(3)(4)(5)(6)(7)(8)(9)(10));
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T11, TResult> returns the curried function")]
 		public void TestCurriedFunc11()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
-					arg10 + arg11;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 + arg11;
 
 			var curried = func.Curried();
 
-			Assert.Equal(
-				func(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
-				curried(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11));
+			Assert.Equal(func(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), curried(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11));
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T12, TResult> returns the curried function")]
 		public void TestCurriedFunc12()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
-					arg10 + arg11 + arg12;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 + arg11 + arg12;
 
 			var curried = func.Curried();
 
-			Assert.Equal(
-				func(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-				curried(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11)(12));
+			Assert.Equal(func(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), curried(1)(2)(3)(4)(5)(6)(7)(8)(9)(10)(11)(12));
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T13, TResult> returns the curried function")]
 		public void TestCurriedFunc13()
 		{
 			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13) =>
-					arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
-					arg10 + arg11 + arg12 + arg13;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 + arg11 + arg12 + arg13;
 
 			var curried = func.Curried();
 
@@ -256,11 +241,9 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T14, TResult> returns the curried function")]
 		public void TestCurriedFunc14()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13, arg14) =>
-						arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
 						arg10 + arg11 + arg12 + arg13 + arg14;
 
 			var curried = func.Curried();
@@ -273,11 +256,9 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T15, TResult> returns the curried function")]
 		public void TestCurriedFunc15()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13, arg14, arg15) =>
-						arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
 						arg10 + arg11 + arg12 + arg13 + arg14 + arg15;
 
 			var curried = func.Curried();
@@ -290,11 +271,9 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T16, TResult> returns the curried function")]
 		public void TestCurriedFunc16()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int, int> func =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16) =>
-						arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 +
 						arg10 + arg11 + arg12 + arg13 + arg14 + arg15 + arg16;
 
 			var curried = func.Curried();
@@ -359,8 +338,7 @@ namespace CSX.Functions
 		{
 			int callNumber = 0;
 
-			Action<int, int, int, int> action = (arg1, arg2, arg3, arg4) =>
-				callNumber++;
+			Action<int, int, int, int> action = (arg1, arg2, arg3, arg4) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -375,8 +353,7 @@ namespace CSX.Functions
 		{
 			int callNumber = 0;
 
-			Action<int, int, int, int, int> action = (arg1, arg2, arg3, arg4, arg5) =>
-				callNumber++;
+			Action<int, int, int, int, int> action = (arg1, arg2, arg3, arg4, arg5) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -391,9 +368,7 @@ namespace CSX.Functions
 		{
 			int callNumber = 0;
 
-			Action<int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6) =>
-					callNumber++;
+			Action<int, int, int, int, int, int> action = (arg1, arg2, arg3, arg4, arg5, arg6) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -409,8 +384,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -426,8 +400,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -443,8 +416,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -460,8 +432,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -477,8 +448,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -494,9 +464,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -512,9 +480,7 @@ namespace CSX.Functions
 			int callNumber = 0;
 
 			Action<int, int, int, int, int, int, int, int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13) => callNumber++;
 
 			var curried = action.Curried();
 
@@ -529,11 +495,9 @@ namespace CSX.Functions
 		{
 			int callNumber = 0;
 
-			Action<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13, arg14) =>
-					callNumber++;
+			Action<int, int, int, int, int, int, int, int, int, int, int, int, int, int> action =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
+					=> callNumber++;
 
 			var curried = action.Curried();
 
@@ -550,9 +514,8 @@ namespace CSX.Functions
 
 			Action<int, int, int, int, int, int, int, int, int, int,
 				int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13, arg14, arg15) =>
-					callNumber++;
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15)
+					=> callNumber++;
 
 			var curried = action.Curried();
 
@@ -567,11 +530,9 @@ namespace CSX.Functions
 		{
 			int callNumber = 0;
 
-			Action<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int, int> action =
-				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-				 arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16) =>
-						callNumber++;
+			Action<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> action =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16)
+					=> callNumber++;
 
 			var curried = action.Curried();
 
@@ -668,40 +629,35 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T12, TResult> throws an exception for a null")]
 		public void TestCurriedFunc12Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T13, TResult> throws an exception for a null")]
 		public void TestCurriedFunc13Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T14, TResult> throws an exception for a null")]
 		public void TestCurriedFunc14Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T15, TResult> throws an exception for a null")]
 		public void TestCurriedFunc15Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T16, TResult> throws an exception for a null")]
 		public void TestCurriedFunc16Null()
 		{
-			Func<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int, int, int> func = null;
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
 			Assert.Throws<ArgumentNullException>(() => func.Curried());
 		}
 
@@ -799,32 +755,28 @@ namespace CSX.Functions
 		[Fact(DisplayName = "Curried<T1, ..., T13> throws an exception for a null")]
 		public void TestCurriedAction13Null()
 		{
-			Action<int, int, int, int, int, int, int, int, int, int,
-				int, int, int> action = null;
+			Action<int, int, int, int, int, int, int, int, int, int, int, int, int> action = null;
 			Assert.Throws<ArgumentNullException>(() => action.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T14> throws an exception for a null")]
 		public void TestCurriedAction14Null()
 		{
-			Action<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int> action = null;
+			Action<int, int, int, int, int, int, int, int, int, int, int, int, int, int> action = null;
 			Assert.Throws<ArgumentNullException>(() => action.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T15> throws an exception for a null")]
 		public void TestCurriedAction15Null()
 		{
-			Action<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int> action = null;
+			Action<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> action = null;
 			Assert.Throws<ArgumentNullException>(() => action.Curried());
 		}
 
 		[Fact(DisplayName = "Curried<T1, ..., T16> throws an exception for a null")]
 		public void TestCurriedAction16Null()
 		{
-			Action<int, int, int, int, int, int, int, int, int, int,
-				int, int, int, int, int, int> action = null;
+			Action<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> action = null;
 			Assert.Throws<ArgumentNullException>(() => action.Curried());
 		}
 	}

@@ -27,8 +27,7 @@ namespace CSX.Exceptions
 			Assert.Null(exp.InnerException);
 		}
 
-		[Fact(DisplayName =
-			"The exception can be constructed with the constructor with message and inner exception")]
+		[Fact(DisplayName = "The exception can be constructed with the constructor with message and inner exception")]
 		public void TestConstructWithMessageAndInnerException()
 		{
 			const string message = "message";

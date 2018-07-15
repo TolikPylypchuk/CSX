@@ -57,13 +57,18 @@ namespace CSX.Options
 			Assert.Throws<UnacceptableNullException>(() => option.Map<string>(value => null));
 		}
 
-		[Fact(DisplayName = "Bind maps the value")]
-		public void TestBind()
+		[Fact(DisplayName = "Bind binds the value to some")]
+		public void TestBindToSome()
 		{
 			var option = 1.ToOption();
-			Assert.True(
-				option.Bind(value =>
-					Option.From(value + 1)) is Some<int> some && some.Value == 2);
+			Assert.True(option.Bind(value => Option.From(value + 1)) is Some<int> some && some.Value == 2);
+		}
+
+		[Fact(DisplayName = "Bind binds the value to none")]
+		public void TestBindToNone()
+		{
+			var option = 1.ToOption();
+			Assert.True(option.Bind(value => Option.Empty<int>()) is None<int>);
 		}
 
 		[Fact(DisplayName = "Bind throws an exception for null")]

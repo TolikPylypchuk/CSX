@@ -10,15 +10,13 @@ namespace CSX.Collections
 		[Fact(DisplayName = "Current always gets the default value of T")]
 		public void TestCurrent()
 		{
-			Assert.Throws<InvalidOperationException>(
-				() => EmptyEnumerator<int>.Instance.Current);
+			Assert.Throws<InvalidOperationException>(() => EmptyEnumerator<int>.Instance.Current);
 		}
 
 		[Fact(DisplayName = "IEnumerator.Current always throws an exception")]
 		public void TestIEnumeratorCurrent()
 		{
-			Assert.Throws<InvalidOperationException>(
-				() => ((IEnumerator)EmptyEnumerator<int>.Instance).Current);
+			Assert.Throws<InvalidOperationException>(() => ((IEnumerator)EmptyEnumerator<int>.Instance).Current);
 		}
 
 		[Fact(DisplayName = "MoveNext always returns false")]

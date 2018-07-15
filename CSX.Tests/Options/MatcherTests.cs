@@ -84,8 +84,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName =
-			"Match returns the provided value for Some when anything else is also matched")]
+		[Fact(DisplayName = "Match returns the provided value for Some when anything else is also matched")]
 		public void TestMatchForAnyBeforeSome()
 		{
 			const int expected = 1;
@@ -98,8 +97,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName =
-			"Match returns the provided value for None when anything else is also matched")]
+		[Fact(DisplayName = "Match returns the provided value for None when anything else is also matched")]
 		public void TestMatchForAnyBeforeNone()
 		{
 			const int expected = 0;
