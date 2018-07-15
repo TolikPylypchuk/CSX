@@ -475,7 +475,7 @@ namespace CSX.Results
 			var appliedFunc = func.Apply();
 			Assert.Throws<UnacceptableNullException>(() => appliedFunc(1.ToSuccess()));
 		}
-
+		
 		[Fact(DisplayName = "IEnumerable.GetEnumerator returns an equal enumerator as GetEnumerator for success")]
 		public void TestIEnumerableGetEnumeratorSome()
 		{
@@ -499,6 +499,838 @@ namespace CSX.Results
 
 			Assert.False(genericEnumerator.MoveNext());
 			Assert.False(nonGenericEnumerator.MoveNext());
+		}
+
+		[Fact(DisplayName = "Catch<TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch0Result()
+		{
+			const int result = 1;
+
+			Func<int> func = () => result;
+
+			Assert.True(func.Catch()() is Success<int, Exception> success && success.Value == func());
+		}
+
+		[Fact(DisplayName = "Catch<T1, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch1Result()
+		{
+			const int x = 1;
+
+			Func<int, int> func = arg => arg + 1;
+
+			Assert.True(func.Catch()(x) is Success<int, Exception> success && success.Value == func(x));
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch2Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+
+			Func<int, int, int> func = (arg1, arg2) => arg1 + arg2;
+
+			Assert.True(func.Catch()(x1, x2) is Success<int, Exception> success && success.Value == func(x1, x2));
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, T3, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch3Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+
+			Func<int, int, int, int> func = (arg1, arg2, arg3) => arg1 + arg2 + arg3;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T4, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch4Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+
+			Func<int, int, int, int, int> func = (arg1, arg2, arg3, arg4) => arg1 + arg2 + arg3 + arg4;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T5, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch5Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+
+			Func<int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5) => arg1 + arg2 + arg3 + arg4 + arg5;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T6, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch6Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+
+			Func<int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6) => arg1 + arg2 + arg3 + arg4 + arg5 + arg6;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T7, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch7Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+
+			Func<int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7) => arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T8, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch8Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+
+			Func<int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T9, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch9Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+
+			Func<int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T10, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch10Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T10, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch11Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+			const int x11 = 11;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 + arg11;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T12, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch12Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+			const int x11 = 11;
+			const int x12 = 12;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 + arg11 + arg12;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12) is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T13, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch13Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+			const int x11 = 11;
+			const int x12 = 12;
+			const int x13 = 13;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 + arg11 + arg12 + arg13;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13)
+					is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T14, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch14Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+			const int x11 = 11;
+			const int x12 = 12;
+			const int x13 = 13;
+			const int x14 = 14;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 +
+					   arg11 + arg12 + arg13 + arg14;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14)
+					is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T15, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch15Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+			const int x11 = 11;
+			const int x12 = 12;
+			const int x13 = 13;
+			const int x14 = 14;
+			const int x15 = 14;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 +
+					   arg11 + arg12 + arg13 + arg14 + arg15;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15)
+					is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T16, TSuccess> returns a success if there are no exceptions")]
+		public void TestCatch16Result()
+		{
+			const int x1 = 1;
+			const int x2 = 2;
+			const int x3 = 3;
+			const int x4 = 4;
+			const int x5 = 5;
+			const int x6 = 6;
+			const int x7 = 7;
+			const int x8 = 8;
+			const int x9 = 9;
+			const int x10 = 10;
+			const int x11 = 11;
+			const int x12 = 12;
+			const int x13 = 13;
+			const int x14 = 14;
+			const int x15 = 14;
+			const int x16 = 14;
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16)
+					=> arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9 + arg10 +
+					   arg11 + arg12 + arg13 + arg14 + arg15 + arg16;
+
+			Assert.True(
+				func.Catch()(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16)
+					is Success<int, Exception> success &&
+				success.Value == func(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16));
+		}
+
+		[Fact(DisplayName = "Catch<TSuccess> returns a failure if there was an exception")]
+		public void TestCatch0Exception()
+		{
+			var exp = new Exception();
+
+			Func<int> func = () => throw exp;
+
+			Assert.True(
+				func.Catch()() is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch1Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int> func = arg => throw exp;
+
+			Assert.True(
+				func.Catch()(1) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch2Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int> func = (arg1, arg2) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, T3, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch3Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int> func = (arg1, arg2, arg3) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T4, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch4Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int> func = (arg1, arg2, arg3, arg4) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T5, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch5Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int> func = (arg1, arg2, arg3, arg4, arg5) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T6, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch6Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int> func = (arg1, arg2, arg3, arg4, arg5, arg6) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T7, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch7Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T8, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch8Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T9, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch9Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T10, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch10Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T11, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch11Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T12, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch12Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T13, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch13Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T14, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch14Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14) => throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T15, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch15Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15)
+					=> throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15) is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T16, TSuccess> returns a failure if there was an exception")]
+		public void TestCatch16Exception()
+		{
+			var exp = new Exception();
+
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16)
+					=> throw exp;
+
+			Assert.True(
+				func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
+					is Failure<int, Exception> failure &&
+				failure.Errors.Count == 1 &&
+				failure.Errors[0].Equals(exp));
+		}
+
+		[Fact(DisplayName = "Catch<TSuccess> throws an exception if the function is null")]
+		public void TestCatch0Null()
+		{
+			Func<int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, TSuccess> throws an exception if the function is null")]
+		public void TestCatch1Null()
+		{
+			Func<int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, TSuccess> throws an exception if the function is null")]
+		public void TestCatch2Null()
+		{
+			Func<int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, T3, TSuccess> throws an exception if the function is null")]
+		public void TestCatch3Null()
+		{
+			Func<int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T4, TSuccess> throws an exception if the function is null")]
+		public void TestCatch4Null()
+		{
+			Func<int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T5, TSuccess> throws an exception if the function is null")]
+		public void TestCatch5Null()
+		{
+			Func<int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T6, TSuccess> throws an exception if the function is null")]
+		public void TestCatch6Null()
+		{
+			Func<int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T7, TSuccess> throws an exception if the function is null")]
+		public void TestCatch7Null()
+		{
+			Func<int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T8, TSuccess> throws an exception if the function is null")]
+		public void TestCatch8Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T9, TSuccess> throws an exception if the function is null")]
+		public void TestCatch9Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T10, TSuccess> throws an exception if the function is null")]
+		public void TestCatch10Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T11, TSuccess> throws an exception if the function is null")]
+		public void TestCatch11Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T12, TSuccess> throws an exception if the function is null")]
+		public void TestCatch12Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T13, TSuccess> throws an exception if the function is null")]
+		public void TestCatch13Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T14, TSuccess> throws an exception if the function is null")]
+		public void TestCatch14Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+		
+		[Fact(DisplayName = "Catch<T1, ..., T15, TSuccess> throws an exception if the function is null")]
+		public void TestCatch15Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T16, TSuccess> throws an exception if the function is null")]
+		public void TestCatch16Null()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> func = null;
+			Assert.Throws<ArgumentNullException>(() => func.Catch());
+		}
+
+		[Fact(DisplayName = "Catch<TSuccess> throws an exception if the function returns null")]
+		public void TestCatch0ReturnNull()
+		{
+			Func<object> func = () => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()());
+		}
+
+		[Fact(DisplayName = "Catch<T1, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch1ReturnNull()
+		{
+			Func<int, object> func = arg => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1));
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch2ReturnNull()
+		{
+			Func<int, int, object> func = (arg1, arg2) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2));
+		}
+
+		[Fact(DisplayName = "Catch<T1, T2, T3, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch3ReturnNull()
+		{
+			Func<int, int, int, object> func = (arg1, arg2, arg3) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T4, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch4ReturnNull()
+		{
+			Func<int, int, int, int, object> func = (arg1, arg2, arg3, arg4) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T5, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch5ReturnNull()
+		{
+			Func<int, int, int, int, int, object> func = (arg1, arg2, arg3, arg4, arg5) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T6, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch6ReturnNull()
+		{
+			Func<int, int, int, int, int, int, object> func = (arg1, arg2, arg3, arg4, arg5, arg6) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T7, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch7ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, object> func = (arg1, arg2, arg3, arg4, arg5, arg6, arg7) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T8, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch8ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T9, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch9ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T10, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch10ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T11, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch11ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T12, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch12ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T13, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch13ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13) => null;
+			Assert.Throws<UnacceptableNullException>(() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T14, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch14ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14) => null;
+			Assert.Throws<UnacceptableNullException>(
+				() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T15, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch15ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15)
+					=> null;
+			Assert.Throws<UnacceptableNullException>(
+				() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
+		}
+
+		[Fact(DisplayName = "Catch<T1, ..., T16, TSuccess> throws an exception if the function returns null")]
+		public void TestCatch16ReturnNull()
+		{
+			Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, object> func =
+				(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16)
+					=> null;
+			Assert.Throws<UnacceptableNullException>(
+				() => func.Catch()(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
 		}
 	}
 }

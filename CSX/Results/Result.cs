@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using CSX.Collections;
 using CSX.Exceptions;
+using CSX.Functions;
 using CSX.Options;
 using CSX.Results.Matchers;
 
@@ -737,8 +738,7 @@ namespace CSX.Results
 		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
 		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
 		/// </summary>
-		/// <typeparam name="TInput">The input type of the function.</typeparam>
-		/// <typeparam name="TSuccess">The output type of the function.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
 		/// <param name="func">
 		/// The function which may throw an exception. It must not return a <see langword="null" />.
 		/// </param>
@@ -749,22 +749,22 @@ namespace CSX.Results
 		/// <exception cref="ArgumentNullException">
 		/// <paramref name="func" /> is <see langword="null" />.
 		/// </exception>
-		public static Func<TInput, Result<TSuccess, Exception>> Catch<TInput, TSuccess>(
-			this Func<TInput, TSuccess> func)
+		public static Func<Result<TSuccess, Exception>> Catch<TSuccess>(this Func<TSuccess> func)
 		{
 			if (func == null)
 			{
 				throw new ArgumentNullException(nameof(func));
 			}
 
-			return value =>
+			return () =>
 			{
 				TSuccess result;
 
 				try
 				{
-					result = func(value);
-				} catch (Exception e)
+					result = func();
+				}
+				catch (Exception e)
 				{
 					return Fail<TSuccess, Exception>(e);
 				}
@@ -776,6 +776,586 @@ namespace CSX.Results
 
 				return Succeed<TSuccess, Exception>(result);
 			};
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, Result<TSuccess, Exception>> Catch<T1, TSuccess>(
+			this Func<T1, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return arg => ((Func<TSuccess>) (() => func(arg))).Catch()();
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, Result<TSuccess, Exception>> Catch<T1, T2, TSuccess>(
+			this Func<T1, T2, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2) => func.Curried()(arg1).Catch()(arg2);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, Result<TSuccess, Exception>> Catch<T1, T2, T3, TSuccess>(
+			this Func<T1, T2, T3, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3) => func.Curried()(arg1)(arg2).Catch()(arg3);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, Result<TSuccess, Exception>> Catch<T1, T2, T3, T4, TSuccess>(
+			this Func<T1, T2, T3, T4, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4) => func.Curried()(arg1)(arg2)(arg3).Catch()(arg4);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, Result<TSuccess, Exception>> Catch<T1, T2, T3, T4, T5, TSuccess>(
+			this Func<T1, T2, T3, T4, T5, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5) => func.Curried()(arg1)(arg2)(arg3)(arg4).Catch()(arg5);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6) => func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5).Catch()(arg6);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6).Catch()(arg7);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7).Catch()(arg8);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8).Catch()(arg9);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9).Catch()(arg10);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="T11">The type of the eleventh argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9)(arg10).Catch()(arg11);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="T11">The type of the eleventh argument.</typeparam>
+		/// <typeparam name="T12">The type of the twelfth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9)(arg10)(arg11).Catch()(arg12);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="T11">The type of the eleventh argument.</typeparam>
+		/// <typeparam name="T12">The type of the twelfth argument.</typeparam>
+		/// <typeparam name="T13">The type of the thirteenth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9)(arg10)
+					(arg11)(arg12).Catch()(arg13);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="T11">The type of the eleventh argument.</typeparam>
+		/// <typeparam name="T12">The type of the twelfth argument.</typeparam>
+		/// <typeparam name="T13">The type of the thirteenth argument.</typeparam>
+		/// <typeparam name="T14">The type of the fourteenth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9)(arg10)
+					(arg11)(arg12)(arg13).Catch()(arg14);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="T11">The type of the eleventh argument.</typeparam>
+		/// <typeparam name="T12">The type of the twelfth argument.</typeparam>
+		/// <typeparam name="T13">The type of the thirteenth argument.</typeparam>
+		/// <typeparam name="T14">The type of the fourteenth argument.</typeparam>
+		/// <typeparam name="T15">The type of the fifteenth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15,
+				Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9)(arg10)
+					(arg11)(arg12)(arg13)(arg14).Catch()(arg15);
+		}
+
+		/// <summary>
+		/// Returns a function, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown. The resulting function can accept <see langword="null" />.
+		/// </summary>
+		/// <typeparam name="T1">The type of the first argument.</typeparam>
+		/// <typeparam name="T2">The type of the second argument.</typeparam>
+		/// <typeparam name="T3">The type of the third argument.</typeparam>
+		/// <typeparam name="T4">The type of the fourth argument.</typeparam>
+		/// <typeparam name="T5">The type of the fifth argument.</typeparam>
+		/// <typeparam name="T6">The type of the sixth argument.</typeparam>
+		/// <typeparam name="T7">The type of the seventh argument.</typeparam>
+		/// <typeparam name="T8">The type of the eighth argument.</typeparam>
+		/// <typeparam name="T9">The type of the ninth argument.</typeparam>
+		/// <typeparam name="T10">The type of the tenth argument.</typeparam>
+		/// <typeparam name="T11">The type of the eleventh argument.</typeparam>
+		/// <typeparam name="T12">The type of the twelfth argument.</typeparam>
+		/// <typeparam name="T13">The type of the thirteenth argument.</typeparam>
+		/// <typeparam name="T14">The type of the fourteenth argument.</typeparam>
+		/// <typeparam name="T15">The type of the fifteenth argument.</typeparam>
+		/// <typeparam name="T16">The type of the sixteenth argument.</typeparam>
+		/// <typeparam name="TSuccess">The type of the result of the function.</typeparam>
+		/// <param name="func">
+		/// The function which may throw an exception. It must not return a <see langword="null" />.
+		/// </param>
+		/// <returns>
+		/// A funciton, which returns a success if there were no exceptions, or a failure containing
+		/// the exception if it is thrown.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// <paramref name="func" /> is <see langword="null" />.
+		/// </exception>
+		public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16,
+				Result<TSuccess, Exception>>
+			Catch<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TSuccess>(
+				this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TSuccess> func)
+		{
+			if (func == null)
+			{
+				throw new ArgumentNullException(nameof(func));
+			}
+
+			return (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
+					arg11, arg12, arg13, arg14, arg15, arg16)
+				=> func.Curried()(arg1)(arg2)(arg3)(arg4)(arg5)(arg6)(arg7)(arg8)(arg9)(arg10)
+					(arg11)(arg12)(arg13)(arg14)(arg15).Catch()(arg16);
 		}
 	}
 }

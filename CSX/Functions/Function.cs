@@ -102,7 +102,6 @@ namespace CSX.Functions
 			return arg1 => arg2 => function(arg1, arg2);
 		}
 
-
 		/// <summary>
 		/// Creates a curried version of the specified function.
 		/// </summary>
