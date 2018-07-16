@@ -6,7 +6,7 @@ namespace CSX.Options
 {
 	public class MatcherTests
 	{
-		[Fact(DisplayName = "Match returns the provided value for Some in the first place")]
+		[Fact(DisplayName = "Match returns the provided value for some in the first place")]
 		public void TestMatchForSome1()
 		{
 			const int expected = 1;
@@ -19,7 +19,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for None in the first place")]
+		[Fact(DisplayName = "Match returns the provided value for none in the first place")]
 		public void TestMatchForNone1()
 		{
 			const int expected = 0;
@@ -32,7 +32,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for Some in the second place")]
+		[Fact(DisplayName = "Match returns the provided value for some in the second place")]
 		public void TestMatchForSome2()
 		{
 			const int expected = 1;
@@ -45,7 +45,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for None in the second place")]
+		[Fact(DisplayName = "Match returns the provided value for none in the second place")]
 		public void TestMatchForNone2()
 		{
 			const int expected = 0;
@@ -58,7 +58,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for anything other than Some")]
+		[Fact(DisplayName = "Match returns the provided value for anything other than some")]
 		public void TestMatchForAnyAfterSome()
 		{
 			const int expected = 0;
@@ -71,7 +71,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for anything other than None")]
+		[Fact(DisplayName = "Match returns the provided value for anything other than none")]
 		public void TestMatchForAnyAfterNone()
 		{
 			const int expected = 1;
@@ -84,7 +84,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for Some when anything else is also matched")]
+		[Fact(DisplayName = "Match returns the provided value for some when anything else is also matched")]
 		public void TestMatchForAnyBeforeSome()
 		{
 			const int expected = 1;
@@ -97,7 +97,7 @@ namespace CSX.Options
 			Assert.Equal(expected, actual);
 		}
 
-		[Fact(DisplayName = "Match returns the provided value for None when anything else is also matched")]
+		[Fact(DisplayName = "Match returns the provided value for none when anything else is also matched")]
 		public void TestMatchForAnyBeforeNone()
 		{
 			const int expected = 0;
@@ -142,7 +142,7 @@ namespace CSX.Options
 			Assert.Throws<ArgumentNullException>(() => option.MatchAny<int>(null));
 		}
 
-		[Fact(DisplayName = "MatchNone throws an exception for null after Some was matched")]
+		[Fact(DisplayName = "MatchNone throws an exception for null after some was matched")]
 		public void TestMatchNoneAfterSomeNull()
 		{
 			var option = 1.ToOption();
@@ -152,7 +152,7 @@ namespace CSX.Options
 					.MatchNone(null));
 		}
 
-		[Fact(DisplayName = "MatchAny throws an exception for null after Some was matched")]
+		[Fact(DisplayName = "MatchAny throws an exception for null after some was matched")]
 		public void TestMatchAnyAfterSomeNull()
 		{
 			var option = 1.ToOption();
@@ -162,7 +162,7 @@ namespace CSX.Options
 					.MatchAny(null));
 		}
 
-		[Fact(DisplayName = "MatchSome throws an exception for null after None was matched")]
+		[Fact(DisplayName = "MatchSome throws an exception for null after none was matched")]
 		public void TestMatchSomeAfterNoneNull()
 		{
 			var option = 1.ToOption();
@@ -172,7 +172,7 @@ namespace CSX.Options
 					.MatchSome(null));
 		}
 
-		[Fact(DisplayName = "MatchAny throws an exception for null after None was matched")]
+		[Fact(DisplayName = "MatchAny throws an exception for null after none was matched")]
 		public void TestMatchAnyAfterNoneNull()
 		{
 			var option = 1.ToOption();
